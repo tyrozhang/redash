@@ -242,6 +242,12 @@ SCHEMA_RUN_TABLE_SIZE_CALCULATIONS = parse_boolean(os.environ.get("REDASH_SCHEMA
 # WARNING: With this option enabled, Redash reads query parameters from the request URL (risk of SQL injection!)
 ALLOW_PARAMETERS_IN_EMBEDS = parse_boolean(os.environ.get("REDASH_ALLOW_PARAMETERS_IN_EMBEDS", "false"))
 
+# sqlparse
+SQLPARSE_FORMAT_OPTIONS = {
+    'reindent': parse_boolean(os.environ.get('SQLPARSE_FORMAT_REINDENT', 'true')),
+    'keyword_case': os.environ.get('SQLPARSE_FORMAT_KEYWORD_CASE', 'upper'),
+}
+
 #support cas authertication
 CAS_AUTH = parse_boolean(os.environ.get("CAS_AUTH", "true"))
 CAS_SERVER = os.environ.get('CAS_SERVER', "")
