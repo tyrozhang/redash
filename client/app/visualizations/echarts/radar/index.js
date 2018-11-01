@@ -6,6 +6,7 @@ const DEFAULT_OPTIONS = {};
 
 // 雷达图的配置项
 const option = {
+  color: ['#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
   tooltip: {},
   legend: {
     data: [],
@@ -19,23 +20,17 @@ const option = {
         padding: [3, 5],
       },
     },
-    splitArea: {
-      areaStyle: {
-        color: [
-          'rgba(114, 172, 209, 0.2)',
-          'rgba(114, 172, 209, 0.4)',
-          'rgba(114, 172, 209, 0.6)',
-          'rgba(114, 172, 209, 0.8)',
-          'rgba(114, 172, 209, 1)',
-        ],
-        shadowColor: 'rgba(0, 0, 0, 0.3)',
-        shadowBlur: 10,
-      },
-    },
     indicator: [],
   },
   series: [{
     type: 'radar',
+    itemStyle: {
+      normal: {
+        areaStyle: {
+          type: 'default',
+        },
+      },
+    },
     data: [],
   }],
 };
@@ -184,7 +179,7 @@ export default function init(ngModule) {
     const radarEditorTemplate = '<radar-editor></radar-editor>';
     VisualizationProvider.registerVisualization({
       type: 'radar',
-      name: 'Echarts雷达图',
+      name: '雷达图',
       renderTemplate,
       editorTemplate: radarEditorTemplate,
       defaultOptions: DEFAULT_OPTIONS,
