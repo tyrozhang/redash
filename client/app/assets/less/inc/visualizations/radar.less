@@ -1,0 +1,38 @@
+.radar-visualization-container {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+
+  > div {
+    position: relative;
+
+    &:first-child {
+      flex-grow: 0;
+    }
+    &:last-child {
+      flex-grow: 1;
+    }
+  }
+}
+
+.table-gds-line>thead>tr>th {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: middle;
+  text-align: center;
+  background: #f5f7f9;
+  border: 1px solid #dce7ef;
+}
+
+.table-gds-line {
+    border: 1px solid #cedae4;
+}
+
+.table-gds-line>tbody>tr:first-child>td {
+    border-top: 0;
+}
+
+.table-gds-line>tbody>tr>td {
+    border: 1px solid #dce7ef;
+}
+

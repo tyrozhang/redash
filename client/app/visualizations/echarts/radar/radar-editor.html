@@ -1,0 +1,25 @@
+<div class="form-group">
+  <label class="control-label">图表属性设置</label>
+  <table ng-model="visualization.options.columsList" class="table table-traditional table-gds-line">
+    <thead>
+    <tr>
+      <th class="col-lg-3">列名</th>
+      <th class="col-lg-3">别名</th>
+      <th class="col-lg-3">最大值</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="colum in visualization.options.columsList" ng-if="colum.type === 'integer'">
+      <td>
+        <input class="form-control" ng-model="colum.name" ng-model-options="{ allowInvalid: true, debounce: 200 }" ng-disabled="true">
+      </td>
+      <td>
+        <input class="form-control" ng-model="colum.alias" ng-model-options="{ allowInvalid: true, debounce: 200 }">
+      </td>
+      <td>
+        <input class="form-control" ng-model="colum.max" ng-model-options="{ allowInvalid: true, debounce: 200 }">
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
