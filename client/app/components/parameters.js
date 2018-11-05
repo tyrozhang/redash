@@ -127,6 +127,7 @@ function ParametersDirective($location, $uibModal) {
       syncValues: '=?',
       editable: '=?',
       changed: '&onChange',
+      refresh: '&onRefresh',
     },
     template,
     link(scope) {
@@ -151,6 +152,9 @@ function ParametersDirective($location, $uibModal) {
             parameter: param,
           },
         });
+      };
+      scope.refreshDashboard = () => {
+        scope.refresh();
       };
     },
   };
