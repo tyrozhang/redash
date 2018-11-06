@@ -19,8 +19,9 @@ function graph(data) {
   const links = {};
   const nodes = [];
 
-  const validKey = key => key !== 'value' && key.indexOf('$$') !== 0;
+  const validKey = key => key !== 'VALUE' && key !== 'value' && key.indexOf('$$') !== 0;
   const keys = _.sortBy(_.filter(_.keys(data[0]), validKey), _.identity);
+  const valueKeyName = _.find(_.keys(data[0]), key => (key === 'VALUE' || key === 'value'));
 
   function normalizeName(name) {
     if (name) {
@@ -65,10 +66,10 @@ function graph(data) {
   }
 
   data.forEach((row) => {
-    addLink(row[keys[0]], row[keys[1]], row.value, 1);
-    addLink(row[keys[1]], row[keys[2]], row.value, 2);
-    addLink(row[keys[2]], row[keys[3]], row.value, 3);
-    addLink(row[keys[3]], row[keys[4]], row.value, 4);
+    addLink(row[keys[0]], row[keys[1]], row[valueKeyName], 1);
+    addLink(row[keys[1]], row[keys[2]], row[valueKeyName], 2);
+    addLink(row[keys[2]], row[keys[3]], row[valueKeyName], 3);
+    addLink(row[keys[3]], row[keys[4]], row[valueKeyName], 4);
   });
 
   return { nodes, links: _.values(links) };

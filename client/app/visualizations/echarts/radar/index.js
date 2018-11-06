@@ -14,6 +14,7 @@ const option = {
     top: '10px',
   },
   radar: {
+    nameGap: 5,
     name: {
       textStyle: {
         color: '#72ACD1',
