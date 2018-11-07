@@ -248,7 +248,7 @@ class PublicDashboardResource(BaseResource):
         else:
             dashboard = self.current_user.object
 
-        # return serializers.public_dashboard(dashboard, user=self.current_user)
+        # return serializers.public_dashboard(dashboard)
         return serializers.serialize_dashboard(dashboard, with_widgets=True, user=self.current_user)
 
 

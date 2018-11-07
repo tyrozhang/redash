@@ -47,6 +47,8 @@ const PublicDashboardPage = {
       this.globalParameters = _.values(globalParams);
     };
 
+    this.extractGlobalParameters();
+
     this.onGlobalParametersChange = () => {
       this.globalParameters.forEach((global) => {
         global.locals.forEach((local) => {
@@ -75,8 +77,6 @@ const PublicDashboardPage = {
 
       $timeout(refresh, refreshRate * 1000.0);
     }
-
-    this.extractGlobalParameters();
   },
 };
 
