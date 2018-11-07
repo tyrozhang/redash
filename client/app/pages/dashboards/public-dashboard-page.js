@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import logoUrl from '@/assets/images/redash_icon_small.png';
 import template from './public-dashboard-page.html';
 import './dashboard.less';
@@ -23,21 +24,59 @@ const PublicDashboardPage = {
     this.logoUrl = logoUrl;
     this.public = true;
     this.dashboard.widgets = Dashboard.prepareDashboardWidgets(this.dashboard.widgets);
-
+    this.globalParameters = [];
     const refreshRate = Math.max(30, parseFloat($location.search().refresh));
+
+    this.extractGlobalParameters = () => {
+      let globalParams = {};
+      this.dashboard.widgets.forEach((widget) => {
+        if (widget.getQuery()) {
+          widget
+            .getQuery()
+            .getParametersDefs()
+            .filter(p => p.global)
+            .forEach((param) => {
+              const defaults = {};
+              defaults[param.name] = param.clone();
+              defaults[param.name].locals = [];
+              globalParams = _.defaults(globalParams, defaults);
+              globalParams[param.name].locals.push(param);
+            });
+        }
+      });
+      this.globalParameters = _.values(globalParams);
+    };
+
+    this.onGlobalParametersChange = () => {
+      this.globalParameters.forEach((global) => {
+        global.locals.forEach((local) => {
+          local.value = global.value;
+        });
+      });
+    };
+
+    this.refreshDashboard = () => {
+      loadDashboard($http, $route).then((data) => {
+        this.dashboard = data;
+        this.dashboard.widgets = Dashboard.prepareDashboardWidgets(this.dashboard.widgets);
+        this.extractGlobalParameters();
+      });
+    };
 
     if (refreshRate) {
       const refresh = () => {
         loadDashboard($http, $route).then((data) => {
           this.dashboard = data;
           this.dashboard.widgets = Dashboard.prepareDashboardWidgets(this.dashboard.widgets);
-
+          this.extractGlobalParameters();
           $timeout(refresh, refreshRate * 1000.0);
         });
       };
 
       $timeout(refresh, refreshRate * 1000.0);
     }
+
+    this.extractGlobalParameters();
   },
 };
 

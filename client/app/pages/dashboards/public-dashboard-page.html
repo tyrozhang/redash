@@ -6,6 +6,10 @@
     <filters ng-if="$ctrl.dashboard.dashboard_filters_enabled"></filters>
   </div>
 
+  <div class="m-b-10 p-15 bg-white tiled" ng-if="$ctrl.globalParameters.length > 0">
+    <parameters parameters="$ctrl.globalParameters" on-change="$ctrl.onGlobalParametersChange()"   on-refresh="$ctrl.refreshDashboard()"></parameters>
+  </div>
+  
   <div style="padding-bottom: 5px" ng-if="$ctrl.dashboard.widgets.length > 0">
     <div gridstack editing="false" class="dashboard-wrapper preview-mode">
       <div class="dashboard-widget-wrapper"
