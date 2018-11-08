@@ -1,8 +1,6 @@
-import * as echarts from 'echarts';
+import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import _ from 'lodash';
 import radarTemplate from './radar-editor.html';
-
-const DEFAULT_OPTIONS = {};
 
 // 雷达图的配置项
 const option = {
@@ -36,7 +34,7 @@ const option = {
   }],
 };
 
-function radarRenderer() {
+function radarRenderer($location, currentUser) {
   return {
     restrict: 'E',
     scope: {
@@ -49,8 +47,8 @@ function radarRenderer() {
       // 根据类样式名得到用于展现Echarts图表展现的div的dom对象
       const container = element[0].querySelector('.radar-visualization-container');
 
-      // 初始化echarts实例
-      const myChart = echarts.init(container);
+      const echartFactory = new EchartsFactory($location, currentUser);
+      const radarChart = echartFactory.init(container);
 
       // 定义一个数组，用于存储查询的结果集。
       let resultData = [];
@@ -125,12 +123,12 @@ function radarRenderer() {
           }
         }
         // 使用配置项和数据显示图表
-        myChart.setOption(option);
+        echartFactory.setOption(radarChart, option);
       }
 
       function resize() {
-        // window.onresize监听div和屏幕的改变，myChart.resize改变图表尺寸，在容器大小发生改变时需要手动调用
-        window.onresize = myChart.resize;
+        // window.onresize监听div和屏幕的改变，radarChart.resize改变图表尺寸，在容器大小发生改变时需要手动调用
+        window.onresize = radarChart.resize;
       }
 
       $scope.handleResize = _.debounce(resize, 50);
@@ -183,7 +181,7 @@ export default function init(ngModule) {
       name: '雷达图',
       renderTemplate,
       editorTemplate: radarEditorTemplate,
-      defaultOptions: DEFAULT_OPTIONS,
+      defaultOptions: {},
     });
   });
 }
