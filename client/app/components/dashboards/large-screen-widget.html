@@ -1,0 +1,77 @@
+<div class="widget-wrapper">
+
+  <!-- 可视化 -->
+  <div class="tile body-container widget-visualization gds_contbox_box_cont" ng-if="$ctrl.type=='visualization'" ng-class="$ctrl.type" ng-switch="$ctrl.widget.getQueryResult().getStatus()">
+    <div class="body-row">
+
+      <!-- 小部件头部 -->
+      <div class="gds_contbox_box_top">
+        <div class="th-title">
+          <span class="gds_title_line"></span>
+          <span class="gds_title_t">
+            {{ $ctrl.widget.visualization.name }}
+            <span ng-if="$ctrl.widget.visualization.name === ''">{{$ctrl.widget.getQuery().name}}</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- 过滤条件 -->
+      <div class="m-b-10" ng-if="$ctrl.localParametersDefs().length > 0">
+        <parameters parameters="$ctrl.localParametersDefs()"></parameters>
+      </div>
+    </div>
+
+    <!-- 加载失败时展现 -->
+    <div ng-switch-when="failed" class="body-row-auto scrollbox">
+      <div class="alert alert-danger m-5" ng-show="$ctrl.widget.getQueryResult().getError()">{{'Error running query' | translate}}: <strong>{{$ctrl.widget.getQueryResult().getError()}}</strong></div>
+    </div>
+
+    <!-- 加载成功时展现 -->
+    <div ng-switch-when="done" class="body-row-auto gds_contbox_box_cont_middle">
+      <visualization-renderer visualization="$ctrl.widget.visualization" query-result="$ctrl.widget.getQueryResult()" class="t-body"></visualization-renderer>
+    </div>
+
+    <!-- 加载默认时展现 -->
+    <div ng-switch-default class="body-row-auto spinner-container">
+      <div class="spinner">
+        <i class="zmdi zmdi-refresh zmdi-hc-spin zmdi-hc-5x"></i>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- 这个小部件需要访问您无 -->
+  <div class="tile body-container widget-restricted" ng-if="$ctrl.type=='restricted'" ng-class="$ctrl.type">
+    <div class="t-body body-row-auto scrollbox">
+      <div class="text-center">
+        <h1><span class="zmdi zmdi-lock"></span></h1>
+        <p class="text-muted">
+          {{'This widget requires access to a data source you don\'t have access to' | translate}}.
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="tile body-container widget-text" ng-hide="$ctrl.widget.width === 0" ng-if="$ctrl.type=='textbox'" ng-class="$ctrl.type">
+    <div class="body-row clearfix t-body">
+      <div class="dropdown pull-right widget-menu-remove" ng-if="!$ctrl.public && $ctrl.dashboard.canEdit()">
+        <div class="dropdown-header">
+          <a class="actions" ng-click="$ctrl.deleteWidget()" title="{{'Remove From Dashboard' | translate}}"><i class="zmdi zmdi-close"></i></a>
+        </div>
+      </div>
+      <div class="dropdown pull-right widget-menu-regular" ng-if="!$ctrl.public && $ctrl.dashboard.canEdit()" uib-dropdown>
+        <div class="dropdown-header">
+          <a data-toggle="dropdown" uib-dropdown-toggle class="actions"><i class="zmdi zmdi-more"></i></a>
+        </div>
+
+        <ul class="dropdown-menu pull-right" uib-dropdown-menu style="z-index:1000000">
+          <li><a ng-show="$ctrl.dashboard.canEdit()" ng-click="$ctrl.editTextBox()">{{'Edit' | translate}}</a></li>
+          <li><a ng-show="$ctrl.dashboard.canEdit()" ng-click="$ctrl.deleteWidget()">{{'Remove From Dashboard' | translate}}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="body-row-auto scrollbox tiled t-body p-15" ng-bind-html="$ctrl.widget.text | markdown"></div>
+  </div>
+</div>
