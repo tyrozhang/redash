@@ -4,6 +4,35 @@ import * as echarts from 'echarts';
 import editorTemplate from './signal-gauge-editor.html';
 
 
+// 单仪表盘的绘图参数
+const gaugeOption = {
+  tooltip: {
+    formatter: '{b} : {c}',
+  },
+  series: [
+    {
+      type: 'gauge',
+      detail: {
+        formatter: '{value}',
+      },
+      data: [
+        { value: [], name: '仪表盘' },
+      ],
+      max: 100,
+      axisLine: {
+        lineStyle: {
+          color: [
+            [0.2, ''],
+            [0.8, ''],
+            [1, ''],
+          ],
+        },
+      },
+    },
+  ],
+};
+
+
 function signalGaugeRenderer() {
   return {
     restrict: 'E',
@@ -11,33 +40,6 @@ function signalGaugeRenderer() {
     link($scope, element) {
       const container = element[0].querySelector('.signal-gauge-visualization-container');
       const myChart = echarts.init(container);
-
-      const option = {
-        tooltip: {
-          formatter: '{b} : {c}',
-        },
-        series: [
-          {
-            type: 'gauge',
-            detail: {
-              formatter: '{value}',
-            },
-            data: [
-              { value: [], name: '仪表盘' },
-            ],
-            max: 100,
-            axisLine: {
-              lineStyle: {
-                color: [
-                  [0.2, ''],
-                  [0.8, ''],
-                  [1, ''],
-                ],
-              },
-            },
-          },
-        ],
-      };
 
       function reloadData() {
         const queryData = $scope.queryResult.getData();
@@ -51,26 +53,22 @@ function signalGaugeRenderer() {
           const colorRight = $scope.visualization.options.editOptions.colors[2];
 
           // 根据选择的列显示第一行数据
-          if (column) {
-            option.series[0].data[0].value = queryData[0][column];
-          }
+          gaugeOption.series[0].data[0].value = queryData[0][column];
 
           // 仪表盘标题的设置
-          option.series[0].data[0].name = gaugeLabel;
+          gaugeOption.series[0].data[0].name = gaugeLabel;
 
           // 最大值的参数设置
-          option.series[0].max = maxNumber;
+          gaugeOption.series[0].max = maxNumber;
 
           // 颜色的参数设置
-          option.series[0].axisLine.lineStyle.color[0][1] = colorLeft;
-          option.series[0].axisLine.lineStyle.color[1][1] = colorCenter;
-          option.series[0].axisLine.lineStyle.color[2][1] = colorRight;
+          gaugeOption.series[0].axisLine.lineStyle.color[0][1] = colorLeft;
+          gaugeOption.series[0].axisLine.lineStyle.color[1][1] = colorCenter;
+          gaugeOption.series[0].axisLine.lineStyle.color[2][1] = colorRight;
 
-          myChart.setOption(option);
+          myChart.setOption(gaugeOption);
         }
       }
-
-      myChart.setOption(option);
 
       // window.onresize监听div和屏幕的改变，myChart.resize改变图表尺寸，在容器大小发生改变时需要手动调用
       function resize() {

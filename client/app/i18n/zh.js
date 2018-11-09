@@ -350,6 +350,8 @@ const zh = {
   'Choose stacking': '选择堆叠',
   Auto: '自动',
   auto: '自动',
+  'Reverse Order': '顺序反转',
+  'Color Scheme': '色彩方案',
   // choropleth
   Bounds: '界限',
   'Country code column': '国家代码列',
@@ -461,6 +463,8 @@ const zh = {
   // email settings
   'It looks like your mail server isn\'t configured. Make sure to configure it for the': '看起来您的邮箱服务没有配置，确保为其配置',
   'to work': '去工作',
+  // new chart
+  advanced: '高级',
 };
 
 export default zh;

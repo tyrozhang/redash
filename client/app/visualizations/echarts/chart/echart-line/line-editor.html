@@ -1,0 +1,95 @@
+<div>
+  <ul class="tab-nav">
+    <li ng-class="{active: currentTab == 'general'}">
+      <a ng-click="changeTab('general')">{{'General' | translate}}</a>
+    </li>
+    <li ng-class="{active: currentTab == 'xAxis'}">
+      <a ng-click="changeTab('xAxis')">{{'X Axis' | translate}}</a>
+    </li>
+    <li ng-class="{active: currentTab == 'yAxis'}">
+      <a ng-click="changeTab('yAxis')">{{'Y Axis' | translate}}</a>
+    </li>
+    <li ng-class="{active: currentTab == 'advanced'}">
+      <a ng-click="changeTab('advanced')">{{ 'advanced' | translate }}</a>
+    </li>
+  </ul>
+  <div ng-if="currentTab == 'general'" class="m-t-10 m-b-10">
+    <div class="form-group">
+      <label class="control-label">选择X列</label>
+      <div class="form-group">
+        <select ng-options="name for name in queryResult.getColumnNames()" ng-model="visualization.options.editOptions.Xaxis"
+                class="form-control"></select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label">选择Y列</label>
+      <div class="form-group">
+      <ui-select multiple name="yAxisColumns" required ng-model="visualization.options.editOptions.Yaxis">
+        <ui-select-match placeholder="选择列">{{ $item }}</ui-select-match>
+        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.Xaxis">
+          <span ng-bind-html="column | highlight: $select.search"></span>
+          <span> </span>
+          <small class="text-muted" ng-bind="columns[column].type"></small>
+        </ui-select-choices>
+      </ui-select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label">分组</label>
+      <ui-select name="groupby" ng-model="visualization.options.editOptions.groupby" class="clearable">
+        <ui-select-match allow-clear="true" placeholder="选择列...">
+          {{$select.selected}}
+        </ui-select-match>
+        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.Xaxis | remove:visualization.options.editOptions.Yaxis">
+          <span ng-bind-html="column | highlight: $select.search"></span>
+          <span> </span>
+          <small class="text-muted" ng-bind="columns[column].type"></small>
+        </ui-select-choices>
+      </ui-select>
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="visualization.options.editOptions.legend">
+        <i class="input-helper"></i> 显示图例
+      </label>
+    </div>
+
+  </div>
+  <div ng-if="currentTab == 'xAxis'" class="m-t-10 m-b-10">
+
+    <div class="form-group">
+      <label class="control-label">X轴名称</label>
+      <input ng-model="visualization.options.editOptions.xName" type="text" class="form-control">
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="visualization.options.editOptions.concealXLabels">
+        <i class="input-helper"></i> 显示X轴名称
+      </label>
+    </div>
+  </div>
+
+  <div ng-if="currentTab == 'yAxis'" class="m-t-10 m-b-10">
+
+      <div class="form-group">
+        <label class="control-label">Y轴名称</label>
+        <input ng-model="visualization.options.editOptions.yName" type="text" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="control-label">最小值</label>
+        <input ng-model="visualization.options.editOptions.rangeMin" type="number" step="any" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="control-label">最大值</label>
+        <input ng-model="visualization.options.editOptions.rangeMax" type="number" step="any" class="form-control">
+      </div>
+
+  </div>
+  <div ng-if="currentTab == 'advanced'" class="m-t-10 m-b-10">
+
+  </div>
+</div>
