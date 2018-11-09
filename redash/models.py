@@ -1546,7 +1546,8 @@ class ApiKey(TimestampMixin, GFKBase, db.Model):
 
     @classmethod
     def get_by_object(cls, object):
-        return cls.query.filter(cls.object_type == object.__class__.__tablename__, cls.object_id == object.id, cls.active == True).first()
+        #return cls.query.filter(cls.object_type == object.__class__.__tablename__, cls.object_id == object.id, cls.active == True).first()
+        return cls.query.filter(cls.object_type == object.__class__.__tablename__, cls.object_id == object.id).first()
 
     @classmethod
     def create_for_object(cls, object, user):
