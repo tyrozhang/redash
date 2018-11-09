@@ -1,4 +1,4 @@
-const configColors = {
+const config = {
   defaultColors: [
     '#356AFF',
     '#E92828',
@@ -15,4 +15,4 @@ const configColors = {
     '#FF7DE3',
     '#002FB4'],
 };
-export default configColors;
+export default config;
