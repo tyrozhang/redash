@@ -1,10 +1,11 @@
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import _ from 'lodash';
+import configColors from '../configColors';
 import radarTemplate from './radar-editor.html';
 
 // 雷达图的配置项
 const option = {
-  color: ['#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'],
+  color: configColors.defaultColors,
   tooltip: {},
   legend: {
     data: [],
