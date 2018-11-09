@@ -1,0 +1,21 @@
+<div class="p-t-8 p-b-20 gds_contbox">
+  <large-screen-page-header title="{{$ctrl.dashboard.name}}"></large-screen-page-header>
+
+
+<div class="container">
+  <div class="m-b-5">
+    <filters ng-if="$ctrl.dashboard.dashboard_filters_enabled"></filters>
+  </div>
+
+  <div style="padding-bottom: 5px" ng-if="$ctrl.dashboard.widgets.length > 0">
+    <div gridstack editing="false" class="dashboard-wrapper preview-mode">
+      <div class="dashboard-widget-wrapper" ng-repeat="widget in $ctrl.dashboard.widgets" gridstack-item="widget.options.position" gridstack-item-id="{{ widget.id }}">
+        <div class="grid-stack-item-content">
+          <large-screen-dashboard-widget widget="widget" dashboard="$ctrl.dashboard" public="true"></large-screen-dashboard-widget>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
