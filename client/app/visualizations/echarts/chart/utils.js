@@ -74,7 +74,8 @@ function ChartHelper() {
   };
 }
 
-export default function PrepareChartOption() {
+
+export function PrepareChartOption() {
   PrepareChartOption.prototype.chartOption = {
     tooltip: {
       trigger: 'axis',
@@ -110,10 +111,102 @@ export default function PrepareChartOption() {
     ],
   };
 
-  PrepareChartOption.prototype.pieOption = {
+  PrepareChartOption.prototype.chartHelper = new ChartHelper();
+
+  // 根据X,Y轴的类型(类型列或值列)来设置xAxis/yAxis的data
+  PrepareChartOption.prototype.setAxisData = () => {
+    if (this.chartOption.xAxis.type === 'category') {
+      this.chartOption.xAxis.data = this.chartHelper.getCategoryData();
+    }
+    if (this.chartOption.yAxis.type === 'category') {
+      this.chartOption.yAxis.data = this.chartHelper.getCategoryData();
+    }
+  };
+
+  // 设置是否展示图例
+  PrepareChartOption.prototype.hasLegend = (hasLegend) => {
+    const chartGroups =
+      this.chartOption.groupByColumn ? this.chartHelper.getGroupingData() : this.chartOption.valueColumns;
+    this.chartOption.legend.data = hasLegend ? chartGroups : [];
+  };
+
+  // 设置值列的最大值
+  PrepareChartOption.prototype.setValueMax = (max) => {
+    if (this.chartOption.xAxis.type === 'category') {
+      this.chartOption.yAxis.max = max;
+    } else {
+      this.chartOption.xAxis.max = max;
+    }
+  };
+
+  // 设置值列的最小值
+  PrepareChartOption.prototype.setValueMin = (min) => {
+    if (this.chartOption.yAxis.type === 'category') {
+      this.chartOption.xAxis.min = min;
+    } else {
+      this.chartOption.yAxis.min = min;
+    }
+  };
+
+  // 设置图形series.data的值
+  PrepareChartOption.prototype.setSeriesData = (chartType) => {
+    each(this.chartOption.groupByColumn ?
+      this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
+      this.chartOption.series[index] = {
+        name: item,
+        data: this.chartHelper.getValueData()[index],
+        type: chartType,
+      };
+    });
+  };
+
+  // 开始向echarts的Option中添加数据
+  PrepareChartOption.prototype.prepareData = (chart, data, editOptions) => {
+    chart.chartOption.categoryColumn = editOptions.Xaxis;
+    chart.chartOption.valueColumns = editOptions.Yaxis;
+    chart.chartOption.result = data;
+    chart.chartOption.groupByColumn = editOptions.groupby;
+    chart.chartHelper.init(data, editOptions.Xaxis, editOptions.Yaxis, editOptions.groupby);
+    chart.setAxisData();
+    chart.hasLegend(editOptions.legend);
+    chart.setValueMax(editOptions.rangeMax);
+    chart.setValueMin(editOptions.rangeMin);
+    chart.chartOption.xAxis.name = editOptions.xName;
+    chart.chartOption.yAxis.name = editOptions.yName;
+  };
+}
+
+const circlePosition = [
+  // 0
+  [['50%', '50%']],
+  // 1
+  [
+    ['30%', '50%'],
+    ['70%', '50%'],
+  ],
+  // 2
+  [
+    ['30%', '25%'],
+    ['70%', '25%'],
+    ['30%', '75%'],
+  ],
+  // 3
+  [
+    ['30%', '25%'],
+    ['70%', '25%'],
+    ['30%', '75%'],
+    ['70%', '75%']],
+];
+const circleSize = [
+  '60%', '40%', '30%', '30%',
+];
+
+export function PreparePieOption() {
+  PreparePieOption.prototype.pieOption = {
     title: {
       text: '',
       x: 'center',
+      y: '90%',
     },
     tooltip: {
       trigger: 'item',
@@ -121,18 +214,16 @@ export default function PrepareChartOption() {
     },
     legend: {
       orient: 'vertical',
-      left: 'left',
+      left: 'right',
       data: [],
     },
     series: [
       {
         type: 'pie',
-        radius: '60%',
-        center: ['50%', '50%'],
         selectedMode: 'single',
         selectedOffset: 30,
         label: {
-          show: false,
+          show: true,
         },
         data: [],
         itemStyle: {
@@ -143,110 +234,42 @@ export default function PrepareChartOption() {
           },
         },
       },
-      {
-        type: 'pie',
-        radius: '60%',
-        center: ['75%', '50%'],
-        label: {
-          show: false,
-        },
-        data: [],
-      },
     ],
   };
 
-  PrepareChartOption.prototype.setCategoryColumn = (categoryColumn) => {
-    this.chartOption.categoryColumn = categoryColumn;
+  PreparePieOption.prototype.chartHelper = new ChartHelper();
+
+  PreparePieOption.prototype.hasLegend = (hasLegend) => {
+    this.pieOption.legend.data = hasLegend ? this.chartHelper.getCategoryData() : [];
   };
 
-  PrepareChartOption.prototype.setxAxisType = (type) => {
-    this.chartOption.xAxis.type = type;
-  };
-
-  PrepareChartOption.prototype.setyAxisType = (type) => {
-    this.chartOption.yAxis.type = type;
-  };
-
-  PrepareChartOption.prototype.setGroupBy = (groupByColumn) => {
-    this.chartOption.groupByColumn = groupByColumn;
-  };
-
-  PrepareChartOption.prototype.setValueColumns = (valueColumns) => {
-    this.chartOption.valueColumns = valueColumns;
-  };
-
-  PrepareChartOption.prototype.setResult = (result) => {
-    this.chartOption.result = result;
-  };
-
-  PrepareChartOption.prototype.chartHelper = new ChartHelper();
-
-  PrepareChartOption.prototype.setAxisData = () => {
-    if (this.chartOption.xAxis.type === 'category') {
-      this.chartOption.xAxis.data = this.chartHelper.getCategoryData();
-    }
-    if (this.chartOption.yAxis.type === 'category') {
-      this.chartOption.yAxis.data = this.chartHelper.getCategoryData();
-    }
-  };
-
-  PrepareChartOption.prototype.hasLegend = (hasLegend) => {
-    const chartGroups =
-      this.chartOption.groupByColumn ? this.chartHelper.getGroupingData() : this.chartOption.valueColumns;
-    this.chartOption.legend.data = hasLegend ? chartGroups : [];
-  };
-
-  PrepareChartOption.prototype.setValueMax = (max) => {
-    if (this.chartOption.xAxis.type === 'category') {
-      this.chartOption.yAxis.max = max;
-    } else {
-      this.chartOption.xAxis.max = max;
-    }
-  };
-
-  PrepareChartOption.prototype.setValueMin = (min) => {
-    if (this.chartOption.yAxis.type === 'category') {
-      this.chartOption.xAxis.min = min;
-    } else {
-      this.chartOption.yAxis.min = min;
-    }
-  };
-
-  PrepareChartOption.prototype.setXLabel = (xName) => {
-    this.chartOption.xAxis.name = xName;
-  };
-
-  PrepareChartOption.prototype.setYLabel = (yName) => {
-    this.chartOption.yAxis.name = yName;
+  PreparePieOption.prototype.setPieSeriesData = () => {
+    const getChartGroup = this.pieOption.groupByColumn ?
+      this.chartHelper.getGroupingData() : this.pieOption.valueColumns;
+    each(getChartGroup, (item, index) => {
+      // 初始化饼图参数的内容
+      this.pieOption.series[index] = {
+        type: 'pie',
+        data: [],
+        center: ['50%', '50%'],
+        radius: '60%',
+      };
+      // 将键值对的值添加到每组series.data中
+      const dataValue = [];
+      each(this.chartHelper.getCategoryData(), (onItem, onIndex) => {
+        dataValue.push({
+          name: this.chartHelper.getCategoryData()[onIndex],
+          value: this.chartHelper.getValueData()[index][onIndex],
+        });
+      });
+      this.pieOption.legend.data.push(this.chartHelper.getCategoryData()[index]);
+      this.pieOption.series[index].data = dataValue;
+    });
+    // 根据饼图的个数设置每个饼图的位置和大小
+    each(getChartGroup, (item, index) => {
+      const groupLength = getChartGroup.length - 1;
+      this.pieOption.series[index].center = circlePosition[groupLength][index];
+      this.pieOption.series[index].radius = circleSize[groupLength];
+    });
   };
 }
-PrepareChartOption.prototype.setBarLineSeriesData = (chartType) => {
-  const chartOption = PrepareChartOption.prototype.chartOption;
-  const chartGroups = chartOption.groupByColumn
-    ? PrepareChartOption.prototype.chartHelper.getGroupingData() :
-    chartOption.valueColumns;
-
-  each(chartGroups, (item, index) => {
-    chartOption.series[index] = {
-      name: item,
-      data: PrepareChartOption.prototype.chartHelper.getValueData()[index],
-      type: chartType,
-    };
-  });
-};
-
-PrepareChartOption.prototype.setPieSeriesData = () => {
-  const chartOption = PrepareChartOption.prototype.chartOption;
-  const chartGroups = chartOption.groupByColumn
-    ? PrepareChartOption.prototype.chartHelper.getGroupingData() :
-    chartOption.valueColumns;
-
-  each(chartGroups, (item, index) => {
-    chartOption.series[index] = {
-      name: item,
-      data: PrepareChartOption.prototype.chartHelper.getValueData()[index],
-      type: 'pie',
-    };
-  });
-};
-

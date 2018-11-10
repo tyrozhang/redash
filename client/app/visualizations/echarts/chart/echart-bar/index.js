@@ -1,48 +1,41 @@
+import _ from 'lodash';
 import * as echarts from 'echarts';
-import editorTemplate from './bar-editor.html';
-import PrepareChartOption from '../utils';
+import editorTemplate from '../echart-editor.html';
+import { PrepareChartOption } from '../utils';
 
 
 function BarRenderer() {
   return {
     restrict: 'E',
-    template: '<div class="signal-gauge-visualization-container"></div>',
+    template: '<div class="echarts-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
-      const container = element[0].querySelector('.signal-gauge-visualization-container');
+      const container = element[0].querySelector('.echarts-visualization-container');
       const myChart = echarts.init(container);
 
       function reloadData() {
         const data = $scope.queryResult.getData();
         const editOptions = $scope.visualization.options.editOptions;
-
         const barChart = new PrepareChartOption();
-        if (editOptions.horizontalBar) {
-          barChart.setyAxisType('category');
-          barChart.setxAxisType('value');
-        } else {
-          barChart.setxAxisType('category');
-          barChart.setyAxisType('value');
+
+        if (editOptions.Xaxis) {
+          if (editOptions.horizontalBar) {
+            barChart.chartOption.yAxis.type = 'category';
+            barChart.chartOption.xAxis.type = 'value';
+          } else {
+            barChart.chartOption.xAxis.type = 'category';
+            barChart.chartOption.yAxis.type = 'value';
+          }
+          barChart.prepareData(barChart, data, editOptions);
+          barChart.setSeriesData('bar');
         }
-
-        barChart.setValueColumns(editOptions.Xaxis);
-        barChart.setValueColumns(editOptions.Yaxis);
-        barChart.setGroupBy(editOptions.groupby);
-        barChart.setResult(data);
-        barChart.chartHelper.init(data, editOptions.Xaxis, editOptions.Yaxis, editOptions.groupby);
-
-        barChart.setAxisData();
-        barChart.setBarLineSeriesData('bar');
-        barChart.hasLegend(editOptions.legend);
-        barChart.setValueMax(editOptions.rangeMax);
-        barChart.setValueMin(editOptions.rangeMin);
-        barChart.setXLabel(editOptions.xName);
-        barChart.setYLabel(editOptions.yName);
-
-        barChart.chartOption.xAxis.show = !!editOptions.concealXLabels;
 
         myChart.setOption(barChart.chartOption, true);
       }
+      function resize() {
+        window.onresize = myChart.resize;
+      }
 
+      $scope.handleResize = _.debounce(resize, 50);
       $scope.$watch('visualization.options', reloadData, true);
       $scope.$watch('queryResult && queryResult.getData()', reloadData);
     },
@@ -59,12 +52,7 @@ function BarEditor() {
       };
       const editOptions = {
         conversion: false,
-        concealXLabels: true,
         legend: true,
-        barTitle: '',
-        Xaxis: '',
-        Yaxis: '',
-        groupBy: '',
       };
       if (!$scope.visualization.options.editOptions) $scope.visualization.options.editOptions = editOptions;
     },

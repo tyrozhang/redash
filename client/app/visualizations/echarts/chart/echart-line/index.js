@@ -1,6 +1,7 @@
-import PrepareChartOption from '@/visualizations/echarts/chart/utils';
+import _ from 'lodash';
+import { PrepareChartOption } from '@/visualizations/echarts/chart/utils';
 import * as echarts from 'echarts';
-import editorTemplate from './line-editor.html';
+import editorTemplate from '../echart-editor.html';
 
 
 const DEFAULT_OPTIONS = {};
@@ -9,43 +10,28 @@ const DEFAULT_OPTIONS = {};
 function LineRenderer() {
   return {
     restrict: 'E',
-    template: '<div class="signal-gauge-visualization-container"></div>',
+    template: '<div class="echarts-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
-      const container = element[0].querySelector('.signal-gauge-visualization-container');
+      const container = element[0].querySelector('.echarts-visualization-container');
       const myChart = echarts.init(container);
 
       function reloadData() {
         const data = $scope.queryResult.getData();
         const editOptions = $scope.visualization.options.editOptions;
-
         const lineChart = new PrepareChartOption();
-        if (editOptions.horizontalBar) {
-          lineChart.setyAxisType('category');
-          lineChart.setxAxisType('value');
-        } else {
-          lineChart.setxAxisType('category');
-          lineChart.setyAxisType('value');
+        if (editOptions.Xaxis) {
+          lineChart.prepareData(lineChart, data, editOptions);
+          lineChart.setSeriesData('line');
         }
-
-        lineChart.setValueColumns(editOptions.Xaxis);
-        lineChart.setValueColumns(editOptions.Yaxis);
-        lineChart.setGroupBy(editOptions.groupby);
-        lineChart.setResult(data);
-        lineChart.chartHelper.init(data, editOptions.Xaxis, editOptions.Yaxis, editOptions.groupby);
-
-        lineChart.setAxisData();
-        lineChart.setBarLineSeriesData('line');
-        lineChart.hasLegend(editOptions.legend);
-        lineChart.setValueMax(editOptions.rangeMax);
-        lineChart.setValueMin(editOptions.rangeMin);
-        lineChart.setXLabel(editOptions.xName);
-        lineChart.setYLabel(editOptions.yName);
-
-        lineChart.chartOption.xAxis.show = !!editOptions.concealXLabels;
 
         myChart.setOption(lineChart.chartOption, true);
       }
 
+      function resize() {
+        window.onresize = myChart.resize;
+      }
+
+      $scope.handleResize = _.debounce(resize, 50);
       $scope.$watch('visualization.options', reloadData, true);
       $scope.$watch('queryResult && queryResult.getData()', reloadData);
     },
@@ -62,13 +48,7 @@ function LineEditor() {
         $scope.currentTab = tab;
       };
       const editOptions = {
-        conversion: false,
-        concealXLabels: true,
         legend: true,
-        barTitle: '',
-        Xaxis: '',
-        Yaxis: '',
-        groupBy: '',
       };
       if (!$scope.visualization.options.editOptions) $scope.visualization.options.editOptions = editOptions;
     },

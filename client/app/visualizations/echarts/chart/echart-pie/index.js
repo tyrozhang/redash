@@ -1,6 +1,7 @@
-import PrepareChartOption from '@/visualizations/echarts/chart/utils';
+import _ from 'lodash';
+import { PreparePieOption } from '@/visualizations/echarts/chart/utils';
 import * as echarts from 'echarts';
-import editorTemplate from './pie-editor.html';
+import editorTemplate from '../echart-editor.html';
 
 const DEFAULT_OPTIONS = {};
 
@@ -8,42 +9,32 @@ const DEFAULT_OPTIONS = {};
 function PieRenderer() {
   return {
     restrict: 'E',
-    template: '<div class="signal-gauge-visualization-container"></div>',
+    template: '<div class="echarts-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
-      const container = element[0].querySelector('.signal-gauge-visualization-container');
-      const myChart = echarts.init(container, 'light');
+      const container = element[0].querySelector('.echarts-visualization-container');
+      const myChart = echarts.init(container);
 
       function reloadData() {
         const data = $scope.queryResult.getData();
         const editOptions = $scope.visualization.options.editOptions;
+        const pieChart = new PreparePieOption();
 
-        const barChart = new PrepareChartOption();
-        if (editOptions.horizontalBar) {
-          barChart.setyAxisType('category');
-          barChart.setxAxisType('value');
-        } else {
-          barChart.setxAxisType('category');
-          barChart.setyAxisType('value');
-        }
-
-        barChart.setValueColumns(editOptions.Xaxis);
-        barChart.setValueColumns(editOptions.Yaxis);
-        barChart.setGroupBy(editOptions.groupby);
-        barChart.setResult(data);
-        barChart.chartHelper.init(data, editOptions.Xaxis, editOptions.Yaxis, editOptions.groupby);
-
-        barChart.setAxisData();
-        barChart.setPieSeriesData();
-        barChart.hasLegend(editOptions.legend);
-        barChart.setValueMax(editOptions.rangeMax);
-        barChart.setValueMin(editOptions.rangeMin);
-        barChart.setXLabel(editOptions.xName);
-        barChart.setYLabel(editOptions.yName);
-
-        barChart.chartOption.xAxis.show = !!editOptions.concealXLabels;
-
-        myChart.setOption(barChart.chartOption, true);
+        pieChart.pieOption.categoryColumn = editOptions.Xaxis;
+        pieChart.pieOption.valueColumns = editOptions.Yaxis;
+        pieChart.pieOption.groupByColumn = editOptions.groupby;
+        pieChart.pieOption.result = data;
+        pieChart.pieOption.title.text = editOptions.pieTitle;
+        pieChart.chartHelper.init(data, editOptions.Xaxis, editOptions.Yaxis, editOptions.groupby);
+        pieChart.setPieSeriesData();
+        pieChart.hasLegend(editOptions.legend);
+        myChart.setOption(pieChart.pieOption, true);
       }
+
+      function resize() {
+        window.onresize = myChart.resize;
+      }
+
+      $scope.handleResize = _.debounce(resize, 50);
       $scope.$watch('visualization.options', reloadData, true);
       $scope.$watch('queryResult && queryResult.getData()', reloadData);
     },
@@ -60,10 +51,8 @@ function PieEditor() {
         $scope.currentTab = tab;
       };
       const editOptions = {
-        legend: '',
-        pieLabel: '',
-        Xaxis: '',
-        Yaxis: '',
+        legend: true,
+        pieTitle: '',
       };
       if (!$scope.visualization.options.editOptions) $scope.visualization.options.editOptions = editOptions;
     },
