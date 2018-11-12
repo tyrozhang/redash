@@ -74,9 +74,8 @@ function ChartHelper() {
   };
 }
 
-
-export function PrepareChartOption() {
-  PrepareChartOption.prototype.chartOption = {
+function BaseChartOption() {
+  this.chartOption = {
     toolbox: {
       textPosition: 'top',
       feature: {
@@ -122,10 +121,10 @@ export function PrepareChartOption() {
     ],
   };
 
-  PrepareChartOption.prototype.chartHelper = new ChartHelper();
+  this.chartHelper = new ChartHelper();
 
   // 根据X,Y轴的类型(类型列或值列)来设置xAxis/yAxis的data
-  PrepareChartOption.prototype.setAxisData = () => {
+  this.setAxisData = () => {
     if (this.chartOption.xAxis.type === 'category') {
       this.chartOption.xAxis.data = this.chartHelper.getCategoryData();
     }
@@ -135,14 +134,14 @@ export function PrepareChartOption() {
   };
 
   // 设置是否展示图例
-  PrepareChartOption.prototype.hasLegend = (hasLegend) => {
+  this.setLegend = (legend) => {
     const chartGroups =
       this.chartOption.groupByColumn ? this.chartHelper.getGroupingData() : this.chartOption.valueColumns;
-    this.chartOption.legend.data = hasLegend ? chartGroups : [];
+    this.chartOption.legend.data = legend ? chartGroups : [];
   };
 
   // 设置值列的最大值
-  PrepareChartOption.prototype.setValueMax = (max) => {
+  this.setValueMax = (max) => {
     if (this.chartOption.xAxis.type === 'category') {
       this.chartOption.yAxis.max = max;
     } else {
@@ -151,7 +150,7 @@ export function PrepareChartOption() {
   };
 
   // 设置值列的最小值
-  PrepareChartOption.prototype.setValueMin = (min) => {
+  this.setValueMin = (min) => {
     if (this.chartOption.yAxis.type === 'category') {
       this.chartOption.xAxis.min = min;
     } else {
@@ -160,7 +159,7 @@ export function PrepareChartOption() {
   };
 
   // 设置图形series.data的值
-  PrepareChartOption.prototype.setSeriesData = (chartType) => {
+  this.setSeriesData = (chartType) => {
     each(this.chartOption.groupByColumn ?
       this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
       this.chartOption.series[index] = {
@@ -170,50 +169,10 @@ export function PrepareChartOption() {
       };
     });
   };
-
-  // 开始向echarts的Option中添加数据
-  PrepareChartOption.prototype.prepareData = (chart, data, editOptions) => {
-    chart.chartOption.categoryColumn = editOptions.xAxis;
-    chart.chartOption.valueColumns = editOptions.yAxis;
-    chart.chartOption.result = data;
-    chart.chartOption.groupByColumn = editOptions.groupby;
-    chart.chartHelper.init(data, editOptions.xAxis, editOptions.yAxis, editOptions.groupby);
-    chart.setAxisData();
-    chart.hasLegend(editOptions.legend);
-    chart.setValueMax(editOptions.rangeMax);
-    chart.setValueMin(editOptions.rangeMin);
-    chart.chartOption.xAxis.name = editOptions.xName;
-    chart.chartOption.yAxis.name = editOptions.yName;
-  };
 }
 
-const circlePosition = [
-  // 0
-  [['50%', '50%']],
-  // 1
-  [
-    ['30%', '50%'],
-    ['70%', '50%'],
-  ],
-  // 2
-  [
-    ['30%', '25%'],
-    ['70%', '25%'],
-    ['30%', '75%'],
-  ],
-  // 3
-  [
-    ['30%', '25%'],
-    ['70%', '25%'],
-    ['30%', '75%'],
-    ['70%', '75%']],
-];
-const circleSize = [
-  '60%', '40%', '30%', '30%',
-];
-
-export function PreparePieOption() {
-  PreparePieOption.prototype.pieOption = {
+function BasePieOption() {
+  this.pieOption = {
     title: {
       text: '',
       x: 'center',
@@ -248,13 +207,50 @@ export function PreparePieOption() {
     ],
   };
 
-  PreparePieOption.prototype.chartHelper = new ChartHelper();
+  // 根据圆的数量定义各个圆的位置
+  const circleCenter = [
+    // 1
+    [['50%', '50%']],
+    // 2
+    [['30%', '50%'],
+      ['70%', '50%']],
+    // 3
+    [['30%', '25%'],
+      ['70%', '25%'],
+      ['30%', '75%']],
+    // 4
+    [['30%', '25%'],
+      ['70%', '25%'],
+      ['30%', '75%'],
+      ['70%', '75%']],
+    // 5
+    [['20%', '25%'],
+      ['50%', '25%'],
+      ['80%', '25%'],
+      ['20%', '75%'],
+      ['50%', '75%']],
+    // 6
+    [['20%', '25%'],
+      ['50%', '25%'],
+      ['80%', '25%'],
+      ['20%', '75%'],
+      ['50%', '75%'],
+      ['80%', '75%']],
+  ];
+  // 根据圆的数量定义各个圆的大小
+  const circleRadius = [
+    '60%', '40%', '35%', '35%', '30%', '30%',
+  ];
 
-  PreparePieOption.prototype.hasLegend = (hasLegend) => {
-    this.pieOption.legend.data = hasLegend ? this.chartHelper.getCategoryData() : [];
+  this.chartHelper = new ChartHelper();
+
+  // 设置是否展示图例
+  this.setLegend = (legend) => {
+    this.pieOption.legend.data = legend ? this.chartHelper.getCategoryData() : [];
   };
 
-  PreparePieOption.prototype.setPieSeriesData = () => {
+  // 设置图形series.data的值
+  this.setPieSeriesData = () => {
     const getChartGroup = this.pieOption.groupByColumn ?
       this.chartHelper.getGroupingData() : this.pieOption.valueColumns;
     each(getChartGroup, (item, index) => {
@@ -277,10 +273,25 @@ export function PreparePieOption() {
       this.pieOption.series[index].data = dataValue;
     });
     // 根据饼图的个数设置每个饼图的位置和大小
+    const pieCenter = circleCenter[getChartGroup.length - 1];
+    const pieRadius = circleRadius[getChartGroup.length - 1];
     each(getChartGroup, (item, index) => {
-      const groupLength = getChartGroup.length - 1;
-      this.pieOption.series[index].center = circlePosition[groupLength][index];
-      this.pieOption.series[index].radius = circleSize[groupLength];
+      this.pieOption.series[index].center = pieCenter[index];
+      this.pieOption.series[index].radius = pieRadius;
     });
   };
 }
+
+function PieOption() {
+  BasePieOption.call(this);
+}
+
+function BarOption() {
+  BaseChartOption.call(this);
+}
+
+function LineOption() {
+  BaseChartOption.call(this);
+}
+
+export { PieOption, BarOption, LineOption };

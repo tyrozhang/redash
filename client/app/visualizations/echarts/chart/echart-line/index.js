@@ -1,10 +1,7 @@
 import _ from 'lodash';
-import { PrepareChartOption } from '@/visualizations/echarts/chart/utils';
 import * as echarts from 'echarts';
-import editorTemplate from '../echart-editor.html';
-
-
-const DEFAULT_OPTIONS = {};
+import { LineOption } from '@/visualizations/echarts/chart/utils';
+import editorTemplate from '@/visualizations/echarts/chart/echart-editor.html';
 
 
 function LineRenderer() {
@@ -18,9 +15,20 @@ function LineRenderer() {
       function reloadData() {
         const data = $scope.queryResult.getData();
         const editOptions = $scope.visualization.options.editOptions;
-        const lineChart = new PrepareChartOption();
-        if (editOptions.xAxis) {
-          lineChart.prepareData(lineChart, data, editOptions);
+        const lineChart = new LineOption();
+
+        if (editOptions.categoryColumn) {
+          lineChart.chartOption.categoryColumn = editOptions.categoryColumn;
+          lineChart.chartOption.valueColumns = editOptions.valueColumns;
+          lineChart.chartOption.result = data;
+          lineChart.chartOption.groupByColumn = editOptions.groupBy;
+          lineChart.chartHelper.init(data, editOptions.categoryColumn, editOptions.valueColumns, editOptions.groupBy);
+          lineChart.setAxisData();
+          lineChart.setLegend(editOptions.legend);
+          lineChart.setValueMax(editOptions.rangeMax);
+          lineChart.setValueMin(editOptions.rangeMin);
+          lineChart.chartOption.xAxis.name = editOptions.xName;
+          lineChart.chartOption.yAxis.name = editOptions.yName;
           lineChart.setSeriesData('line');
         }
 
@@ -68,7 +76,6 @@ export default function init(ngModule) {
       name: '折线图',
       renderTemplate,
       editorTemplate: editTemplate,
-      defaultOptions: DEFAULT_OPTIONS,
     });
   });
 }

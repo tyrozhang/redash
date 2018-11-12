@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as echarts from 'echarts';
-import editorTemplate from '../echart-editor.html';
-import { PrepareChartOption } from '../utils';
+import { BarOption } from '@/visualizations/echarts/chart/utils';
+import editorTemplate from '@/visualizations/echarts/chart/echart-editor.html';
 
 
 function BarRenderer() {
@@ -15,9 +15,9 @@ function BarRenderer() {
       function reloadData() {
         const data = $scope.queryResult.getData();
         const editOptions = $scope.visualization.options.editOptions;
-        const barChart = new PrepareChartOption();
+        const barChart = new BarOption();
 
-        if (editOptions.xAxis) {
+        if (editOptions.categoryColumn) {
           if (editOptions.horizontalBar) {
             barChart.chartOption.yAxis.type = 'category';
             barChart.chartOption.xAxis.type = 'value';
@@ -25,12 +25,24 @@ function BarRenderer() {
             barChart.chartOption.xAxis.type = 'category';
             barChart.chartOption.yAxis.type = 'value';
           }
-          barChart.prepareData(barChart, data, editOptions);
+
+          barChart.chartOption.categoryColumn = editOptions.categoryColumn;
+          barChart.chartOption.valueColumns = editOptions.valueColumns;
+          barChart.chartOption.result = data;
+          barChart.chartOption.groupByColumn = editOptions.groupBy;
+          barChart.chartHelper.init(data, editOptions.categoryColumn, editOptions.valueColumns, editOptions.groupBy);
+          barChart.setAxisData();
+          barChart.setLegend(editOptions.legend);
+          barChart.setValueMax(editOptions.rangeMax);
+          barChart.setValueMin(editOptions.rangeMin);
+          barChart.chartOption.xAxis.name = editOptions.xName;
+          barChart.chartOption.yAxis.name = editOptions.yName;
           barChart.setSeriesData('bar');
         }
 
         myChart.setOption(barChart.chartOption, true);
       }
+
       function resize() {
         window.onresize = myChart.resize;
       }
@@ -41,6 +53,7 @@ function BarRenderer() {
     },
   };
 }
+
 function BarEditor() {
   return {
     restrict: 'E',
@@ -53,8 +66,8 @@ function BarEditor() {
       const editOptions = {
         conversion: false,
         legend: true,
-        xAxis: '',
-        yAxis: '',
+        categoryColumn: '',
+        valueColumns: '',
       };
       if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
     },

@@ -1,9 +1,7 @@
 import _ from 'lodash';
-import { PreparePieOption } from '@/visualizations/echarts/chart/utils';
 import * as echarts from 'echarts';
-import editorTemplate from '../echart-editor.html';
-
-const DEFAULT_OPTIONS = {};
+import { PieOption } from '@/visualizations/echarts/chart/utils';
+import editorTemplate from '@/visualizations/echarts/chart/echart-editor.html';
 
 
 function PieRenderer() {
@@ -17,16 +15,16 @@ function PieRenderer() {
       function reloadData() {
         const data = $scope.queryResult.getData();
         const editOptions = $scope.visualization.options.editOptions;
-        const pieChart = new PreparePieOption();
+        const pieChart = new PieOption();
 
-        pieChart.pieOption.categoryColumn = editOptions.xAxis;
-        pieChart.pieOption.valueColumns = editOptions.yAxis;
-        pieChart.pieOption.groupByColumn = editOptions.groupby;
+        pieChart.pieOption.xAxis = editOptions.categoryColumn;
+        pieChart.pieOption.valueColumns = editOptions.valueColumns;
+        pieChart.pieOption.groupByColumn = editOptions.groupBy;
         pieChart.pieOption.result = data;
-        pieChart.pieOption.title.text = editOptions.pieTitle;
-        pieChart.chartHelper.init(data, editOptions.xAxis, editOptions.yAxis, editOptions.groupby);
+        pieChart.chartHelper.init(data, editOptions.categoryColumn, editOptions.valueColumns, editOptions.groupBy);
         pieChart.setPieSeriesData();
-        pieChart.hasLegend(editOptions.legend);
+        pieChart.setLegend(editOptions.legend);
+
         myChart.setOption(pieChart.pieOption, true);
       }
 
@@ -52,7 +50,6 @@ function PieEditor() {
       };
       const editOptions = {
         legend: true,
-        pieTitle: '',
       };
       if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
     },
@@ -72,7 +69,6 @@ export default function init(ngModule) {
       name: '饼图',
       renderTemplate,
       editorTemplate: editTemplate,
-      defaultOptions: DEFAULT_OPTIONS,
     });
   });
 }

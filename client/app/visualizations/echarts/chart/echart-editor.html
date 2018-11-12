@@ -20,11 +20,11 @@
       <label class="control-label" ng-if="!visualization.options.editOptions.horizontalBar">选择X列</label>
       <label class="control-label" ng-if="visualization.options.editOptions.horizontalBar">选择Y列</label>
       <div class="form-group">
-        <ui-select name="xAxisColumns" ng-model="visualization.options.editOptions.xAxis" class="clearable">
+        <ui-select name="xAxisColumns" ng-model="visualization.options.editOptions.categoryColumn" class="clearable">
         <ui-select-match allow-clear="true" placeholder="选择列...">
           {{$select.selected}}
         </ui-select-match>
-        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.groupby | remove:visualization.options.editOptions.yAxis">
+        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.groupBy | remove:visualization.options.editOptions.valueColumns">
           <span ng-bind-html="column | highlight: $select.search"></span>
           <span> </span>
           <small class="text-muted" ng-bind="columns[column].type"></small>
@@ -37,9 +37,9 @@
       <label class="control-label" ng-if="!visualization.options.editOptions.horizontalBar">选择Y列</label>
       <label class="control-label" ng-if="visualization.options.editOptions.horizontalBar">选择X列</label>
       <div class="form-group">
-      <ui-select multiple name="yAxisColumns" required ng-model="visualization.options.editOptions.yAxis">
+      <ui-select multiple name="yAxisColumns" required ng-model="visualization.options.editOptions.valueColumns">
         <ui-select-match placeholder="选择列">{{ $item }}</ui-select-match>
-        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.xAxis">
+        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.categoryColumn | remove:visualization.options.editOptions.groupBy">
           <span ng-bind-html="column | highlight: $select.search"></span>
           <span> </span>
           <small class="text-muted" ng-bind="columns[column].type"></small>
@@ -50,26 +50,17 @@
 
     <div class="form-group">
       <label class="control-label">分组</label>
-      <ui-select name="groupby" ng-model="visualization.options.editOptions.groupby" class="clearable">
+      <ui-select name="groupby" ng-model="visualization.options.editOptions.groupBy" class="clearable">
         <ui-select-match allow-clear="true" placeholder="选择列...">
           {{$select.selected}}
         </ui-select-match>
-        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.xAxis | remove:visualization.options.editOptions.yAxis">
+        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.categoryColumn | remove:visualization.options.editOptions.valueColumns">
           <span ng-bind-html="column | highlight: $select.search"></span>
           <span> </span>
           <small class="text-muted" ng-bind="columns[column].type"></small>
         </ui-select-choices>
       </ui-select>
     </div>
-
-
-    <div class="form-group" ng-if="visualization.type === 'echart-pie'">
-      <label class="control-label">饼图描述</label>
-      <div class="control-label">
-        <input type="text" ng-model="visualization.options.editOptions.pieTitle" placeholder="仪表盘" class="form-control" ng-trim="false">
-      </div>
-    </div>
-
 
     <div class="checkbox">
       <label>
