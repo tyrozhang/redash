@@ -6,7 +6,7 @@ import { BigMessage } from './BigMessage';
 function NoTaggedObjectsFound({ objectType, tags }) {
   return (
     <BigMessage icon="fa-tags">
-      No {objectType} found tagged with
+      没有 {objectType} 收藏在
       {Array.from(tags).map(tag => (
         <span className="label label-tag" key={tag}>
           {tag}
