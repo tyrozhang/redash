@@ -6,10 +6,10 @@ function ChartHelper() {
   let groupingColumn;
   let valuesColumns;
   let queryResult;
-  ChartHelper.prototype.init = (result, Xaxis, Yaxis, groupColumn) => {
-    categoryColumn = Xaxis;
+  ChartHelper.prototype.init = (result, xAxis, yAxis, groupColumn) => {
+    categoryColumn = xAxis;
     groupingColumn = groupColumn;
-    valuesColumns = Yaxis;
+    valuesColumns = yAxis;
     queryResult = result;
   };
 
@@ -77,6 +77,17 @@ function ChartHelper() {
 
 export function PrepareChartOption() {
   PrepareChartOption.prototype.chartOption = {
+    toolbox: {
+      textPosition: 'top',
+      feature: {
+        magicType: {
+          type: ['line', 'bar', 'stack'],
+        },
+        restore: {
+          show: true,
+        },
+      },
+    },
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -89,7 +100,7 @@ export function PrepareChartOption() {
     legend: {
       show: true,
       x: 'right',
-      y: 'top',
+      y: '10%',
       orient: 'vertical',
     },
     title: {
@@ -162,11 +173,11 @@ export function PrepareChartOption() {
 
   // 开始向echarts的Option中添加数据
   PrepareChartOption.prototype.prepareData = (chart, data, editOptions) => {
-    chart.chartOption.categoryColumn = editOptions.Xaxis;
-    chart.chartOption.valueColumns = editOptions.Yaxis;
+    chart.chartOption.categoryColumn = editOptions.xAxis;
+    chart.chartOption.valueColumns = editOptions.yAxis;
     chart.chartOption.result = data;
     chart.chartOption.groupByColumn = editOptions.groupby;
-    chart.chartHelper.init(data, editOptions.Xaxis, editOptions.Yaxis, editOptions.groupby);
+    chart.chartHelper.init(data, editOptions.xAxis, editOptions.yAxis, editOptions.groupby);
     chart.setAxisData();
     chart.hasLegend(editOptions.legend);
     chart.setValueMax(editOptions.rangeMax);

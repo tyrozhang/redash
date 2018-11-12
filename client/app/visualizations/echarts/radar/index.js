@@ -145,7 +145,7 @@ function radarEditor() {
     restrict: 'E',
     template: radarTemplate,
     link($scope) {
-      if (!$scope.visualization.options.columsList) {
+      if (!$scope.visualization.id) {
         const columsList = [];
 
         // 获取根据查询结果得到的colums

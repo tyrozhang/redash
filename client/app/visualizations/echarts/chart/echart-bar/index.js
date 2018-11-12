@@ -17,7 +17,7 @@ function BarRenderer() {
         const editOptions = $scope.visualization.options.editOptions;
         const barChart = new PrepareChartOption();
 
-        if (editOptions.Xaxis) {
+        if (editOptions.xAxis) {
           if (editOptions.horizontalBar) {
             barChart.chartOption.yAxis.type = 'category';
             barChart.chartOption.xAxis.type = 'value';
@@ -53,8 +53,10 @@ function BarEditor() {
       const editOptions = {
         conversion: false,
         legend: true,
+        xAxis: '',
+        yAxis: '',
       };
-      if (!$scope.visualization.options.editOptions) $scope.visualization.options.editOptions = editOptions;
+      if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
     },
   };
 }

@@ -19,12 +19,12 @@ function PieRenderer() {
         const editOptions = $scope.visualization.options.editOptions;
         const pieChart = new PreparePieOption();
 
-        pieChart.pieOption.categoryColumn = editOptions.Xaxis;
-        pieChart.pieOption.valueColumns = editOptions.Yaxis;
+        pieChart.pieOption.categoryColumn = editOptions.xAxis;
+        pieChart.pieOption.valueColumns = editOptions.yAxis;
         pieChart.pieOption.groupByColumn = editOptions.groupby;
         pieChart.pieOption.result = data;
         pieChart.pieOption.title.text = editOptions.pieTitle;
-        pieChart.chartHelper.init(data, editOptions.Xaxis, editOptions.Yaxis, editOptions.groupby);
+        pieChart.chartHelper.init(data, editOptions.xAxis, editOptions.yAxis, editOptions.groupby);
         pieChart.setPieSeriesData();
         pieChart.hasLegend(editOptions.legend);
         myChart.setOption(pieChart.pieOption, true);
@@ -54,7 +54,7 @@ function PieEditor() {
         legend: true,
         pieTitle: '',
       };
-      if (!$scope.visualization.options.editOptions) $scope.visualization.options.editOptions = editOptions;
+      if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
     },
   };
 }

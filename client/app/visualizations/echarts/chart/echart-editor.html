@@ -20,11 +20,11 @@
       <label class="control-label" ng-if="!visualization.options.editOptions.horizontalBar">选择X列</label>
       <label class="control-label" ng-if="visualization.options.editOptions.horizontalBar">选择Y列</label>
       <div class="form-group">
-        <ui-select name="xAxisColumns" ng-model="visualization.options.editOptions.Xaxis" class="clearable">
+        <ui-select name="xAxisColumns" ng-model="visualization.options.editOptions.xAxis" class="clearable">
         <ui-select-match allow-clear="true" placeholder="选择列...">
           {{$select.selected}}
         </ui-select-match>
-        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.groupby | remove:visualization.options.editOptions.Yaxis">
+        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.groupby | remove:visualization.options.editOptions.yAxis">
           <span ng-bind-html="column | highlight: $select.search"></span>
           <span> </span>
           <small class="text-muted" ng-bind="columns[column].type"></small>
@@ -37,9 +37,9 @@
       <label class="control-label" ng-if="!visualization.options.editOptions.horizontalBar">选择Y列</label>
       <label class="control-label" ng-if="visualization.options.editOptions.horizontalBar">选择X列</label>
       <div class="form-group">
-      <ui-select multiple name="yAxisColumns" required ng-model="visualization.options.editOptions.Yaxis">
+      <ui-select multiple name="yAxisColumns" required ng-model="visualization.options.editOptions.yAxis">
         <ui-select-match placeholder="选择列">{{ $item }}</ui-select-match>
-        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.Xaxis">
+        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.xAxis">
           <span ng-bind-html="column | highlight: $select.search"></span>
           <span> </span>
           <small class="text-muted" ng-bind="columns[column].type"></small>
@@ -54,7 +54,7 @@
         <ui-select-match allow-clear="true" placeholder="选择列...">
           {{$select.selected}}
         </ui-select-match>
-        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.Xaxis | remove:visualization.options.editOptions.Yaxis">
+        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.xAxis | remove:visualization.options.editOptions.yAxis">
           <span ng-bind-html="column | highlight: $select.search"></span>
           <span> </span>
           <small class="text-muted" ng-bind="columns[column].type"></small>

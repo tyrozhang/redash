@@ -19,7 +19,7 @@ function LineRenderer() {
         const data = $scope.queryResult.getData();
         const editOptions = $scope.visualization.options.editOptions;
         const lineChart = new PrepareChartOption();
-        if (editOptions.Xaxis) {
+        if (editOptions.xAxis) {
           lineChart.prepareData(lineChart, data, editOptions);
           lineChart.setSeriesData('line');
         }
@@ -50,7 +50,7 @@ function LineEditor() {
       const editOptions = {
         legend: true,
       };
-      if (!$scope.visualization.options.editOptions) $scope.visualization.options.editOptions = editOptions;
+      if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
     },
   };
 }

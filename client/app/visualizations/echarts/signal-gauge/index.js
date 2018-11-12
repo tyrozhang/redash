@@ -95,7 +95,7 @@ function signalGaugeEditor() {
         colors: ['#3BD973', '#356AFF', '#E92828'],
       };
 
-      if (!$scope.visualization.options.editOptions) $scope.visualization.options.editOptions = editOptions;
+      if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
       $scope.visualization.options.colors = ColorPalette;
       $scope.sectorLabels = ['左侧区域颜色', '中间区域颜色', '右侧区域颜色'];
     },
