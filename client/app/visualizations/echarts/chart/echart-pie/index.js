@@ -7,9 +7,9 @@ import editorTemplate from '@/visualizations/echarts/chart/echart-editor.html';
 function PieRenderer() {
   return {
     restrict: 'E',
-    template: '<div class="echarts-visualization-container" resize-event="handleResize()"></div>',
+    template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
-      const container = element[0].querySelector('.echarts-visualization-container');
+      const container = element[0].querySelector('.echarts-chart-visualization-container');
       const myChart = echarts.init(container);
 
       function reloadData() {
