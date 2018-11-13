@@ -1,16 +1,17 @@
 import _ from 'lodash';
-import * as echarts from 'echarts';
 import { BarOption } from '@/visualizations/echarts/chart/utils';
+import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import editorTemplate from '@/visualizations/echarts/chart/echart-editor.html';
 
 
-function BarRenderer() {
+function BarRenderer($location, currentUser) {
   return {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
       const container = element[0].querySelector('.echarts-chart-visualization-container');
-      const myChart = echarts.init(container);
+      const echartFactory = new EchartsFactory($location, currentUser);
+      const myChart = echartFactory.init(container);
 
       function reloadData() {
         const data = $scope.queryResult.getData();
@@ -40,7 +41,7 @@ function BarRenderer() {
           barChart.setSeriesData('bar');
         }
 
-        myChart.setOption(barChart.chartOption, true);
+        echartFactory.setOption(myChart, barChart.chartOption, true);
       }
 
       function resize() {

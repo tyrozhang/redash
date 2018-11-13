@@ -13,13 +13,13 @@ export default function EchartsFactory(location, currentUser) {
     return echarts.init(container);
   };
 
-  EchartsFactory.prototype.setOption = (echartObj, option) => {
+  EchartsFactory.prototype.setOption = (echartObj, option, flag) => {
     const url = _location.url();
 
     if (url.indexOf('large_screen') !== -1) {
       option.backgroundColor = 'rgba(0, 0, 0, 0)';
     }
-    echartObj.setOption(option);
+    echartObj.setOption(option, flag);
   };
 
   // 此方法为预留方法，没有任何实现目标，尚未用到。

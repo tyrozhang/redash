@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { ColorPalette } from '@/visualizations/chart/plotly/utils';
-import * as echarts from 'echarts';
+import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import editorTemplate from './signal-gauge-editor.html';
 
 
@@ -14,6 +14,9 @@ const gaugeOption = {
       type: 'gauge',
       detail: {
         formatter: '{value}',
+      },
+      title: {
+        color: '#72ACD1',
       },
       data: [
         { value: [], name: '仪表盘' },
@@ -33,13 +36,14 @@ const gaugeOption = {
 };
 
 
-function signalGaugeRenderer() {
+function signalGaugeRenderer($location, currentUser) {
   return {
     restrict: 'E',
     template: '<div class="signal-gauge-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
       const container = element[0].querySelector('.signal-gauge-visualization-container');
-      const myChart = echarts.init(container);
+      const echartFactory = new EchartsFactory($location, currentUser);
+      const myChart = echartFactory.init(container);
 
       function reloadData() {
         const queryData = $scope.queryResult.getData();
@@ -66,7 +70,7 @@ function signalGaugeRenderer() {
           gaugeOption.series[0].axisLine.lineStyle.color[1][1] = colorCenter;
           gaugeOption.series[0].axisLine.lineStyle.color[2][1] = colorRight;
 
-          myChart.setOption(gaugeOption);
+          echartFactory.setOption(myChart, gaugeOption, true);
         }
       }
 

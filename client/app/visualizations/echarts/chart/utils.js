@@ -1,4 +1,5 @@
 import { each, uniq, values } from 'lodash';
+import config from '../config';
 
 
 function ChartHelper() {
@@ -76,17 +77,7 @@ function ChartHelper() {
 
 function BaseChartOption() {
   this.chartOption = {
-    toolbox: {
-      textPosition: 'top',
-      feature: {
-        magicType: {
-          type: ['line', 'bar', 'stack'],
-        },
-        restore: {
-          show: true,
-        },
-      },
-    },
+    color: config.defaultColors,
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -99,7 +90,7 @@ function BaseChartOption() {
     legend: {
       show: true,
       x: 'right',
-      y: '10%',
+      y: 'top',
       orient: 'vertical',
     },
     title: {
@@ -173,6 +164,7 @@ function BaseChartOption() {
 
 function BasePieOption() {
   this.pieOption = {
+    color: config.defaultColors,
     title: {
       text: '',
       x: 'center',
@@ -273,12 +265,14 @@ function BasePieOption() {
       this.pieOption.series[index].data = dataValue;
     });
     // 根据饼图的个数设置每个饼图的位置和大小
-    const pieCenter = circleCenter[getChartGroup.length - 1];
-    const pieRadius = circleRadius[getChartGroup.length - 1];
-    each(getChartGroup, (item, index) => {
-      this.pieOption.series[index].center = pieCenter[index];
-      this.pieOption.series[index].radius = pieRadius;
-    });
+    if (getChartGroup) {
+      const pieCenter = circleCenter[getChartGroup.length - 1];
+      const pieRadius = circleRadius[getChartGroup.length - 1];
+      each(getChartGroup, (item, index) => {
+        this.pieOption.series[index].center = pieCenter[index];
+        this.pieOption.series[index].radius = pieRadius;
+      });
+    }
   };
 }
 

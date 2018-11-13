@@ -1,16 +1,17 @@
 import _ from 'lodash';
-import * as echarts from 'echarts';
+import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import { LineOption } from '@/visualizations/echarts/chart/utils';
 import editorTemplate from '@/visualizations/echarts/chart/echart-editor.html';
 
 
-function LineRenderer() {
+function LineRenderer($location, currentUser) {
   return {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
       const container = element[0].querySelector('.echarts-chart-visualization-container');
-      const myChart = echarts.init(container);
+      const echartFactory = new EchartsFactory($location, currentUser);
+      const myChart = echartFactory.init(container);
 
       function reloadData() {
         const data = $scope.queryResult.getData();
@@ -32,7 +33,7 @@ function LineRenderer() {
           lineChart.setSeriesData('line');
         }
 
-        myChart.setOption(lineChart.chartOption, true);
+        echartFactory.setOption(myChart, lineChart.chartOption, true);
       }
 
       function resize() {
