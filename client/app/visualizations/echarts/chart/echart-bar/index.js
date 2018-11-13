@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import { BarOption } from '@/visualizations/echarts/chart/utils';
+import { BarOption, onClick } from '@/visualizations/echarts/chart/utils';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import editorTemplate from '@/visualizations/echarts/chart/echart-editor.html';
 
 
-function BarRenderer($location, currentUser) {
+function BarRenderer($location, currentUser, Dashboard) {
   return {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
@@ -12,6 +12,12 @@ function BarRenderer($location, currentUser) {
       const container = element[0].querySelector('.echarts-chart-visualization-container');
       const echartFactory = new EchartsFactory($location, currentUser);
       const myChart = echartFactory.init(container);
+
+      if ($scope.visualization.options.dashboard) {
+        // 得到页面上选择dashboard的slug
+        const selectSlug = $scope.visualization.options.dashboard.slug;
+        onClick($location, myChart, selectSlug, Dashboard);
+      }
 
       function reloadData() {
         const data = $scope.queryResult.getData();
@@ -33,6 +39,7 @@ function BarRenderer($location, currentUser) {
           barChart.chartOption.groupByColumn = editOptions.groupBy;
           barChart.chartHelper.init(data, editOptions.categoryColumn, editOptions.valueColumns, editOptions.groupBy);
           barChart.setAxisData();
+          barChart.inclineContent(editOptions.horizontalBar);
           barChart.setLegend(editOptions.legend);
           barChart.setValueMax(editOptions.rangeMax);
           barChart.setValueMin(editOptions.rangeMin);
@@ -55,7 +62,7 @@ function BarRenderer($location, currentUser) {
   };
 }
 
-function BarEditor() {
+function BarEditor(Dashboard) {
   return {
     restrict: 'E',
     template: editorTemplate,
@@ -64,6 +71,7 @@ function BarEditor() {
       $scope.changeTab = (tab) => {
         $scope.currentTab = tab;
       };
+
       const editOptions = {
         conversion: false,
         legend: true,
@@ -71,6 +79,9 @@ function BarEditor() {
         valueColumns: '',
       };
       if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
+
+      // 获取dashboard集合
+      $scope.visualization.options.dashboardsList = Dashboard.query();
     },
   };
 }

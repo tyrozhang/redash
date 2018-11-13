@@ -1,4 +1,4 @@
-import { each, uniq, values } from 'lodash';
+import { each, uniq, values, defaults } from 'lodash';
 import config from '../config';
 
 
@@ -99,10 +99,15 @@ function BaseChartOption() {
     },
     xAxis: {
       type: 'category',
+      nameTextStyle: { fontWeight: 'bold', fontSize: 15 },
       data: [],
+      axisLabel: {
+        rotate: '',
+      },
     },
     yAxis: {
       type: 'value',
+      nameTextStyle: { fontWeight: 'bold', fontSize: 15 },
     },
     series: [
       {
@@ -160,6 +165,19 @@ function BaseChartOption() {
       };
     });
   };
+
+  // 如果分类列内容过长，将倾斜内容来显示
+  this.inclineContent = (horizontalBar) => {
+    if (horizontalBar) {
+      this.chartOption.xAxis.axisLabel.rotate = '';
+    } else {
+      each(this.chartHelper.getCategoryData(), (item) => {
+        if (item.length > 3) {
+          this.chartOption.xAxis.axisLabel.rotate = 45;
+        }
+      });
+    }
+  };
 }
 
 function BasePieOption() {
@@ -182,11 +200,6 @@ function BasePieOption() {
     series: [
       {
         type: 'pie',
-        selectedMode: 'single',
-        selectedOffset: 30,
-        label: {
-          show: true,
-        },
         data: [],
         itemStyle: {
           emphasis: {
@@ -252,6 +265,12 @@ function BasePieOption() {
         data: [],
         center: ['50%', '50%'],
         radius: '60%',
+        labelLine: {
+          length: 5,
+          length2: 5,
+        },
+        selectedMode: 'single',
+        selectedOffset: 20,
       };
       // 将键值对的值添加到每组series.data中
       const dataValue = [];
@@ -288,4 +307,61 @@ function LineOption() {
   BaseChartOption.call(this);
 }
 
-export { PieOption, BarOption, LineOption };
+function getGlobalParams(widgets) {
+  // 得到全局参数集合
+  let globalParams = {};
+
+  widgets.forEach((widget) => {
+    if (widget.getQuery()) {
+      widget
+        .getQuery()
+        .getParametersDefs()
+        .filter(p => p.global)
+        .forEach((param) => {
+          const Defaults = {};
+          Defaults[param.name] = param.clone();
+          Defaults[param.name].locals = [];
+          globalParams = defaults(globalParams, Defaults);
+          globalParams[param.name].locals.push(param);
+        });
+    }
+  });
+  globalParams = values(globalParams);
+
+  return globalParams;
+}
+
+function onClick(location, echart, selectSlug, Dashboard) {
+  echart.on('click', (chart) => {
+    const name = chart.name;
+    const seriesName = chart.seriesName;
+
+    // 根据选择的dashboard的slug查找dashboard，为了得到dashboard的widgets
+    Dashboard.get(
+      { slug: selectSlug },
+      (dashboard) => {
+        const widgets = dashboard.widgets;
+        // 得到全局参数
+        const globalParams = getGlobalParams(widgets);
+
+        // 拼接参数
+        let params = '?p_' + globalParams[0].name + '=' + name;
+        if (globalParams.length === 2) {
+          params = params + '&p_' + globalParams[1].name + '=' + seriesName;
+        }
+
+        // 拼接要跳转的目标地址
+        const host = location.host();
+        let port = location.port();
+        if (port) {
+          port = ':' + port;
+        }
+        const url = 'http://' + host + port + '/dashboard/' + selectSlug + params;
+
+        window.location.href = url;
+      },
+    );
+  });
+}
+
+export { PieOption, BarOption, LineOption, onClick };
