@@ -190,7 +190,7 @@ function BasePieOption() {
     },
     tooltip: {
       trigger: 'item',
-      formatter: '{b} : {c} ({d}%)',
+      formatter: '{a} <br/>{b} : {c} ({d}%)',
     },
     legend: {
       orient: 'vertical',
@@ -261,6 +261,7 @@ function BasePieOption() {
     each(getChartGroup, (item, index) => {
       // 初始化饼图参数的内容
       this.pieOption.series[index] = {
+        name: '',
         type: 'pie',
         data: [],
         center: ['50%', '50%'],
@@ -281,6 +282,7 @@ function BasePieOption() {
         });
       });
       this.pieOption.legend.data.push(this.chartHelper.getCategoryData()[index]);
+      this.pieOption.series[index].name = item;
       this.pieOption.series[index].data = dataValue;
     });
     // 根据饼图的个数设置每个饼图的位置和大小
