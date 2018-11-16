@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import { LineOption, onClick } from '@/visualizations/echarts/chart/utils';
-import editorTemplate from '@/visualizations/echarts/chart/echart-editor.html';
+import editorTemplate from './line-editor.html';
 
 
 function LineRenderer($location, currentUser, Dashboard) {
@@ -38,6 +38,7 @@ function LineRenderer($location, currentUser, Dashboard) {
           lineChart.chartOption.xAxis.name = editOptions.xName;
           lineChart.chartOption.yAxis.name = editOptions.yName;
           lineChart.setSeriesData('line');
+          lineChart.setShowValueLabel(editOptions.showValueLabel);
         }
 
         echartFactory.setOption(myChart, lineChart.chartOption, true);

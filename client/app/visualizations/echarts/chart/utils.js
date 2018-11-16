@@ -162,6 +162,11 @@ function BaseChartOption() {
         name: item,
         data: this.chartHelper.getValueData()[index],
         type: chartType,
+        label: {
+          normal: {
+            show: false,
+          },
+        },
       };
     });
   };
@@ -172,9 +177,39 @@ function BaseChartOption() {
       this.chartOption.xAxis.axisLabel.rotate = '';
     } else {
       each(this.chartHelper.getCategoryData(), (item) => {
-        if (item.length > 3) {
-          this.chartOption.xAxis.axisLabel.rotate = 45;
+        if (item.length > 3 && this.chartHelper.getCategoryData().length > 4) {
+          this.chartOption.xAxis.axisLabel.rotate = -45;
         }
+      });
+    }
+  };
+
+  // 是否选择堆叠
+  this.setStack = (isStack) => {
+    if (isStack) {
+      each(this.chartOption.groupByColumn ?
+        this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
+        this.chartOption.series[index].stack = 'stack';
+      });
+    } else {
+      each(this.chartOption.groupByColumn ?
+        this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
+        this.chartOption.series[index].stack = null;
+      });
+    }
+  };
+
+  // 是否在图形上显示值
+  this.setShowValueLabel = (showLabel) => {
+    if (showLabel) {
+      each(this.chartOption.groupByColumn ?
+        this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
+        this.chartOption.series[index].label.normal.show = true;
+      });
+    } else {
+      each(this.chartOption.groupByColumn ?
+        this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
+        this.chartOption.series[index].label.normal.show = false;
       });
     }
   };
@@ -244,7 +279,11 @@ function BasePieOption() {
   ];
   // 根据圆的数量定义各个圆的大小
   const circleRadius = [
-    '60%', '40%', '35%', '35%', '30%', '30%',
+    '70%', '40%', '35%', '35%', '30%', '30%',
+  ];
+  // 圆环图空白圆的大小
+  const circleDoughnutRadius = [
+    '50%', '20%', '15%', '15%', '10%', '10%',
   ];
 
   this.chartHelper = new ChartHelper();
@@ -267,8 +306,8 @@ function BasePieOption() {
         center: ['50%', '50%'],
         radius: '60%',
         labelLine: {
-          length: 5,
-          length2: 5,
+          length: 10,
+          length2: 10,
         },
         selectedMode: 'single',
         selectedOffset: 20,
@@ -292,6 +331,39 @@ function BasePieOption() {
       each(getChartGroup, (item, index) => {
         this.pieOption.series[index].center = pieCenter[index];
         this.pieOption.series[index].radius = pieRadius;
+      });
+    }
+  };
+
+  // 是否将饼图切换为南丁格尔图
+  this.setRoseType = (roseType) => {
+    const getChartGroup = this.pieOption.groupByColumn ?
+      this.chartHelper.getGroupingData() : this.pieOption.valueColumns;
+    if (roseType) {
+      each(getChartGroup, (item, index) => {
+        this.pieOption.series[index].roseType = 'radius';
+        this.pieOption.series[index].radius = ['10%', circleRadius[getChartGroup.length - 1]];
+      });
+    } else {
+      each(getChartGroup, (item, index) => {
+        this.pieOption.series[index].roseType = false;
+        this.pieOption.series[index].radius = circleRadius[getChartGroup.length - 1];
+      });
+    }
+  };
+
+  // 是否将饼图切换为环图
+  this.setDoughnut = (isDoughnut) => {
+    const getChartGroup = this.pieOption.groupByColumn ?
+      this.chartHelper.getGroupingData() : this.pieOption.valueColumns;
+    if (isDoughnut) {
+      each(getChartGroup, (item, index) => {
+        this.pieOption.series[index]
+          .radius = [circleDoughnutRadius[getChartGroup.length - 1], circleRadius[getChartGroup.length - 1]];
+      });
+    } else {
+      each(getChartGroup, (item, index) => {
+        this.pieOption.series[index].radius = circleRadius[getChartGroup.length - 1];
       });
     }
   };

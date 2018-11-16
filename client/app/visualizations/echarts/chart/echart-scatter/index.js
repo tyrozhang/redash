@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
-import { ScatterOption } from './utils';
+import { ScatterOption } from './scatter-utils';
 import editorTemplate from './scatter-editor.html';
 
 
@@ -30,8 +30,8 @@ function ScatterRenderer($location, currentUser) {
             .init(data, editOptions.categoryColumn, editOptions
               .valueColumns, editOptions.groupBy, editOptions.nameColumns);
           scatterChart.setLegend(editOptions.legend);
-          scatterOptions.yAxis.max = editOptions.rangeMax;
-          scatterOptions.yAxis.min = editOptions.rangeMin;
+          scatterOptions.yAxis.max = editOptions.rangeYMax;
+          scatterOptions.yAxis.min = editOptions.rangeYMin;
           scatterOptions.xAxis.max = editOptions.rangeXMax;
           scatterOptions.xAxis.min = editOptions.rangeXMin;
           scatterOptions.xAxis.name = editOptions.xName;

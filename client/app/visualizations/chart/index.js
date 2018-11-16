@@ -355,17 +355,17 @@ export default function init(ngModule) {
   ngModule.component('colorBox', ColorBox);
   ngModule.directive('chartRenderer', ChartRenderer);
   ngModule.directive('chartEditor', ChartEditor);
-  // ngModule.config((VisualizationProvider) => {
-  //   const renderTemplate =
-  // '<chart-renderer options="visualization.options" query-result="queryResult"></chart-renderer>';
-  //   const editTemplate = '<chart-editor options="visualization.options" query-result="queryResult"></chart-editor>';
-  //
-  //   VisualizationProvider.registerVisualization({
-  //     type: 'CHART',
-  //     name: '图表',
-  //     renderTemplate,
-  //     editorTemplate: editTemplate,
-  //     defaultOptions: DEFAULT_OPTIONS,
-  //   });
-  // });
+  ngModule.config((VisualizationProvider) => {
+    const renderTemplate =
+  '<chart-renderer options="visualization.options" query-result="queryResult"></chart-renderer>';
+    const editTemplate = '<chart-editor options="visualization.options" query-result="queryResult"></chart-editor>';
+
+    VisualizationProvider.registerVisualization({
+      type: 'CHART',
+      name: '图表',
+      renderTemplate,
+      editorTemplate: editTemplate,
+      defaultOptions: DEFAULT_OPTIONS,
+    });
+  });
 }

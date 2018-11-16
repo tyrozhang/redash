@@ -3,10 +3,10 @@
     <li ng-class="{active: currentTab == 'general'}">
       <a ng-click="changeTab('general')">{{'General' | translate}}</a>
     </li>
-    <li ng-class="{active: currentTab == 'xAxis'}" ng-if="visualization.type !== 'echart-pie'">
+    <li ng-class="{active: currentTab == 'xAxis'}">
       <a ng-click="changeTab('xAxis')">{{'X Axis' | translate}}</a>
     </li>
-    <li ng-class="{active: currentTab == 'yAxis'}" ng-if="visualization.type !== 'echart-pie'">
+    <li ng-class="{active: currentTab == 'yAxis'}">
       <a ng-click="changeTab('yAxis')">{{'Y Axis' | translate}}</a>
     </li>
   </ul>
@@ -22,9 +22,7 @@
          | remove:visualization.options.editOptions.groupBy
           | remove:visualization.options.editOptions.valueColumns
            | remove:visualization.options.editOptions.nameColumns">
-          <span ng-bind-html="column | highlight: $select.search"></span>
-          <span> </span>
-          <small class="text-muted" ng-bind="columns[column].type"></small>
+          <span ng-bind-html="column"></span>
         </ui-select-choices>
       </ui-select>
       </div>
@@ -39,9 +37,7 @@
          | remove:visualization.options.editOptions.categoryColumn
           | remove:visualization.options.editOptions.groupBy
            | remove:visualization.options.editOptions.nameColumns">
-          <span ng-bind-html="column | highlight: $select.search"></span>
-          <span> </span>
-          <small class="text-muted" ng-bind="columns[column].type"></small>
+          <span ng-bind-html="column"></span>
         </ui-select-choices>
       </ui-select>
       </div>
@@ -57,9 +53,7 @@
          | remove:visualization.options.editOptions.categoryColumn
           | remove:visualization.options.editOptions.valueColumns
            | remove:visualization.options.editOptions.groupBy">
-          <span ng-bind-html="column | highlight: $select.search"></span>
-          <span> </span>
-          <small class="text-muted" ng-bind="columns[column].type"></small>
+          <span ng-bind-html="column"></span>
         </ui-select-choices>
       </ui-select>
     </div>
@@ -74,9 +68,7 @@
          | remove:visualization.options.editOptions.categoryColumn
           | remove:visualization.options.editOptions.valueColumns
            | remove:visualization.options.editOptions.nameColumns">
-          <span ng-bind-html="column | highlight: $select.search"></span>
-          <span> </span>
-          <small class="text-muted" ng-bind="columns[column].type"></small>
+          <span ng-bind-html="column"></span>
         </ui-select-choices>
       </ui-select>
     </div>
@@ -114,11 +106,11 @@
       </div>
       <div class="form-group">
         <label class="control-label">最小值</label>
-        <input ng-model="visualization.options.editOptions.rangeMin" type="number" step="any" class="form-control">
+        <input ng-model="visualization.options.editOptions.rangeYMin" type="number" step="any" class="form-control">
       </div>
       <div class="form-group">
         <label class="control-label">最大值</label>
-        <input ng-model="visualization.options.editOptions.rangeMax" type="number" step="any" class="form-control">
+        <input ng-model="visualization.options.editOptions.rangeYMax" type="number" step="any" class="form-control">
       </div>
 
   </div>

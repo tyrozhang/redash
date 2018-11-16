@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { BarOption, onClick } from '@/visualizations/echarts/chart/utils';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
-import editorTemplate from '@/visualizations/echarts/chart/echart-editor.html';
+import editorTemplate from './bar-editor.html';
 
 
 function BarRenderer($location, currentUser, Dashboard) {
@@ -46,6 +46,8 @@ function BarRenderer($location, currentUser, Dashboard) {
           barChart.chartOption.xAxis.name = editOptions.xName;
           barChart.chartOption.yAxis.name = editOptions.yName;
           barChart.setSeriesData('bar');
+          barChart.setShowValueLabel(editOptions.showValueLabel);
+          barChart.setStack(editOptions.stack);
         }
 
         echartFactory.setOption(myChart, barChart.chartOption, true);

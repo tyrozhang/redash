@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import { onClick, PieOption } from '@/visualizations/echarts/chart/utils';
-import editorTemplate from '@/visualizations/echarts/chart/echart-editor.html';
+import editorTemplate from './pie-editor.html';
 
 
 function PieRenderer($location, currentUser, Dashboard) {
@@ -30,6 +30,8 @@ function PieRenderer($location, currentUser, Dashboard) {
         pieChart.pieOption.result = data;
         pieChart.chartHelper.init(data, editOptions.categoryColumn, editOptions.valueColumns, editOptions.groupBy);
         pieChart.setPieSeriesData();
+        pieChart.setRoseType(editOptions.roseType);
+        pieChart.setDoughnut(editOptions.doughnut);
         pieChart.setLegend(editOptions.legend);
 
         echartFactory.setOption(myChart, pieChart.pieOption, true);
