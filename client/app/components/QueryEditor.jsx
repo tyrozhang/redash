@@ -180,6 +180,7 @@ class QueryEditor extends React.Component {
               setOptions={{
                 behavioursEnabled: true,
                 enableSnippets: true,
+                enableBasicAutocompletion: true,
                 enableLiveAutocompletion: this.state.autocompleteQuery,
                 autoScrollEditorIntoView: true,
               }}
