@@ -1,0 +1,26 @@
+<counter ng-class="{'positive': true}" resize-event="handleResize()">
+  <div ng-style="{
+    '-o-transform': 'scale(' + scale + ')',
+    '-ms-transform': 'scale(' + scale + ')',
+    '-moz-transform': 'scale(' + scale + ')',
+    '-webkit-transform': 'scale(' + scale + ')',
+    'transform': 'scale(' + scale + ')'
+  }">
+    <value>
+      <font color='{{ firstPrefixColor }}'>{{ firstStringPrefix }}</font>
+      <br ng-if="firstPrefixNewLine"/>
+      <font color='{{ firstContentColor }}'>{{ firstContentValue }}</font>
+      <br ng-if="firstSuffixNewLine"/>
+      <font color='{{ firstSuffixColor }}'>{{ firstStringSuffix }}</font>
+    </value>
+
+    <value>
+      <font color='{{ secondPrefixColor }}'>{{ secondStringPrefix }}</font>
+      <br ng-if="secondPrefixNewLine"/>
+      <font color='{{ secondContentColor }}'>{{ secondContentValue }}</font>
+      <br ng-if="secondSuffixNewLine"/>
+      <font color='{{ secondSuffixColor }}'>{{ secondStringSuffix }}</font>
+    </value>
+
+  </div>
+</counter>

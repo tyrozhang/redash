@@ -1,0 +1,186 @@
+<div class="form-horizontal">
+  <ul class="tab-nav">
+    <li ng-class="{active: currentTab == 'firstSet'}">
+      <a ng-click="changeTab('firstSet')">第一组数据</a>
+    </li>
+    <li ng-class="{active: currentTab == 'secondSet'}">
+      <a ng-click="changeTab('secondSet')">第二组数据</a>
+    </li>
+  </ul>
+
+  <div ng-show="currentTab == 'firstSet'" class="m-t-10 m-b-10">
+    <div class="gds_panel_title">内容</div>
+    <div class="form-group">
+      <label class="col-lg-2">列名</label>
+      <div class="col-lg-10">
+        <select ng-options="name for name in queryResult.getColumnNames()" ng-model="visualization.options.digitalPanelList[0].contentColName" class="form-control"></select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2">保留小数位</label>
+      <div class="col-lg-10">
+        <input type="number" ng-model="visualization.options.digitalPanelList[0].contentDecimal" class="form-control">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2">颜色</label>
+      <div class="col-lg-10">
+        <ui-select ng-model="visualization.options.digitalPanelList[0].contentColor">
+          <ui-select-match>
+            <color-box color="$select.selected.value"></color-box>
+          </ui-select-match>
+          <ui-select-choices repeat="color.value as (key, color) in colors">
+            <color-box color="color.value"></color-box>
+            <span ng-bind-html="color.key"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+
+    <div class="gds_panel_title">前缀</div>
+    <div class="form-group">
+      <label class="col-lg-2">内容</label>
+      <div class="col-lg-10">
+        <input type="text" ng-model="visualization.options.digitalPanelList[0].prefixContent" class="form-control" ng-trim="false">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2">颜色</label>
+      <div class="col-lg-10">
+        <ui-select ng-model="visualization.options.digitalPanelList[0].prefixColor">
+          <ui-select-match>
+            <color-box color="$select.selected.value"></color-box>
+          </ui-select-match>
+          <ui-select-choices repeat="color.value as (key, color) in colors">
+            <color-box color="color.value"></color-box>
+            <span ng-bind-html="color.key"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2">位置</label>
+      <div class="col-lg-10">
+        <input type="radio" name="firstPrefixNewLine" ng-model="visualization.options.digitalPanelList[0].prefixNewLine" value="true">&nbsp;内容上面&nbsp;&nbsp;
+        <input type="radio" name="firstPrefixNewLine" ng-model="visualization.options.digitalPanelList[0].prefixNewLine" value="false">&nbsp;内容前面
+      </div>
+    </div>
+
+    <div class="gds_panel_title">后缀</div>
+    <div class="form-group">
+      <label class="col-lg-2">内容</label>
+      <div class="col-lg-10">
+        <input type="text" ng-model="visualization.options.digitalPanelList[0].suffixContent" class="form-control" ng-trim="false">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2">颜色</label>
+      <div class="col-lg-10">
+        <ui-select ng-model="visualization.options.digitalPanelList[0].suffixColor">
+          <ui-select-match>
+            <color-box color="$select.selected.value"></color-box>
+          </ui-select-match>
+          <ui-select-choices repeat="color.value as (key, color) in colors">
+            <color-box color="color.value"></color-box>
+            <span ng-bind-html="color.key"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2">位置</label>
+      <div class="col-lg-10">
+        <input type="radio" name="firstSuffixNewLine" ng-model="visualization.options.digitalPanelList[0].suffixNewLine" value="false">&nbsp;内容后面&nbsp;&nbsp;
+        <input type="radio" name="firstSuffixNewLine" ng-model="visualization.options.digitalPanelList[0].suffixNewLine" value="true">&nbsp;内容下面
+      </div>
+    </div>
+  </div>
+
+  <div ng-show="currentTab == 'secondSet'" class="m-t-10 m-b-10">
+    <div class="gds_panel_title">内容</div>
+    <div class="form-group">
+      <label class="col-lg-2">列名</label>
+      <div class="col-lg-10">
+        <select ng-options="name for name in queryResult.getColumnNames()" ng-model="visualization.options.digitalPanelList[1].contentColName" class="form-control"></select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2">保留小数位</label>
+      <div class="col-lg-10">
+        <input type="number" ng-model="visualization.options.digitalPanelList[1].contentDecimal" class="form-control">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2">颜色</label>
+      <div class="col-lg-10">
+        <ui-select ng-model="visualization.options.digitalPanelList[1].contentColor">
+          <ui-select-match>
+            <color-box color="$select.selected.value"></color-box>
+          </ui-select-match>
+          <ui-select-choices repeat="color.value as (key, color) in colors">
+            <color-box color="color.value"></color-box>
+            <span ng-bind-html="color.key"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+
+    <div class="gds_panel_title">前缀</div>
+    <div class="form-group">
+      <label class="col-lg-2">内容</label>
+      <div class="col-lg-10">
+        <input type="text" ng-model="visualization.options.digitalPanelList[1].prefixContent" class="form-control" ng-trim="false">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2">颜色</label>
+      <div class="col-lg-10">
+        <ui-select ng-model="visualization.options.digitalPanelList[1].prefixColor">
+          <ui-select-match>
+            <color-box color="$select.selected.value"></color-box>
+          </ui-select-match>
+          <ui-select-choices repeat="color.value as (key, color) in colors">
+            <color-box color="color.value"></color-box>
+            <span ng-bind-html="color.key"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2">位置</label>
+      <div class="col-lg-10">
+        <input type="radio" name="secondPrefixNewLine" ng-model="visualization.options.digitalPanelList[1].prefixNewLine" value="true">&nbsp;内容上面&nbsp;&nbsp;
+        <input type="radio" name="secondPrefixNewLine" ng-model="visualization.options.digitalPanelList[1].prefixNewLine" value="false">&nbsp;内容前面
+      </div>
+    </div>
+
+    <div class="gds_panel_title">后缀</div>
+    <div class="form-group">
+      <label class="col-lg-2">内容</label>
+      <div class="col-lg-10">
+        <input type="text" ng-model="visualization.options.digitalPanelList[1].suffixContent" class="form-control" ng-trim="false">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2">颜色</label>
+      <div class="col-lg-10">
+        <ui-select ng-model="visualization.options.digitalPanelList[1].suffixColor">
+          <ui-select-match>
+            <color-box color="$select.selected.value"></color-box>
+          </ui-select-match>
+          <ui-select-choices repeat="color.value as (key, color) in colors">
+            <color-box color="color.value"></color-box>
+            <span ng-bind-html="color.key"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-lg-2">位置</label>
+      <div class="col-lg-10">
+        <input type="radio" name="secondSuffixNewLine" ng-model="visualization.options.digitalPanelList[1].suffixNewLine" value="false">&nbsp;内容后面&nbsp;&nbsp;
+        <input type="radio" name="secondSuffixNewLine" ng-model="visualization.options.digitalPanelList[1].suffixNewLine" value="true">&nbsp;内容下面
+      </div>
+    </div>
+  </div>
+</div>
