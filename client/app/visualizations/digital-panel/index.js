@@ -13,51 +13,30 @@ function DigitalPanelRenderer() {
       const refreshData = () => {
         const queryData = $scope.queryResult.getData();
         if (queryData) {
-          // 第一组数据
-          const digitalPanelList = $scope.visualization.options.digitalPanelList;
+          $scope.digitalPanelList = $scope.visualization.options.digitalPanelList;
 
-          $scope.firstStringPrefix = digitalPanelList[0].prefixContent;
-          $scope.firstPrefixColor = digitalPanelList[0].prefixColor;
-          $scope.firstPrefixNewLine = $scope.$eval(digitalPanelList[0].prefixNewLine);
+          // 根据保留的小数位数进行格式化展现内容。
+          $scope.getContentValue = (digitalPanel) => {
+            const firstContentColName = digitalPanel.contentColName;
+            let firstContentValue = queryData[0][firstContentColName];
 
-          $scope.firstStringSuffix = digitalPanelList[0].suffixContent;
-          $scope.firstSuffixColor = digitalPanelList[0].suffixColor;
-          $scope.firstSuffixNewLine = $scope.$eval(digitalPanelList[0].suffixNewLine);
-
-          const firstContentColName = digitalPanelList[0].contentColName;
-          $scope.firstContentColor = digitalPanelList[0].contentColor;
-          let firstContentValue = queryData[0][firstContentColName];
-
-          // 如果选择的内容值是数字，然后就根据选择保留的小数位数进行格式化内容
-          if (_.isNumber(firstContentValue)) {
-            const firstStringDecimal = digitalPanelList[0].contentDecimal;
-            if (firstStringDecimal) {
-              firstContentValue = numberFormat(firstContentValue, firstStringDecimal, '', '');
+            // 如果选择的内容值是数字，然后就根据选择保留的小数位数进行格式化内容
+            if (_.isNumber(firstContentValue)) {
+              const firstStringDecimal = digitalPanel.contentDecimal;
+              if (firstStringDecimal) {
+                firstContentValue = numberFormat(firstContentValue, firstStringDecimal, '', '');
+              }
             }
-          }
-          $scope.firstContentValue = firstContentValue;
+            return firstContentValue;
+          };
 
-          // 第二组数据
-          $scope.secondStringPrefix = digitalPanelList[1].prefixContent;
-          $scope.secondPrefixColor = digitalPanelList[1].prefixColor;
-          $scope.secondPrefixNewLine = $scope.$eval(digitalPanelList[1].prefixNewLine);
-
-          $scope.secondStringSuffix = digitalPanelList[1].suffixContent;
-          $scope.secondSuffixColor = digitalPanelList[1].suffixColor;
-          $scope.secondSuffixNewLine = $scope.$eval(digitalPanelList[1].suffixNewLine);
-
-          const secondContentColName = digitalPanelList[1].contentColName;
-          $scope.secondContentColor = digitalPanelList[1].contentColor;
-          let secondContentValue = queryData[0][secondContentColName];
-
-          // 如果选择的内容值是数字，然后就根据选择保留的小数位数进行格式化内容
-          if (_.isNumber(secondContentValue)) {
-            const secondStringDecimal = digitalPanelList[1].contentDecimal;
-            if (secondStringDecimal) {
-              secondContentValue = numberFormat(secondContentValue, secondStringDecimal, '', '');
+          // 根据前后缀的位置，判断是否进行折行显示。
+          $scope.isNewLine = (position) => {
+            if (position === 'left' || position === 'right') {
+              return false;
             }
-          }
-          $scope.secondContentValue = secondContentValue;
+            return true;
+          };
         }
       };
 
@@ -88,13 +67,13 @@ function DigitalPanelEditor() {
           const object = {};
           object.prefixContent = '';
           object.prefixColor = '';
-          object.prefixNewLine = 'false';
+          object.prefixPosition = 'left';
           object.contentColName = '';
           object.contentColor = '';
           object.contentDecimal = 0;
           object.suffixContent = '';
           object.suffixColor = '';
-          object.suffixNewLine = 'false';
+          object.suffixPosition = 'right';
 
           digitalPanelList.push(object);
         });
