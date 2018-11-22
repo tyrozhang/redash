@@ -70,7 +70,7 @@ function signalGaugeRenderer($location, currentUser) {
           gaugeOption.series[0].axisLine.lineStyle.color[1][1] = colorCenter;
           gaugeOption.series[0].axisLine.lineStyle.color[2][1] = colorRight;
 
-          echartFactory.setOption(myChart, gaugeOption, true);
+          echartFactory.setOption(myChart, gaugeOption);
         }
       }
 

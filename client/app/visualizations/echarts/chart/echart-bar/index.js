@@ -50,7 +50,7 @@ function BarRenderer($location, currentUser, Dashboard) {
           barChart.setStack(editOptions.stack);
         }
 
-        echartFactory.setOption(myChart, barChart.chartOption, true);
+        echartFactory.setOption(myChart, barChart.chartOption);
       }
 
       function resize() {
