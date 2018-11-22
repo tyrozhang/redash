@@ -37,11 +37,15 @@ function LineRenderer($location, currentUser, Dashboard) {
           lineChart.setValueMin(editOptions.rangeMin);
           lineChart.chartOption.xAxis.name = editOptions.xName;
           lineChart.chartOption.yAxis.name = editOptions.yName;
+          lineChart.chartOption.xAxis.boundaryGap = false;
           lineChart.setSeriesData('line');
           lineChart.setShowValueLabel(editOptions.showValueLabel);
+          lineChart.setAreaStyle(editOptions.areaStyle);
+          lineChart.setSmoothStyle(editOptions.smoothStyle);
+          lineChart.setLineStyle(editOptions.lineStyle);
         }
 
-        echartFactory.setOption(myChart, lineChart.chartOption, true);
+        echartFactory.setOption(myChart, lineChart.chartOption);
       }
 
       function resize() {
@@ -69,6 +73,11 @@ function LineEditor(Dashboard) {
       };
       if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
 
+      $scope.lineStyle = {
+        实线: 'solid',
+        虚线: 'dashed',
+        点状线: 'dotted',
+      };
       // 获取dashboard集合
       $scope.visualization.options.dashboardsList = Dashboard.query();
     },
