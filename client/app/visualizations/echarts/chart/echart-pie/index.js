@@ -32,9 +32,10 @@ function PieRenderer($location, currentUser, Dashboard) {
         pieChart.setPieSeriesData();
         pieChart.setRoseType(editOptions.roseType);
         pieChart.setDoughnut(editOptions.doughnut);
-        pieChart.setLegend(editOptions.legend);
+        pieChart.setLegend(editOptions.hasLegend);
+        pieChart.setPieLabel(editOptions.hasLabel);
 
-        echartFactory.setOption(myChart, pieChart.pieOption, true);
+        echartFactory.setOption(myChart, pieChart.pieOption);
       }
 
       function resize() {
@@ -58,7 +59,8 @@ function PieEditor(Dashboard) {
         $scope.currentTab = tab;
       };
       const editOptions = {
-        legend: true,
+        hasLegend: true,
+        hasLabel: true,
       };
       if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
       // 获取dashboard集合
