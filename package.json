@@ -9,7 +9,7 @@
     "clean": "rm -rf ./client/dist/",
     "build": "npm run clean && NODE_ENV=production webpack",
     "watch": "webpack --watch --progress --colors -d",
-    "watch_on_win": "rd /s /q  .\\client\\dist\\ && webpack --watch --progress --colors -d",
+    "watch_on_win": "del /s/q  .\\client\\dist\\*.* && webpack --watch --progress --colors -d",
     "analyze": "npm run clean && BUNDLE_ANALYZER=on webpack",
     "analyze:build": "npm run clean && NODE_ENV=production BUNDLE_ANALYZER=on webpack",
     "test": "jest",
