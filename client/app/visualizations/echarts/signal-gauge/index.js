@@ -43,7 +43,7 @@ function signalGaugeRenderer($location, currentUser) {
     link($scope, element) {
       const container = element[0].querySelector('.signal-gauge-visualization-container');
       const echartFactory = new EchartsFactory($location, currentUser);
-      const myChart = echartFactory.init(container);
+      const gaugeChart = echartFactory.createChart(container);
 
       function reloadData() {
         const queryData = $scope.queryResult.getData();
@@ -70,13 +70,13 @@ function signalGaugeRenderer($location, currentUser) {
           gaugeOption.series[0].axisLine.lineStyle.color[1][1] = colorCenter;
           gaugeOption.series[0].axisLine.lineStyle.color[2][1] = colorRight;
 
-          echartFactory.setOption(myChart, gaugeOption);
+          echartFactory.setOption(gaugeChart, gaugeOption);
         }
       }
 
-      // window.onresize监听div和屏幕的改变，myChart.resize改变图表尺寸，在容器大小发生改变时需要手动调用
+      // window.onresize监听div和屏幕的改变，gaugeChart.resize改变图表尺寸，在容器大小发生改变时需要手动调用
       function resize() {
-        window.onresize = myChart.resize;
+        window.onresize = gaugeChart.resize;
       }
 
       $scope.handleResize = _.debounce(resize, 50);

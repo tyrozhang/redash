@@ -5,7 +5,7 @@ export default function EchartsFactory(location, currentUser) {
   const _location = location;
   const _currentUser = currentUser;
 
-  EchartsFactory.prototype.init = (container) => {
+  EchartsFactory.prototype.createChart = (container) => {
     const url = _location.url();
 
     if (url.indexOf('large_screen') !== -1) {

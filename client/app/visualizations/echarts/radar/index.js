@@ -49,7 +49,7 @@ function radarRenderer($location, currentUser) {
       const container = element[0].querySelector('.radar-visualization-container');
 
       const echartFactory = new EchartsFactory($location, currentUser);
-      const radarChart = echartFactory.init(container);
+      const radarChart = echartFactory.createChart(container);
 
       // 定义一个数组，用于存储查询的结果集。
       let resultData = [];

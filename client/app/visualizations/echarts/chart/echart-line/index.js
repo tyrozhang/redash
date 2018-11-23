@@ -11,45 +11,48 @@ function LineRenderer($location, currentUser, Dashboard) {
     link($scope, element) {
       const container = element[0].querySelector('.echarts-chart-visualization-container');
       const echartFactory = new EchartsFactory($location, currentUser);
-      const myChart = echartFactory.init(container);
+      const lineChart = echartFactory.createChart(container);
 
       if ($scope.visualization.options.dashboard) {
         // 得到页面上选择dashboard的slug
         const selectSlug = $scope.visualization.options.dashboard.slug;
-        onClick($location, myChart, selectSlug, Dashboard);
+        onClick($location, lineChart, selectSlug, Dashboard);
       }
 
       function reloadData() {
         const data = $scope.queryResult.getData();
         const editOptions = $scope.visualization.options.editOptions;
-        const lineChart = new LineOption();
+        const lineExamples = new LineOption();
 
-        if (editOptions.categoryColumn) {
-          lineChart.chartOption.categoryColumn = editOptions.categoryColumn;
-          lineChart.chartOption.valueColumns = editOptions.valueColumns;
-          lineChart.chartOption.result = data;
-          lineChart.chartOption.groupByColumn = editOptions.groupBy;
-          lineChart.chartHelper.init(data, editOptions.categoryColumn, editOptions.valueColumns, editOptions.groupBy);
-          lineChart.setAxisData();
-          lineChart.inclineContent(editOptions.horizontalBar);
-          lineChart.setLegend(editOptions.legend);
-          lineChart.setValueMax(editOptions.rangeMax);
-          lineChart.setValueMin(editOptions.rangeMin);
-          lineChart.chartOption.xAxis.name = editOptions.xName;
-          lineChart.chartOption.yAxis.name = editOptions.yName;
-          lineChart.chartOption.xAxis.boundaryGap = false;
-          lineChart.setSeriesData('line');
-          lineChart.setShowValueLabel(editOptions.showValueLabel);
-          lineChart.setAreaStyle(editOptions.areaStyle);
-          lineChart.setSmoothStyle(editOptions.smoothStyle);
-          lineChart.setLineStyle(editOptions.lineStyle);
+        if (!editOptions.categoryColumn) {
+          echartFactory.setOption(lineChart, (new LineOption()).chartOption);
+          return;
         }
 
-        echartFactory.setOption(myChart, lineChart.chartOption);
+        lineExamples.chartOption.categoryColumn = editOptions.categoryColumn;
+        lineExamples.chartOption.valueColumns = editOptions.valueColumns;
+        lineExamples.chartOption.result = data;
+        lineExamples.chartOption.groupByColumn = editOptions.groupBy;
+        lineExamples.chartHelper.init(data, editOptions.categoryColumn, editOptions.valueColumns, editOptions.groupBy);
+        lineExamples.setCategoryData();
+        lineExamples.inclineContent(editOptions.horizontalBar);
+        lineExamples.setLegend(editOptions.legend);
+        lineExamples.setValueMax(editOptions.rangeMax);
+        lineExamples.setValueMin(editOptions.rangeMin);
+        lineExamples.chartOption.xAxis.name = editOptions.xName;
+        lineExamples.chartOption.yAxis.name = editOptions.yName;
+        lineExamples.chartOption.xAxis.boundaryGap = false;
+        lineExamples.setSeriesData('line');
+        lineExamples.setShowValueLabel(editOptions.showValueLabel);
+        lineExamples.setAreaStyle(editOptions.areaStyle);
+        lineExamples.setSmoothStyle(editOptions.smoothStyle);
+        lineExamples.setLineStyle(editOptions.lineStyle);
+
+        echartFactory.setOption(lineChart, lineExamples.chartOption);
       }
 
       function resize() {
-        window.onresize = myChart.resize;
+        window.onresize = lineChart.resize;
       }
 
       $scope.handleResize = _.debounce(resize, 50);
