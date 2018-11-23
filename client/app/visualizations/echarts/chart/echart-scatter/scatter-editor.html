@@ -9,6 +9,9 @@
     <li ng-class="{active: currentTab == 'yAxis'}">
       <a ng-click="changeTab('yAxis')">{{'Y Axis' | translate}}</a>
     </li>
+    <li ng-class="{active: currentTab == 'drill'}">
+      <a ng-click="changeTab('drill')">数据钻取</a>
+    </li>
   </ul>
   <div ng-if="currentTab == 'general'" class="m-t-10 m-b-10">
     <div class="form-group">
@@ -18,10 +21,7 @@
         <ui-select-match allow-clear="true" placeholder="选择列...">
           {{$select.selected}}
         </ui-select-match>
-        <ui-select-choices repeat="column in queryResult.getColumnNames()
-         | remove:visualization.options.editOptions.groupBy
-          | remove:visualization.options.editOptions.valueColumns
-           | remove:visualization.options.editOptions.nameColumns">
+        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.groupBy | remove:visualization.options.editOptions.valueColumns">
           <span ng-bind-html="column"></span>
         </ui-select-choices>
       </ui-select>
@@ -33,29 +33,11 @@
       <div class="form-group">
       <ui-select multiple name="yAxisColumns" required ng-model="visualization.options.editOptions.valueColumns">
         <ui-select-match placeholder="选择列">{{ $item }}</ui-select-match>
-        <ui-select-choices repeat="column in queryResult.getColumnNames()
-         | remove:visualization.options.editOptions.categoryColumn
-          | remove:visualization.options.editOptions.groupBy
-           | remove:visualization.options.editOptions.nameColumns">
+        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.categoryColumn | remove:visualization.options.editOptions.groupBy">
           <span ng-bind-html="column"></span>
         </ui-select-choices>
       </ui-select>
       </div>
-    </div>
-
-    <div class="form-group">
-      <label class="control-label">选择名称列</label>
-      <ui-select name="groupby" ng-model="visualization.options.editOptions.nameColumns" class="clearable">
-        <ui-select-match allow-clear="true" placeholder="选择列...">
-          {{$select.selected}}
-        </ui-select-match>
-        <ui-select-choices repeat="column in queryResult.getColumnNames()
-         | remove:visualization.options.editOptions.categoryColumn
-          | remove:visualization.options.editOptions.valueColumns
-           | remove:visualization.options.editOptions.groupBy">
-          <span ng-bind-html="column"></span>
-        </ui-select-choices>
-      </ui-select>
     </div>
 
     <div class="form-group">
@@ -64,19 +46,23 @@
         <ui-select-match allow-clear="true" placeholder="选择列...">
           {{$select.selected}}
         </ui-select-match>
-        <ui-select-choices repeat="column in queryResult.getColumnNames()
-         | remove:visualization.options.editOptions.categoryColumn
-          | remove:visualization.options.editOptions.valueColumns
-           | remove:visualization.options.editOptions.nameColumns">
+        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.categoryColumn | remove:visualization.options.editOptions.valueColumns">
           <span ng-bind-html="column"></span>
         </ui-select-choices>
       </ui-select>
     </div>
 
-    <div class="checkbox" ng-if="visualization.options.editOptions.groupBy">
+    <div class="checkbox">
       <label>
         <input type="checkbox" ng-model="visualization.options.editOptions.legend">
         <i class="input-helper"></i> 显示图例
+      </label>
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="visualization.options.editOptions.showValueLabel">
+        <i class="input-helper"></i> 在图形上显示数值
       </label>
     </div>
 
@@ -87,15 +73,6 @@
       <label class="control-label">名称</label>
       <input ng-model="visualization.options.editOptions.xName" type="text" class="form-control">
     </div>
-    <div class="form-group">
-        <label class="control-label">最小值</label>
-        <input ng-model="visualization.options.editOptions.rangeXMin" type="number" step="any" class="form-control">
-      </div>
-      <div class="form-group">
-        <label class="control-label">最大值</label>
-        <input ng-model="visualization.options.editOptions.rangeXMax" type="number" step="any" class="form-control">
-      </div>
-
   </div>
 
   <div ng-if="currentTab == 'yAxis'" class="m-t-10 m-b-10">
@@ -106,12 +83,28 @@
       </div>
       <div class="form-group">
         <label class="control-label">最小值</label>
-        <input ng-model="visualization.options.editOptions.rangeYMin" type="number" step="any" class="form-control">
+        <input ng-model="visualization.options.editOptions.rangeMin" type="number" step="any" class="form-control">
       </div>
       <div class="form-group">
         <label class="control-label">最大值</label>
-        <input ng-model="visualization.options.editOptions.rangeYMax" type="number" step="any" class="form-control">
+        <input ng-model="visualization.options.editOptions.rangeMax" type="number" step="any" class="form-control">
       </div>
+
+  </div>
+
+  <div ng-if="currentTab == 'drill'" class="m-t-10 m-b-10">
+
+    <div class="form-group">
+      <label class="control-label">选择钻取数据所用仪表盘</label>
+      <ui-select name="slug" ng-model="visualization.options.dashboard" class="clearable">
+        <ui-select-match allow-clear="true" placeholder="选择仪表盘...">
+          {{$select.selected.name}}
+        </ui-select-match>
+        <ui-select-choices repeat="dashboard in visualization.options.dashboardsList.results">
+          <span ng-bind-html="dashboard.name"></span>
+        </ui-select-choices>
+      </ui-select>
+    </div>
 
   </div>
 </div>
