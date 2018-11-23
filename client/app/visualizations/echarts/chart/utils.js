@@ -118,7 +118,7 @@ function BaseChartOption() {
   this.chartHelper = new ChartHelper();
 
   // 根据X,Y轴的类型(类型列或值列)来设置xAxis/yAxis的data
-  this.setAxisData = () => {
+  this.setCategoryData = () => {
     if (this.chartOption.xAxis.type === 'category') {
       this.chartOption.xAxis.data = this.chartHelper.getCategoryData();
     }
@@ -197,11 +197,12 @@ function BaseChartOption() {
     });
   };
 
-  // 是否在图形上显示值
-  this.setShowValueLabel = (showLabel) => {
+  // 是否在图形上显示值（散点图需要setTop这个参数，防止图形与数字重叠）
+  this.setShowValueLabel = (showLabel, setTop) => {
     each(this.chartOption.groupByColumn ?
       this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
       this.chartOption.series[index].label.normal.show = showLabel;
+      if (setTop) this.chartOption.series[index].label.normal.position = 'top';
     });
   };
 
@@ -392,11 +393,7 @@ function BasePieOption() {
     const getChartGroup = this.pieOption.groupByColumn ?
       this.chartHelper.getGroupingData() : this.pieOption.valueColumns;
     each(getChartGroup, (item, index) => {
-      if (pieLabel) {
-        this.pieOption.series[index].label.show = true;
-      } else {
-        this.pieOption.series[index].label.show = false;
-      }
+      this.pieOption.series[index].label.show = pieLabel;
     });
   };
 }
