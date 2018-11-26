@@ -1,0 +1,57 @@
+digital-panel-renderer {
+  display: block;
+  text-align: center;
+  overflow: hidden;
+
+  counter {
+    margin: 0;
+    padding: 0;
+    font-size: 80px;
+    line-height: normal;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    value{
+      font-size: 0.4em;
+      display: block;
+      vertical-align:middle;
+    }
+
+    &.positive value {
+      color: #1FA7ED;
+    }
+  }
+}
+
+.gds-h-m{
+  display: flex;
+  align-items: center;
+}
+.gds_panel_title{
+  position: relative;
+  height: 50px;
+  padding: 10px 15px;
+  color: #275888;
+  font-size:16px;
+}
+.gds_panel_title::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 4px;
+    height: 14px;
+    margin-top: -9px;
+    background: #2196f3;
+}
+.gds_panel_line{
+  margin:0px;
+  padding:0px;
+  margin-bottom:10px;
+  height:10px;
+  border-bottom:1px #eeeeee solid;
+}
+
