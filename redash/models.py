@@ -287,7 +287,7 @@ class ApiUser(UserMixin, PermissionsCheckMixin):
 
     @property
     def permissions(self):
-        return ['view_query']
+        return ['view_query','execute_query']
 
     def has_access(self, obj, access_type):
         return False

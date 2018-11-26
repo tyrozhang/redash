@@ -122,7 +122,7 @@ class QueryResultListResource(BaseResource):
 
         data_source = models.DataSource.get_by_id_and_org(params.get('data_source_id'), self.current_org)
 
-        if not has_access(data_source.groups, self.current_user, not_view_only):
+        if not has_access(data_source.groups, self.current_user, not_view_only) and not isinstance(self.current_user, models.ApiUser):
             return {'job': {'status': 4, 'error': 'You do not have permission to run queries with this data source.'}}, 403
 
         self.record_event({
