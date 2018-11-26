@@ -11,50 +11,53 @@ function BarRenderer($location, currentUser, Dashboard) {
     link($scope, element) {
       const container = element[0].querySelector('.echarts-chart-visualization-container');
       const echartFactory = new EchartsFactory($location, currentUser);
-      const myChart = echartFactory.init(container);
+      const barChart = echartFactory.createChart(container);
 
       if ($scope.visualization.options.dashboard) {
         // 得到页面上选择dashboard的slug
         const selectSlug = $scope.visualization.options.dashboard.slug;
-        onClick($location, myChart, selectSlug, Dashboard);
+        onClick($location, barChart, selectSlug, Dashboard);
       }
 
       function reloadData() {
         const data = $scope.queryResult.getData();
         const editOptions = $scope.visualization.options.editOptions;
-        const barChart = new BarOption();
+        const barExamples = new BarOption();
 
-        if (editOptions.categoryColumn) {
-          if (editOptions.horizontalBar) {
-            barChart.chartOption.yAxis.type = 'category';
-            barChart.chartOption.xAxis.type = 'value';
-          } else {
-            barChart.chartOption.xAxis.type = 'category';
-            barChart.chartOption.yAxis.type = 'value';
-          }
-
-          barChart.chartOption.categoryColumn = editOptions.categoryColumn;
-          barChart.chartOption.valueColumns = editOptions.valueColumns;
-          barChart.chartOption.result = data;
-          barChart.chartOption.groupByColumn = editOptions.groupBy;
-          barChart.chartHelper.init(data, editOptions.categoryColumn, editOptions.valueColumns, editOptions.groupBy);
-          barChart.setAxisData();
-          barChart.inclineContent(editOptions.horizontalBar);
-          barChart.setLegend(editOptions.legend);
-          barChart.setValueMax(editOptions.rangeMax);
-          barChart.setValueMin(editOptions.rangeMin);
-          barChart.chartOption.xAxis.name = editOptions.xName;
-          barChart.chartOption.yAxis.name = editOptions.yName;
-          barChart.setSeriesData('bar');
-          barChart.setShowValueLabel(editOptions.showValueLabel);
-          barChart.setStack(editOptions.stack);
+        if (!editOptions.categoryColumn) {
+          echartFactory.setOption(barChart, (new BarOption()).chartOption);
+          return;
         }
 
-        echartFactory.setOption(myChart, barChart.chartOption, true);
+        if (editOptions.horizontalBar) {
+          barExamples.chartOption.yAxis.type = 'category';
+          barExamples.chartOption.xAxis.type = 'value';
+        } else {
+          barExamples.chartOption.xAxis.type = 'category';
+          barExamples.chartOption.yAxis.type = 'value';
+        }
+
+        barExamples.chartOption.categoryColumn = editOptions.categoryColumn;
+        barExamples.chartOption.valueColumns = editOptions.valueColumns;
+        barExamples.chartOption.result = data;
+        barExamples.chartOption.groupByColumn = editOptions.groupBy;
+        barExamples.chartHelper.init(data, editOptions.categoryColumn, editOptions.valueColumns, editOptions.groupBy);
+        barExamples.setCategoryData();
+        barExamples.inclineContent(editOptions.horizontalBar);
+        barExamples.setLegend(editOptions.legend);
+        barExamples.setValueMax(editOptions.rangeMax);
+        barExamples.setValueMin(editOptions.rangeMin);
+        barExamples.chartOption.xAxis.name = editOptions.xName;
+        barExamples.chartOption.yAxis.name = editOptions.yName;
+        barExamples.setSeriesData('bar');
+        barExamples.setShowValueLabel(editOptions.showValueLabel);
+        barExamples.setStack(editOptions.stack);
+
+        echartFactory.setOption(barChart, barExamples.chartOption);
       }
 
       function resize() {
-        window.onresize = myChart.resize;
+        window.onresize = barChart.resize;
       }
 
       $scope.handleResize = _.debounce(resize, 50);

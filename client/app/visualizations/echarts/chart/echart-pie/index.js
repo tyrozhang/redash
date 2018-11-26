@@ -11,34 +11,35 @@ function PieRenderer($location, currentUser, Dashboard) {
     link($scope, element) {
       const container = element[0].querySelector('.echarts-chart-visualization-container');
       const echartFactory = new EchartsFactory($location, currentUser);
-      const myChart = echartFactory.init(container);
+      const pieChart = echartFactory.createChart(container);
 
       if ($scope.visualization.options.dashboard) {
         // 得到页面上选择dashboard的slug
         const selectSlug = $scope.visualization.options.dashboard.slug;
-        onClick($location, myChart, selectSlug, Dashboard);
+        onClick($location, pieChart, selectSlug, Dashboard);
       }
 
       function reloadData() {
         const data = $scope.queryResult.getData();
         const editOptions = $scope.visualization.options.editOptions;
-        const pieChart = new PieOption();
+        const pieExamples = new PieOption();
 
-        pieChart.pieOption.xAxis = editOptions.categoryColumn;
-        pieChart.pieOption.valueColumns = editOptions.valueColumns;
-        pieChart.pieOption.groupByColumn = editOptions.groupBy;
-        pieChart.pieOption.result = data;
-        pieChart.chartHelper.init(data, editOptions.categoryColumn, editOptions.valueColumns, editOptions.groupBy);
-        pieChart.setPieSeriesData();
-        pieChart.setRoseType(editOptions.roseType);
-        pieChart.setDoughnut(editOptions.doughnut);
-        pieChart.setLegend(editOptions.legend);
+        pieExamples.pieOption.xAxis = editOptions.categoryColumn;
+        pieExamples.pieOption.valueColumns = editOptions.valueColumns;
+        pieExamples.pieOption.groupByColumn = editOptions.groupBy;
+        pieExamples.pieOption.result = data;
+        pieExamples.chartHelper.init(data, editOptions.categoryColumn, editOptions.valueColumns, editOptions.groupBy);
+        pieExamples.setPieSeriesData();
+        pieExamples.setRoseType(editOptions.roseType);
+        pieExamples.setDoughnut(editOptions.doughnut);
+        pieExamples.setLegend(editOptions.hasLegend);
+        pieExamples.setPieLabel(editOptions.hasLabel);
 
-        echartFactory.setOption(myChart, pieChart.pieOption, true);
+        echartFactory.setOption(pieChart, pieExamples.pieOption);
       }
 
       function resize() {
-        window.onresize = myChart.resize;
+        window.onresize = pieChart.resize;
       }
 
       $scope.handleResize = _.debounce(resize, 50);
@@ -58,7 +59,8 @@ function PieEditor(Dashboard) {
         $scope.currentTab = tab;
       };
       const editOptions = {
-        legend: true,
+        hasLegend: true,
+        hasLabel: true,
       };
       if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
       // 获取dashboard集合

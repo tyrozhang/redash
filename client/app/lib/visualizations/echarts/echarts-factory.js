@@ -1,10 +1,11 @@
 import * as echarts from 'echarts';
+import config from '@/visualizations/echarts/config';
 
 export default function EchartsFactory(location, currentUser) {
   const _location = location;
   const _currentUser = currentUser;
 
-  EchartsFactory.prototype.init = (container) => {
+  EchartsFactory.prototype.createChart = (container) => {
     const url = _location.url();
 
     if (url.indexOf('large_screen') !== -1) {
@@ -13,13 +14,15 @@ export default function EchartsFactory(location, currentUser) {
     return echarts.init(container);
   };
 
-  EchartsFactory.prototype.setOption = (echartObj, option, flag) => {
+  EchartsFactory.prototype.setOption = (echartObj, option) => {
     const url = _location.url();
+
+    option.color = config.defaultColors;
 
     if (url.indexOf('large_screen') !== -1) {
       option.backgroundColor = 'rgba(0, 0, 0, 0)';
     }
-    echartObj.setOption(option, flag);
+    echartObj.setOption(option, true);
   };
 
   // 此方法为预留方法，没有任何实现目标，尚未用到。

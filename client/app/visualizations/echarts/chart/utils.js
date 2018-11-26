@@ -1,5 +1,4 @@
 import { each, uniq, values, defaults } from 'lodash';
-import config from '../config';
 
 
 function ChartHelper() {
@@ -77,7 +76,6 @@ function ChartHelper() {
 
 function BaseChartOption() {
   this.chartOption = {
-    color: config.defaultColors,
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -120,7 +118,7 @@ function BaseChartOption() {
   this.chartHelper = new ChartHelper();
 
   // 根据X,Y轴的类型(类型列或值列)来设置xAxis/yAxis的data
-  this.setAxisData = () => {
+  this.setCategoryData = () => {
     if (this.chartOption.xAxis.type === 'category') {
       this.chartOption.xAxis.data = this.chartHelper.getCategoryData();
     }
@@ -167,6 +165,9 @@ function BaseChartOption() {
             show: false,
           },
         },
+        lineStyle: {
+          type: 'solid',
+        },
       };
     });
   };
@@ -186,38 +187,58 @@ function BaseChartOption() {
 
   // 是否选择堆叠
   this.setStack = (isStack) => {
-    if (isStack) {
-      each(this.chartOption.groupByColumn ?
-        this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
+    each(this.chartOption.groupByColumn ?
+      this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
+      if (isStack) {
         this.chartOption.series[index].stack = 'stack';
-      });
-    } else {
-      each(this.chartOption.groupByColumn ?
-        this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
+      } else {
         this.chartOption.series[index].stack = null;
-      });
-    }
+      }
+    });
   };
 
-  // 是否在图形上显示值
-  this.setShowValueLabel = (showLabel) => {
-    if (showLabel) {
-      each(this.chartOption.groupByColumn ?
-        this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
-        this.chartOption.series[index].label.normal.show = true;
-      });
-    } else {
-      each(this.chartOption.groupByColumn ?
-        this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
-        this.chartOption.series[index].label.normal.show = false;
-      });
-    }
+  // 是否在图形上显示值（散点图需要setTop这个参数，防止图形与数字重叠）
+  this.setShowValueLabel = (showLabel, setTop) => {
+    each(this.chartOption.groupByColumn ?
+      this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
+      this.chartOption.series[index].label.normal.show = showLabel;
+      if (setTop) this.chartOption.series[index].label.normal.position = 'top';
+    });
+  };
+
+  // 折线图切换为面积折线图
+  this.setAreaStyle = (areaStyle) => {
+    each(this.chartOption.groupByColumn ?
+      this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
+      if (areaStyle) {
+        this.chartOption.series[index].areaStyle = {};
+      } else {
+        this.chartOption.series[index].areaStyle = null;
+      }
+    });
+  };
+
+  // 折线图切换为平滑折线图
+  this.setSmoothStyle = (smoothStyle) => {
+    each(this.chartOption.groupByColumn ?
+      this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
+      this.chartOption.series[index].smooth = smoothStyle;
+    });
+  };
+
+  // 改变折线图线的类型
+  this.setLineStyle = (lineStyle) => {
+    each(this.chartOption.groupByColumn ?
+      this.chartHelper.getGroupingData() : this.chartOption.valueColumns, (item, index) => {
+      if (lineStyle === 'solid') this.chartOption.series[index].lineStyle.type = 'solid';
+      if (lineStyle === 'dashed') this.chartOption.series[index].lineStyle.type = 'dashed';
+      if (lineStyle === 'dotted') this.chartOption.series[index].lineStyle.type = 'dotted';
+    });
   };
 }
 
 function BasePieOption() {
   this.pieOption = {
-    color: config.defaultColors,
     title: {
       text: '',
       x: 'center',
@@ -305,6 +326,9 @@ function BasePieOption() {
         data: [],
         center: ['50%', '50%'],
         radius: '60%',
+        label: {
+          show: true,
+        },
         labelLine: {
           length: 10,
           length2: 10,
@@ -339,33 +363,38 @@ function BasePieOption() {
   this.setRoseType = (roseType) => {
     const getChartGroup = this.pieOption.groupByColumn ?
       this.chartHelper.getGroupingData() : this.pieOption.valueColumns;
-    if (roseType) {
-      each(getChartGroup, (item, index) => {
+    each(getChartGroup, (item, index) => {
+      if (roseType) {
         this.pieOption.series[index].roseType = 'radius';
         this.pieOption.series[index].radius = ['10%', circleRadius[getChartGroup.length - 1]];
-      });
-    } else {
-      each(getChartGroup, (item, index) => {
+      } else {
         this.pieOption.series[index].roseType = false;
         this.pieOption.series[index].radius = circleRadius[getChartGroup.length - 1];
-      });
-    }
+      }
+    });
   };
 
   // 是否将饼图切换为环图
   this.setDoughnut = (isDoughnut) => {
     const getChartGroup = this.pieOption.groupByColumn ?
       this.chartHelper.getGroupingData() : this.pieOption.valueColumns;
-    if (isDoughnut) {
-      each(getChartGroup, (item, index) => {
+    each(getChartGroup, (item, index) => {
+      if (isDoughnut) {
         this.pieOption.series[index]
           .radius = [circleDoughnutRadius[getChartGroup.length - 1], circleRadius[getChartGroup.length - 1]];
-      });
-    } else {
-      each(getChartGroup, (item, index) => {
+      } else {
         this.pieOption.series[index].radius = circleRadius[getChartGroup.length - 1];
-      });
-    }
+      }
+    });
+  };
+
+  // 是否在饼图上显示标签
+  this.setPieLabel = (pieLabel) => {
+    const getChartGroup = this.pieOption.groupByColumn ?
+      this.chartHelper.getGroupingData() : this.pieOption.valueColumns;
+    each(getChartGroup, (item, index) => {
+      this.pieOption.series[index].label.show = pieLabel;
+    });
   };
 }
 
@@ -378,6 +407,10 @@ function BarOption() {
 }
 
 function LineOption() {
+  BaseChartOption.call(this);
+}
+
+function ScatterOption() {
   BaseChartOption.call(this);
 }
 
@@ -438,4 +471,4 @@ function onClick(location, echart, selectSlug, Dashboard) {
   });
 }
 
-export { PieOption, BarOption, LineOption, onClick };
+export { PieOption, BarOption, LineOption, ScatterOption, onClick };

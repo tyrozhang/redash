@@ -1,49 +1,58 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
-import { ScatterOption } from './scatter-utils';
+import { ScatterOption, onClick } from '@/visualizations/echarts/chart/utils';
 import editorTemplate from './scatter-editor.html';
 
 
-function ScatterRenderer($location, currentUser) {
+function ScatterRenderer($location, currentUser, Dashboard) {
   return {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
       const container = element[0].querySelector('.echarts-chart-visualization-container');
       const echartFactory = new EchartsFactory($location, currentUser);
-      const myChart = echartFactory.init(container);
+      const scatterChart = echartFactory.createChart(container);
 
+      if ($scope.visualization.options.dashboard) {
+        // 得到页面上选择dashboard的slug
+        const selectSlug = $scope.visualization.options.dashboard.slug;
+        onClick($location, scatterChart, selectSlug, Dashboard);
+      }
 
       function reloadData() {
         const data = $scope.queryResult.getData();
         const editOptions = $scope.visualization.options.editOptions;
-        const scatterChart = new ScatterOption();
-        const scatterOptions = scatterChart.chartOption;
+        const scatterExamples = new ScatterOption();
 
-        if (editOptions.categoryColumn) {
-          scatterOptions.categoryColumn = editOptions.categoryColumn;
-          scatterOptions.valueColumns = editOptions.valueColumns;
-          scatterOptions.nameColumn = editOptions.nameColumns;
-          scatterOptions.result = data;
-          scatterOptions.groupByColumn = editOptions.groupBy;
-          scatterChart.chartHelper
-            .init(data, editOptions.categoryColumn, editOptions
-              .valueColumns, editOptions.groupBy, editOptions.nameColumns);
-          scatterChart.setLegend(editOptions.legend);
-          scatterOptions.yAxis.max = editOptions.rangeYMax;
-          scatterOptions.yAxis.min = editOptions.rangeYMin;
-          scatterOptions.xAxis.max = editOptions.rangeXMax;
-          scatterOptions.xAxis.min = editOptions.rangeXMin;
-          scatterOptions.xAxis.name = editOptions.xName;
-          scatterOptions.yAxis.name = editOptions.yName;
-          scatterChart.setScatterData();
+        if (!editOptions.categoryColumn) {
+          echartFactory.setOption(scatterChart, (new ScatterOption()).chartOption);
+          return;
         }
 
-        echartFactory.setOption(myChart, scatterOptions, true);
+        scatterExamples.chartOption.categoryColumn = editOptions.categoryColumn;
+        scatterExamples.chartOption.valueColumns = editOptions.valueColumns;
+        scatterExamples.chartOption.result = data;
+        scatterExamples.chartOption.groupByColumn = editOptions.groupBy;
+        scatterExamples.chartHelper
+          .init(data, editOptions.categoryColumn, editOptions.valueColumns, editOptions.groupBy);
+        scatterExamples.setCategoryData();
+        scatterExamples.inclineContent(editOptions.horizontalBar);
+        scatterExamples.setLegend(editOptions.legend);
+        scatterExamples.setValueMax(editOptions.rangeMax);
+        scatterExamples.setValueMin(editOptions.rangeMin);
+        scatterExamples.chartOption.xAxis.name = editOptions.xName;
+        scatterExamples.chartOption.yAxis.name = editOptions.yName;
+        scatterExamples.chartOption.xAxis.boundaryGap = false;
+        scatterExamples.setSeriesData('scatter');
+        scatterExamples.setShowValueLabel(editOptions.showValueLabel, true);
+        scatterExamples.setAreaStyle(editOptions.areaStyle);
+
+
+        echartFactory.setOption(scatterChart, scatterExamples.chartOption);
       }
 
       function resize() {
-        window.onresize = myChart.resize;
+        window.onresize = scatterChart.resize;
       }
 
       $scope.handleResize = _.debounce(resize, 50);
@@ -53,7 +62,7 @@ function ScatterRenderer($location, currentUser) {
   };
 }
 
-function ScatterEditor() {
+function ScatterEditor(Dashboard) {
   return {
     restrict: 'E',
     template: editorTemplate,
@@ -66,6 +75,8 @@ function ScatterEditor() {
         legend: true,
       };
       if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
+      // 获取dashboard集合
+      $scope.visualization.options.dashboardsList = Dashboard.query();
     },
   };
 }

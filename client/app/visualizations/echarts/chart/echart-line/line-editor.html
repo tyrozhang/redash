@@ -9,6 +9,9 @@
     <li ng-class="{active: currentTab == 'yAxis'}">
       <a ng-click="changeTab('yAxis')">{{'Y Axis' | translate}}</a>
     </li>
+    <li ng-class="{active: currentTab == 'graphicStyle'}">
+      <a ng-click="changeTab('graphicStyle')">展现形式</a>
+    </li>
     <li ng-class="{active: currentTab == 'drill'}">
       <a ng-click="changeTab('drill')">数据钻取</a>
     </li>
@@ -89,6 +92,29 @@
         <label class="control-label">最大值</label>
         <input ng-model="visualization.options.editOptions.rangeMax" type="number" step="any" class="form-control">
       </div>
+
+  </div>
+
+  <div ng-if="currentTab == 'graphicStyle'" class="m-t-10 m-b-10" >
+
+    <div class="form-group">
+      <label class="control-label">选择线的类型</label>
+        <select ng-options="key for (key, value) in lineStyle" ng-model="visualization.options.editOptions.lineStyle" class="form-control"></select>
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="visualization.options.editOptions.areaStyle">
+        <i class="input-helper"></i> 面积折线图
+      </label>
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="visualization.options.editOptions.smoothStyle">
+        <i class="input-helper"></i> 平滑折线图
+      </label>
+    </div>
 
   </div>
 
