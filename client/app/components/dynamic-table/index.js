@@ -82,7 +82,7 @@ function createRowRenderTemplate(columns, $compile) {
   return $compile(rowTemplate);
 }
 
-function DynamicTable($compile) {
+function DynamicTable($compile, $location) {
   'ngInject';
 
   this.itemsPerPage = validateItemsPerPage(this.itemsPerPage);
@@ -216,6 +216,14 @@ function DynamicTable($compile) {
       this.currentPage = 1;
       updateRowsToDisplay(false);
     }
+  };
+
+  this.includeLargeScreen = () => {
+    const url = $location.url();
+    if (url.indexOf('large_screen') !== -1) {
+      return true;
+    }
+    return false;
   };
 }
 
