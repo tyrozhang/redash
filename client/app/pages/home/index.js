@@ -26,7 +26,7 @@ export default function init(ngModule) {
   return {
     '/': {
       template: '<home-page></home-page>',
-      title: 'GDS',
+      title: '大数据可视化服务',
     },
   };
 }
