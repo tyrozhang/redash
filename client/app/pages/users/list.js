@@ -1,4 +1,5 @@
 import { extend } from 'lodash';
+import 'babel-polyfill';
 import ListCtrl from '@/lib/list-ctrl';
 import settingsMenu from '@/lib/settings-menu';
 import template from './list.html';

@@ -84,7 +84,8 @@
     "react2angular": "^3.2.1",
     "ui-select": "^0.19.8",
     "underscore.string": "^3.3.4",
-    "echarts": "~4.2.0-rc.2"
+    "echarts": "~4.2.0-rc.2",
+    "babel-polyfill": "^6.26.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

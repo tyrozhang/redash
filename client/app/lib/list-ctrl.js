@@ -1,4 +1,5 @@
 import { bind } from 'lodash';
+import 'babel-polyfill';
 import { LivePaginator } from '@/lib/pagination';
 
 export default class ListCtrl {

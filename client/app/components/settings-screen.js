@@ -1,5 +1,6 @@
 import settingsMenu from '@/lib/settings-menu';
 import { isFunction } from 'lodash';
+import 'babel-polyfill';
 import template from './settings-screen.html';
 
 export default function init(ngModule) {
