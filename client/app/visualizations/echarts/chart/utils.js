@@ -6,10 +6,10 @@ function ChartHelper() {
   let groupingColumn;
   let valuesColumns;
   let queryResult;
-  ChartHelper.prototype.init = (result, xAxis, yAxis, groupColumn) => {
-    categoryColumn = xAxis;
+  ChartHelper.prototype.init = (result, categoryCol, valueCol, groupColumn) => {
+    categoryColumn = categoryCol;
     groupingColumn = groupColumn;
-    valuesColumns = yAxis;
+    valuesColumns = valueCol;
     queryResult = result;
   };
 
