@@ -23,6 +23,7 @@ def public_widget(widget):
     }
 
     if widget.visualization and widget.visualization.id:
+        query_data = models.QueryResult.query.get(widget.visualization.query_rel.latest_query_data_id).to_dict()
         res['visualization'] = {
             'id': widget.visualization.id,
             'type': widget.visualization.type,
@@ -33,6 +34,8 @@ def public_widget(widget):
             'created_at': widget.visualization.created_at,
             'query': serialize_query(widget.visualization.query_rel,with_user=False)
         }
+        res['visualization']['query']['latest_query_data'] = query_data
+
 
     return res
 

@@ -268,7 +268,7 @@ class DashboardShareResource(BaseResource):
         if not api_key:
             api_key = models.ApiKey.create_for_object(dashboard, self.current_user)
         if not api_key.active:
-            api_key.active = True;
+            api_key.active = True
 
         models.db.session.flush()
         models.db.session.commit()
