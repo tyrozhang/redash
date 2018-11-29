@@ -9,14 +9,14 @@
     <value>
       <font color='{{ digitalPanelList[0].prefixColor }}'>{{ digitalPanelList[0].prefixContent }}</font>
       <br ng-if="isNewLine(digitalPanelList[0].prefixPosition)"/>
-      <font color='{{ digitalPanelList[0].contentColor }}'>{{ getContentValue(digitalPanelList[0]) }}</font>
+      <font color='{{ digitalPanelList[0].contentColor }}'><b>{{ getContentValue(digitalPanelList[0]) }}</b></font>
       <br ng-if="isNewLine(digitalPanelList[0].suffixPosition)"/>
       <font color='{{ digitalPanelList[0].suffixColor }}'>{{ digitalPanelList[0].suffixContent }}</font>
     </value>
     <value>
       <font color='{{ digitalPanelList[1].prefixColor }}'>{{ digitalPanelList[1].prefixContent }}</font>
       <br ng-if="isNewLine(digitalPanelList[1].prefixPosition)"/>
-      <font color='{{ digitalPanelList[1].contentColor }}'>{{ getContentValue(digitalPanelList[1]) }}</font>
+      <font color='{{ digitalPanelList[1].contentColor }}'><b>{{ getContentValue(digitalPanelList[1]) }}</b></font>
       <br ng-if="isNewLine(digitalPanelList[1].suffixPosition)"/>
       <font color='{{ digitalPanelList[1].suffixColor }}'>{{ digitalPanelList[1].suffixContent }}</font>
     </value>
