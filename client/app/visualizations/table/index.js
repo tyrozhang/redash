@@ -141,6 +141,7 @@ function GridRenderer(clientConfig) {
     scope: {
       queryResult: '=',
       options: '=',
+      visualization: '=',
     },
     template,
     replace: false,
@@ -166,7 +167,7 @@ function GridRenderer(clientConfig) {
            */
           const url = $location.url();
           if (url.indexOf('large_screen') !== -1) {
-            const container = window.document.getElementById('dashboardWidgetWrapper');
+            const container = window.document.getElementById('TABLE' + $scope.visualization.id);
             const gridRowsLength = $scope.gridRows.length;
             let height = 117 + gridRowsLength * 33.33;
             if (gridRowsLength > 25) {
@@ -241,7 +242,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'TABLE',
       name: '表格',
-      renderTemplate: '<grid-renderer options="visualization.options" query-result="queryResult"></grid-renderer>',
+      renderTemplate: '<grid-renderer visualization="visualization" options="visualization.options" query-result="queryResult"></grid-renderer>',
       editorTemplate: '<grid-editor></grid-editor>',
       defaultOptions,
     });
