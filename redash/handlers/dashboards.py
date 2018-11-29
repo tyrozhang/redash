@@ -303,6 +303,20 @@ class DashboardShareResource(BaseResource):
             'object_type': 'dashboard',
         })
 
+    def get(self,dashboard_slug):
+        """
+        get a dashboard's apikey.
+
+        :param dashboard_slug: The slug of the dashboard to share.
+        :>json api_key: The API key to use when accessing it.
+        """
+        dashboard = models.Dashboard.get_by_slug_and_org(dashboard_slug, self.current_org)
+        api_key = models.ApiKey.get_by_object(dashboard)
+        if api_key:
+            return {'api_key': api_key.api_key}
+        else:
+            return {'api_key': 'None'}
+
 
 class DashboardTagsResource(BaseResource):
     @require_permission('list_dashboards')
