@@ -264,12 +264,11 @@ class DashboardShareResource(BaseResource):
         dashboard = models.Dashboard.get_by_id_and_org(dashboard_id, self.current_org)
         require_admin_or_owner(dashboard.user_id)
 
-        api_key = models.ApiKey.get_by_object(dashboard)
+        api_key = models.ApiKey.get_exsistkey_by_object(dashboard)
         if not api_key:
             api_key = models.ApiKey.create_for_object(dashboard, self.current_user)
-        if not api_key.active:
-            api_key.active = True
 
+        api_key.active = True
         models.db.session.flush()
         models.db.session.commit()
 

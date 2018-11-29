@@ -1546,14 +1546,17 @@ class ApiKey(TimestampMixin, GFKBase, db.Model):
 
     @classmethod
     def get_by_object(cls, object):
-        #return cls.query.filter(cls.object_type == object.__class__.__tablename__, cls.object_id == object.id, cls.active == True).first()
-        return cls.query.filter(cls.object_type == object.__class__.__tablename__, cls.object_id == object.id).first()
+        return cls.query.filter(cls.object_type == object.__class__.__tablename__, cls.object_id == object.id, cls.active == True).first()
 
     @classmethod
     def create_for_object(cls, object, user):
         k = cls(org=user.org, object=object, created_by=user)
         db.session.add(k)
         return k
+
+    @classmethod
+    def get_exsistkey_by_object(cls, object):
+        return cls.query.filter(cls.object_type == object.__class__.__tablename__, cls.object_id == object.id).first()
 
 
 @python_2_unicode_compatible
