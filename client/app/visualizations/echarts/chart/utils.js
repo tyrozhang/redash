@@ -1,4 +1,4 @@
-import { each, uniq, values, defaults } from 'lodash';
+import { each, uniq, values, defaults, max } from 'lodash';
 
 
 function ChartHelper() {
@@ -74,6 +74,44 @@ function ChartHelper() {
   };
 }
 
+// 对x轴文本进行判断，如果超过5个字将折行显示
+function setXAxisLabel(params) {
+  if (params.length > 5) {
+    let newParamsName = '';// 最终拼接成的字符串
+    const paramsNameNumber = params.length;// 实际标签的长度
+    const provideNumber = 5;// 每行能显示的字的长度
+    const rowNumber = Math.ceil(paramsNameNumber / provideNumber);// 换行的话，需要显示几行，向上取整
+    // 判断标签的个数是否大于规定的个数， 如果大于，则进行换行处理 如果不大于，即等于或小于，就返回原标签
+    if (paramsNameNumber > provideNumber) {
+      // 循环每一行,p表示行
+      for (let p = 0; p < rowNumber; p += 1) {
+        // 表示每一次截取的字符串
+        let tempStr = '';
+        // 开始截取的位置
+        const start = p * provideNumber;
+        // 结束截取的位置
+        const end = start + provideNumber;
+        // 此处特殊处理最后一行的索引值
+        if (p === rowNumber - 1) {
+          // 最后一次不换行
+          tempStr = params.substring(start, paramsNameNumber);
+        } else {
+          // 每一次拼接字符串并换行
+          tempStr = params.substring(start, end) + '\n';
+        }
+        // 最终拼成的字符串
+        newParamsName += tempStr;
+      }
+    } else {
+      // 将旧标签的值赋给新标签
+      newParamsName = params;
+    }
+    // 将最终的字符串返回
+    return newParamsName;
+  }
+  return params;
+}
+
 function BaseChartOption() {
   this.chartOption = {
     tooltip: {
@@ -85,10 +123,17 @@ function BaseChartOption() {
         },
       },
     },
+    grid: {
+      top: '40px',
+      left: '60px',
+      right: '60px',
+      bottom: '40px',
+    },
     legend: {
       show: true,
       x: 'right',
       y: 'top',
+      padding: [5, 20, 5, 5],
       orient: 'vertical',
     },
     title: {
@@ -135,11 +180,11 @@ function BaseChartOption() {
   };
 
   // 设置值列的最大值
-  this.setValueMax = (max) => {
+  this.setValueMax = (maxValue) => {
     if (this.chartOption.xAxis.type === 'category') {
-      this.chartOption.yAxis.max = max;
+      this.chartOption.yAxis.max = maxValue;
     } else {
-      this.chartOption.xAxis.max = max;
+      this.chartOption.xAxis.max = maxValue;
     }
   };
 
@@ -173,15 +218,66 @@ function BaseChartOption() {
   };
 
   // 如果分类列内容过长，将倾斜内容来显示
+  // this.inclineContent = (horizontalBar) => {
+  //   if (horizontalBar) {
+  //     // this.chartOption.xAxis.axisLabel.rotate = '';
+  //     this.chartOption.grid.left = '100px';
+  //   } else {
+  //     const contentList = [];
+  //     each(this.chartHelper.getCategoryData(), (item) => {
+  //       // if (item.length > 3 && this.chartHelper.getCategoryData().length > 7) {
+  //       contentList.push(item.length);
+  //       // }
+  //     });
+  //     const contentTotal = sum(contentList);
+  //     const contentLongest = max(contentList);
+  //     if (contentTotal > 28) {
+  //       this.chartOption.xAxis.axisLabel = {
+  //         interval: 0,
+  //         formatter: (params) => {
+  //           params.split('').join('\n');
+  //         },
+  //       };
+  //       if (contentLongest <= 7) {
+  //         this.chartOption.grid.bottom = contentLongest + 3 + '9px';
+  //       } else if (contentLongest > 7) {
+  //         this.chartOption.grid.bottom = '100px';
+  //       }
+  //     }
+  //   }
+  // };
+
+  // 根据列的数量是否倾斜显示x轴的文本，并根据标签的长度判断是否需要折行和底部间距的设置
   this.inclineContent = (horizontalBar) => {
     if (horizontalBar) {
-      this.chartOption.xAxis.axisLabel.rotate = '';
+      this.chartOption.grid.left = '100px';
     } else {
+      const contentList = [];// 定义一个x轴文本列表
       each(this.chartHelper.getCategoryData(), (item) => {
-        if (item.length > 3 && this.chartHelper.getCategoryData().length > 4) {
-          this.chartOption.xAxis.axisLabel.rotate = -45;
-        }
+        contentList.push(item.length);
       });
+      const contentLongest = max(contentList);// 获取x轴文本中的最大长度
+
+      // 如果分类列数量大于7列，将倾斜展示x轴文本，且超过五个字将会折行
+      if (this.chartHelper.getCategoryData().length > 7) {
+        this.chartOption.xAxis.axisLabel = {
+          interval: 0,
+          rotate: -45,
+          formatter: params => setXAxisLabel(params),
+        };
+        // 根据最大长度进行底部间距的设置
+        this.chartOption.grid.bottom = Math.ceil(contentLongest / 5) + 3 + '7px';
+      }
+
+      // 如果分类列数量小于等于7列，则水平显示x轴文本，且超过五个字将会折行
+      if (this.chartHelper.getCategoryData().length <= 7) {
+        this.chartOption.xAxis.axisLabel = {
+          interval: 0,
+          formatter: params => setXAxisLabel(params),
+        };
+        // 根据最大长度进行底部间距的设置
+        this.chartOption.grid.bottom = Math.ceil(contentLongest / 5) + 3 + '0px';
+      }
     }
   };
 
@@ -239,11 +335,6 @@ function BaseChartOption() {
 
 function BasePieOption() {
   this.pieOption = {
-    title: {
-      text: '',
-      x: 'center',
-      y: '90%',
-    },
     tooltip: {
       trigger: 'item',
       formatter: '{a} <br/>{b} : {c} ({d}%)',
@@ -251,6 +342,7 @@ function BasePieOption() {
     legend: {
       orient: 'vertical',
       left: 'right',
+      padding: [5, 20, 5, 5],
       data: [],
     },
     series: [
