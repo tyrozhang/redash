@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import { BarOption, onClick } from '@/visualizations/echarts/chart/utils';
+import { BarOption, dataDrilling } from '@/visualizations/echarts/chart/utils';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import editorTemplate from './bar-editor.html';
 
 
-function BarRenderer($location, currentUser, Dashboard) {
+function BarRenderer($location, currentUser, Dashboard, $http, Auth) {
   return {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
@@ -13,10 +13,10 @@ function BarRenderer($location, currentUser, Dashboard) {
       const echartFactory = new EchartsFactory($location, currentUser);
       const barChart = echartFactory.createChart(container);
 
-      if ($scope.visualization.options.dashboard) {
+      if ($scope.visualization.options.dataDrillingDashboard) {
         // 得到页面上选择dashboard的slug
-        const selectSlug = $scope.visualization.options.dashboard.slug;
-        onClick($location, barChart, selectSlug, Dashboard);
+        const selectSlug = $scope.visualization.options.dataDrillingDashboard.slug;
+        barChart.on('click', chart => dataDrilling($location, Dashboard, $http, Auth, selectSlug, chart));
       }
 
       function reloadData() {

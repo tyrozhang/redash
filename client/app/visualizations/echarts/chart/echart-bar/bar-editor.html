@@ -120,7 +120,7 @@
   <div ng-if="currentTab == 'drill'" class="m-t-10 m-b-10">
     <div class="form-group">
       <label class="control-label">选择钻取数据所用仪表盘</label>
-      <ui-select name="slug" ng-model="visualization.options.dashboard" class="clearable">
+      <ui-select name="slug" ng-model="visualization.options.dataDrillingDashboard" class="clearable">
         <ui-select-match allow-clear="true" placeholder="选择仪表盘...">
           {{$select.selected.name}}
         </ui-select-match>

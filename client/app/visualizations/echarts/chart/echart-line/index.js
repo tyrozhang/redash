@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
-import { LineOption, onClick } from '@/visualizations/echarts/chart/utils';
+import { dataDrilling, LineOption } from '@/visualizations/echarts/chart/utils';
 import editorTemplate from './line-editor.html';
 
 
-function LineRenderer($location, currentUser, Dashboard) {
+function LineRenderer($location, currentUser, Dashboard, $http, Auth) {
   return {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
@@ -13,10 +13,10 @@ function LineRenderer($location, currentUser, Dashboard) {
       const echartFactory = new EchartsFactory($location, currentUser);
       const lineChart = echartFactory.createChart(container);
 
-      if ($scope.visualization.options.dashboard) {
+      if ($scope.visualization.options.dataDrillingDashboard) {
         // 得到页面上选择dashboard的slug
-        const selectSlug = $scope.visualization.options.dashboard.slug;
-        onClick($location, lineChart, selectSlug, Dashboard);
+        const selectSlug = $scope.visualization.options.dataDrillingDashboard.slug;
+        lineChart.on('click', chart => dataDrilling($location, Dashboard, $http, Auth, selectSlug, chart));
       }
 
       function reloadData() {
