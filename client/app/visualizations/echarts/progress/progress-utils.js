@@ -41,6 +41,12 @@ function ChartDataHelper() {
 function ProgressOption() {
   this.progressOption = {
     silent: true,
+    grid: {
+      top: '30px',
+      left: '50px',
+      right: '50px',
+      bottom: '20px',
+    },
     xAxis: [{
       show: false,
     }],
