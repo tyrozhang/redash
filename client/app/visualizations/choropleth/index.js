@@ -6,7 +6,7 @@ import 'leaflet-fullscreen';
 import 'leaflet-fullscreen/dist/leaflet.fullscreen.css';
 
 import {
-  // AdditionalColors,
+  AdditionalColors,
   darkenColor,
   createNumberFormatter,
   prepareData,
@@ -258,14 +258,13 @@ export default function init(ngModule) {
   ngModule.constant('ChoroplethPalette', {});
   ngModule.directive('choroplethRenderer', choroplethRenderer);
   ngModule.directive('choroplethEditor', choroplethEditor);
-  /** Shielding function by xubinbin 2018.10.15
   ngModule.config((VisualizationProvider, ColorPalette, ChoroplethPalette) => {
     _.extend(ChoroplethPalette, AdditionalColors, ColorPalette);
 
     const renderTemplate =
       '<choropleth-renderer options="visualization.options" query-result="queryResult"></choropleth-renderer>';
-    const editTemplate = '<choropleth-editor options="visualization.options" query-result="queryResult">' +
-      '</choropleth-editor>';
+
+    const editTemplate = '<choropleth-editor options="visualization.options" query-result="queryResult"></choropleth-editor>';
 
     const defaultOptions = {
       defaultColumns: 3,
@@ -309,8 +308,6 @@ export default function init(ngModule) {
       defaultOptions,
     });
   });
-   */
 }
 
-init.init = true;
-
+init.init = false;

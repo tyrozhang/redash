@@ -283,8 +283,7 @@ function mapEditor() {
 export default function init(ngModule) {
   ngModule.directive('mapRenderer', mapRenderer);
   ngModule.directive('mapEditor', mapEditor);
-  /** Shielding function by xubinbin 2018.10.15
-   ngModule.config((VisualizationProvider) => {
+  ngModule.config((VisualizationProvider) => {
     const renderTemplate =
       '<map-renderer ' +
       'options="visualization.options" query-result="queryResult">' +
@@ -307,8 +306,7 @@ export default function init(ngModule) {
       defaultOptions,
     });
   });
-   */
 }
 
-init.init = true;
+init.init = false;
 

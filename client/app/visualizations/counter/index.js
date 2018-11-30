@@ -121,8 +121,7 @@ function CounterEditor() {
 export default function init(ngModule) {
   ngModule.directive('counterEditor', CounterEditor);
   ngModule.directive('counterRenderer', CounterRenderer);
-  /**
-   ngModule.config((VisualizationProvider) => {
+  ngModule.config((VisualizationProvider) => {
     const renderTemplate =
       '<counter-renderer options="visualization.options" query-result="queryResult"></counter-renderer>';
 
@@ -138,7 +137,7 @@ export default function init(ngModule) {
       defaultRows: 5,
     };
 
-     VisualizationProvider.registerVisualization({
+    VisualizationProvider.registerVisualization({
       type: 'COUNTER',
       name: '计数器',
       renderTemplate,
@@ -146,7 +145,6 @@ export default function init(ngModule) {
       defaultOptions,
     });
   });
-   */
 }
 
-init.init = true;
+init.init = false;
