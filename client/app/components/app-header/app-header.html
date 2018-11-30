@@ -9,7 +9,7 @@
       </button>
       <!-- REDASH LOGO -->
       <!--<a class="navbar-brand" ng-href="{{$ctrl.basePath}}"><img ng-src="{{$ctrl.logoUrl}}"/></a>-->
-      <img src="/static/images/gdsImages/kshzx_logo.png">
+      <div class="top_logo_box"><span class="top_logo"></span>大数据可视化服务</div>
     </div>
     <div class="collapse navbar-collapse" uib-collapse="!isNavOpen">
       <!-- Main Left Nav-->
@@ -89,7 +89,7 @@
           <!--<a href="users" title="Settings"><i class="fa fa-cog"></i></a>-->
         <!--</li>-->
         <li class="dropdown" uib-dropdown>
-          <a href="#" class="dropdown-toggle dropdown--profile" uib-dropdown-toggle>
+          <a href="#" class="dropdown-toggle dropdown--profile" uib-dropdown-toggle data-cy="dropdown-profile">
             <img ng-src="{{ $ctrl.currentUser.profile_image_url }}" class="profile__image--navbar" width="20"/>
             <span class="dropdown--profile__username" ng-bind="$ctrl.currentUser.name"></span> <span
             class="caret caret--nav"></span></a>

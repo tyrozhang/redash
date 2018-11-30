@@ -144,7 +144,7 @@ function GridRenderer(clientConfig) {
     },
     template,
     replace: false,
-    controller($scope) {
+    controller($scope, $location) {
       $scope.gridColumns = [];
       $scope.gridRows = [];
 
@@ -158,6 +158,22 @@ function GridRenderer(clientConfig) {
           const columns = $scope.queryResult.getColumns();
           const columnsOptions = getColumnsOptions(columns, _.extend({}, $scope.options).columns);
           $scope.gridColumns = getColumnsToDisplay(columns, columnsOptions, clientConfig);
+
+          /**
+           * 当展现效果是大屏时，通过计算表格数据的行数，来修改表格的高度，
+           * 当行数小于等于25行时，根据行数多少计算高度，
+           * 当行数大于25行时，设置成固定高度995px
+           */
+          const url = $location.url();
+          if (url.indexOf('large_screen') !== -1) {
+            const container = window.document.getElementById('dashboardWidgetWrapper');
+            const gridRowsLength = $scope.gridRows.length;
+            let height = 117 + gridRowsLength * 33.33;
+            if (gridRowsLength > 25) {
+              height = 995;
+            }
+            container.style.height = height + 'px';
+          }
         }
       }
 
@@ -231,3 +247,5 @@ export default function init(ngModule) {
     });
   });
 }
+
+init.init = true;

@@ -27,10 +27,7 @@ function CounterRenderer($timeout) {
       const root = $element[0].querySelector('counter');
       const container = $element[0].querySelector('counter > div');
       $scope.handleResize = () => {
-        const scale = Math.min(
-          root.offsetWidth / container.offsetWidth,
-          root.offsetHeight / container.offsetHeight,
-        );
+        const scale = Math.min(root.offsetWidth / container.offsetWidth, root.offsetHeight / container.offsetHeight);
         $scope.scale = Math.floor(scale * 100) / 100; // keep only two decimal places
       };
 
@@ -124,7 +121,6 @@ function CounterEditor() {
 export default function init(ngModule) {
   ngModule.directive('counterEditor', CounterEditor);
   ngModule.directive('counterRenderer', CounterRenderer);
-
   ngModule.config((VisualizationProvider) => {
     const renderTemplate =
       '<counter-renderer options="visualization.options" query-result="queryResult"></counter-renderer>';
@@ -150,3 +146,5 @@ export default function init(ngModule) {
     });
   });
 }
+
+init.init = false;

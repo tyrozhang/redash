@@ -112,6 +112,7 @@ class BigQuery(BaseQueryRunner):
                 'useStandardSql': {
                     "type": "boolean",
                     'title': zh.get("Use Standard SQL (Beta)", 'Use Standard SQL (Beta)'),
+                    "default": True,
                 },
                 'location': {
                     "type": "string",
@@ -239,7 +240,9 @@ class BigQuery(BaseQueryRunner):
         for column in table_data['schema']['fields']:
             columns.extend(self._get_columns_schema_column(column))
 
-        return {'name': table_data['id'], 'columns': columns}
+        project_id = self._get_project_id()
+        table_name = table_data['id'].replace("%s:" % project_id, "")
+        return {'name': table_name, 'columns': columns}
 
     def _get_columns_schema_column(self, column):
         columns = []
@@ -340,7 +343,8 @@ class BigQueryGCE(BigQuery):
                 },
                 'useStandardSql': {
                     "type": "boolean",
-                    'title': "Use Standard SQL (Beta)",
+                    'title': "Use Standard SQL",
+                    "default": True,
                 },
                 'location': {
                     "type": "string",

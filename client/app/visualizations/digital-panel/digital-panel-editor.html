@@ -1,0 +1,178 @@
+<div class="form-horizontal">
+  <ul class="tab-nav">
+    <li ng-class="{active: currentTab == 'firstSet'}">
+      <a ng-click="changeTab('firstSet')">第一组数据</a>
+    </li>
+    <li ng-class="{active: currentTab == 'secondSet'}">
+      <a ng-click="changeTab('secondSet')">第二组数据</a>
+    </li>
+  </ul>
+
+  <div ng-show="currentTab == 'firstSet'" class="m-t-10 m-b-10">
+    <div class="gds_panel_title">内容</div>
+    <div class="form-group gds-h-m">
+      <label class="col-lg-2">列名</label>
+      <div class="col-lg-10">
+        <select ng-options="name for name in queryResult.getColumnNames()" ng-model="visualization.options.digitalPanelList[0].contentColName" class="form-control"></select>
+      </div>
+    </div>
+    <div class="form-group gds-h-m">
+      <label class="col-lg-2">保留小数位</label>
+      <div class="col-lg-4">
+        <input type="number" ng-model="visualization.options.digitalPanelList[0].contentDecimal" class="form-control">
+      </div>
+      <label class="col-lg-2 text-right">颜色</label>
+      <div class="col-lg-4">
+        <ui-select ng-model="visualization.options.digitalPanelList[0].contentColor">
+          <ui-select-match>
+            <color-box color="$select.selected.value"></color-box>
+          </ui-select-match>
+          <ui-select-choices repeat="color.value as (key, color) in colors">
+            <color-box color="color.value"></color-box>
+            <span ng-bind-html="color.key"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+
+    <div class="gds_panel_line"></div>
+    <div class="gds_panel_title">前缀</div>
+    <div class="form-group gds-h-m">
+      <label class="col-lg-2">内容</label>
+      <div class="col-lg-10">
+        <input type="text" ng-model="visualization.options.digitalPanelList[0].prefixContent" class="form-control" ng-trim="false">
+      </div>
+    </div>
+    <div class="form-group gds-h-m">
+      <label class="col-lg-2">位置</label>
+      <div class="col-lg-4">
+        <input type="radio" name="firstPrefixPosition" ng-model="visualization.options.digitalPanelList[0].prefixPosition" value="top">&nbsp;内容上方&nbsp;&nbsp;
+        <input type="radio" name="firstPrefixPosition" ng-model="visualization.options.digitalPanelList[0].prefixPosition" value="left">&nbsp;内容前方
+      </div>
+      <label class="col-lg-2 text-right">颜色</label>
+      <div class="col-lg-4">
+        <ui-select ng-model="visualization.options.digitalPanelList[0].prefixColor">
+          <ui-select-match>
+            <color-box color="$select.selected.value"></color-box>
+          </ui-select-match>
+          <ui-select-choices repeat="color.value as (key, color) in colors">
+            <color-box color="color.value"></color-box>
+            <span ng-bind-html="color.key"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+
+    <div class="gds_panel_line"></div>
+    <div class="gds_panel_title">后缀</div>
+    <div class="form-group gds-h-m">
+      <label class="col-lg-2">内容</label>
+      <div class="col-lg-10">
+        <input type="text" ng-model="visualization.options.digitalPanelList[0].suffixContent" class="form-control" ng-trim="false">
+      </div>
+    </div>
+    <div class="form-group gds-h-m">
+      <label class="col-lg-2">位置</label>
+      <div class="col-lg-4">
+        <input type="radio" name="firstSuffixPosition" ng-model="visualization.options.digitalPanelList[0].suffixPosition" value="right">&nbsp;内容后方&nbsp;&nbsp;
+        <input type="radio" name="firstSuffixPosition" ng-model="visualization.options.digitalPanelList[0].suffixPosition" value="bottom">&nbsp;内容下方
+      </div>
+      <label class="col-lg-2 text-right">颜色</label>
+      <div class="col-lg-4">
+        <ui-select ng-model="visualization.options.digitalPanelList[0].suffixColor">
+          <ui-select-match>
+            <color-box color="$select.selected.value"></color-box>
+          </ui-select-match>
+          <ui-select-choices repeat="color.value as (key, color) in colors">
+            <color-box color="color.value"></color-box>
+            <span ng-bind-html="color.key"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+  </div>
+
+  <div ng-show="currentTab == 'secondSet'" class="m-t-10 m-b-10">
+    <div class="gds_panel_title">内容</div>
+    <div class="form-group gds-h-m">
+      <label class="col-lg-2">列名</label>
+      <div class="col-lg-10">
+        <select ng-options="name for name in queryResult.getColumnNames()" ng-model="visualization.options.digitalPanelList[1].contentColName" class="form-control"></select>
+      </div>
+    </div>
+    <div class="form-group gds-h-m">
+      <label class="col-lg-2">保留小数位</label>
+      <div class="col-lg-4">
+        <input type="number" ng-model="visualization.options.digitalPanelList[1].contentDecimal" class="form-control">
+      </div>
+      <label class="col-lg-2 text-right">颜色</label>
+      <div class="col-lg-4">
+        <ui-select ng-model="visualization.options.digitalPanelList[1].contentColor">
+          <ui-select-match>
+            <color-box color="$select.selected.value"></color-box>
+          </ui-select-match>
+          <ui-select-choices repeat="color.value as (key, color) in colors">
+            <color-box color="color.value"></color-box>
+            <span ng-bind-html="color.key"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+
+    <div class="gds_panel_line"></div>
+    <div class="gds_panel_title">前缀</div>
+    <div class="form-group gds-h-m">
+      <label class="col-lg-2">内容</label>
+      <div class="col-lg-10">
+        <input type="text" ng-model="visualization.options.digitalPanelList[1].prefixContent" class="form-control" ng-trim="false">
+      </div>
+    </div>
+    <div class="form-group gds-h-m">
+      <label class="col-lg-2">位置</label>
+      <div class="col-lg-4">
+        <input type="radio" name="secondPrefixPosition" ng-model="visualization.options.digitalPanelList[1].prefixPosition" value="top">&nbsp;内容上方&nbsp;&nbsp;
+        <input type="radio" name="secondPrefixPosition" ng-model="visualization.options.digitalPanelList[1].prefixPosition" value="left">&nbsp;内容前方
+      </div>
+      <label class="col-lg-2 text-right">颜色</label>
+      <div class="col-lg-4">
+        <ui-select ng-model="visualization.options.digitalPanelList[1].prefixColor">
+          <ui-select-match>
+            <color-box color="$select.selected.value"></color-box>
+          </ui-select-match>
+          <ui-select-choices repeat="color.value as (key, color) in colors">
+            <color-box color="color.value"></color-box>
+            <span ng-bind-html="color.key"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+
+    <div class="gds_panel_line"></div>
+    <div class="gds_panel_title">后缀</div>
+    <div class="form-group gds-h-m">
+      <label class="col-lg-2">内容</label>
+      <div class="col-lg-10">
+        <input type="text" ng-model="visualization.options.digitalPanelList[1].suffixContent" class="form-control" ng-trim="false">
+      </div>
+    </div>
+    <div class="form-group gds-h-m">
+      <label class="col-lg-2">位置</label>
+      <div class="col-lg-4">
+        <input type="radio" name="secondSuffixPosition" ng-model="visualization.options.digitalPanelList[1].suffixPosition" value="right">&nbsp;内容后方&nbsp;&nbsp;
+        <input type="radio" name="secondSuffixPosition" ng-model="visualization.options.digitalPanelList[1].suffixPosition" value="bottom">&nbsp;内容下方
+      </div>
+      <label class="col-lg-2 text-right">颜色</label>
+      <div class="col-lg-4">
+        <ui-select ng-model="visualization.options.digitalPanelList[1].suffixColor">
+          <ui-select-match>
+            <color-box color="$select.selected.value"></color-box>
+          </ui-select-match>
+          <ui-select-choices repeat="color.value as (key, color) in colors">
+            <color-box color="color.value"></color-box>
+            <span ng-bind-html="color.key"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+  </div>
+</div>

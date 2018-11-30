@@ -168,8 +168,7 @@ export default function init(ngModule) {
   ngModule.directive('boxplotRenderer', boxPlotRenderer);
   ngModule.directive('boxplotEditor', boxPlotEditor);
 
-  /**
-   ngModule.config((VisualizationProvider) => {
+  ngModule.config((VisualizationProvider) => {
     const renderTemplate =
         '<boxplot-renderer ' +
         'options="visualization.options" query-result="queryResult">' +
@@ -190,5 +189,7 @@ export default function init(ngModule) {
       editorTemplate: editTemplate,
     });
   });
-   */
 }
+
+init.init = false;
+
