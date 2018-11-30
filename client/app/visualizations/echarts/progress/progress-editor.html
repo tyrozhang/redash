@@ -3,6 +3,9 @@
     <li ng-class="{active: currentTab == 'general'}">
       <a ng-click="changeTab('general')">{{'General' | translate}}</a>
     </li>
+    <li ng-class="{active: currentTab == 'graphicStyle'}">
+      <a ng-click="changeTab('graphicStyle')">展现形式</a>
+    </li>
   </ul>
   <div ng-if="currentTab == 'general'" class="m-t-10 m-b-10">
     <div class="form-group">
@@ -23,7 +26,7 @@
       <label class="control-label">选择值列</label>
       <div class="form-group">
       <ui-select name="yAxisColumn" required ng-model="visualization.options.editOptions.valueColumn">
-        <ui-select-match placeholder="选择列">{{ $select.selected }}</ui-select-match>
+        <ui-select-match allow-clear="true" placeholder="选择列">{{$select.selected}}</ui-select-match>
         <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.categoryColumn">
           <span ng-bind-html="column"></span>
         </ui-select-choices>
@@ -31,11 +34,16 @@
       </div>
     </div>
 
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" ng-model="visualization.options.editOptions.legend">
-        <i class="input-helper"></i> 显示图例
-      </label>
+    <div class="form-group">
+      <label class="control-label">选择总数值列</label>
+      <div class="form-group">
+      <ui-select name="totalValueColumn" required ng-model="visualization.options.editOptions.totalValueColumn">
+        <ui-select-match allow-clear="true" placeholder="选择列">{{$select.selected}}</ui-select-match>
+        <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.categoryColumn">
+          <span ng-bind-html="column"></span>
+        </ui-select-choices>
+      </ui-select>
+      </div>
     </div>
 
   </div>

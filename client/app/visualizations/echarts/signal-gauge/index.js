@@ -6,11 +6,19 @@ import editorTemplate from './signal-gauge-editor.html';
 
 // 单仪表盘的绘图参数
 const gaugeOption = {
+  grid: {
+    top: '0px',
+    left: '0px',
+    right: '0px',
+    bottom: '0px',
+  },
   tooltip: {
     formatter: '{b} : {c}',
   },
   series: [
     {
+      radius: '100%',
+      center: ['50%', '57%'],
       type: 'gauge',
       detail: {
         formatter: '{value}',

@@ -8,7 +8,7 @@
     <div class="form-group">
       <label class="control-label">选择分类列</label>
       <div class="form-group">
-        <ui-select name="xAxisColumn" ng-model="visualization.options.editOptions.categoryColumn" class="clearable">
+        <ui-select name="categoryColumn" ng-model="visualization.options.editOptions.categoryColumn" class="clearable">
         <ui-select-match allow-clear="true" placeholder="选择列...">
           {{$select.selected}}
         </ui-select-match>
@@ -22,20 +22,13 @@
     <div class="form-group">
       <label class="control-label">选择值列</label>
       <div class="form-group">
-      <ui-select name="yAxisColumn" required ng-model="visualization.options.editOptions.valueColumn">
+      <ui-select name="valueColumn" required ng-model="visualization.options.editOptions.valueColumn">
         <ui-select-match placeholder="选择列">{{ $select.selected }}</ui-select-match>
         <ui-select-choices repeat="column in queryResult.getColumnNames() | remove:visualization.options.editOptions.categoryColumn">
           <span ng-bind-html="column"></span>
         </ui-select-choices>
       </ui-select>
       </div>
-    </div>
-
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" ng-model="visualization.options.editOptions.legend">
-        <i class="input-helper"></i> 显示图例
-      </label>
     </div>
 
   </div>

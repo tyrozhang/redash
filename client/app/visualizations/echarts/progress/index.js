@@ -1,36 +1,34 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
-import { DoughnutOption } from './doughnut-utils';
-import editorTemplate from './doughnut-editor.html';
+import { ProgressOption } from './progress-utils';
+import editorTemplate from './progress-editor.html';
 
 
-function DoughnutRenderer($location, currentUser) {
+function ProgressRenderer($location, currentUser) {
   return {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
       const container = element[0].querySelector('.echarts-chart-visualization-container');
       const echartFactory = new EchartsFactory($location, currentUser);
-      const doughnutChart = echartFactory.createChart(container);
-
+      const progressChart = echartFactory.createChart(container);
 
       function reloadData() {
         const data = $scope.queryResult.getData();
         const editOptions = $scope.visualization.options.editOptions;
-        const doughnutExamples = new DoughnutOption();
+        const progressExamples = new ProgressOption();
 
-        if (editOptions.categoryColumn && editOptions.valueColumn) {
-          doughnutExamples.pieOption.result = data;
-          doughnutExamples.chartHelper.init(data, editOptions.categoryColumn, editOptions.valueColumn);
-          doughnutExamples.setDoughnutData();
-          doughnutExamples.setLegend(editOptions.legend);
+        if (editOptions.valueColumn && editOptions.categoryColumn) {
+          progressExamples.chartHelper
+            .init(data, editOptions.categoryColumn, editOptions.valueColumn, editOptions.totalValueColumn);
+          progressExamples.setProgressOption();
         }
 
-        echartFactory.setOption(doughnutChart, doughnutExamples.pieOption);
+        echartFactory.setOption(progressChart, progressExamples.progressOption);
       }
 
       function resize() {
-        window.onresize = doughnutChart.resize;
+        window.onresize = progressChart.resize;
       }
 
       $scope.handleResize = _.debounce(resize, 50);
@@ -40,7 +38,7 @@ function DoughnutRenderer($location, currentUser) {
   };
 }
 
-function DoughnutEditor() {
+function ProgressEditor() {
   return {
     restrict: 'E',
     template: editorTemplate,
@@ -49,9 +47,8 @@ function DoughnutEditor() {
       $scope.changeTab = (tab) => {
         $scope.currentTab = tab;
       };
-      const editOptions = {
-        legend: true,
-      };
+
+      const editOptions = {};
       if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
     },
   };
@@ -59,15 +56,15 @@ function DoughnutEditor() {
 
 
 export default function init(ngModule) {
-  ngModule.directive('doughnutRenderer', DoughnutRenderer);
-  ngModule.directive('doughnutEditor', DoughnutEditor);
+  ngModule.directive('progressRenderer', ProgressRenderer);
+  ngModule.directive('progressEditor', ProgressEditor);
   ngModule.config((VisualizationProvider) => {
-    const renderTemplate = '<doughnut-renderer options="visualization.options" query-result="queryResult"></doughnut-renderer>';
-    const editTemplate = '<doughnut-editor options="visualization.options" query-result="queryResult"></doughnut-editor>';
+    const renderTemplate = '<progress-renderer options="visualization.options" query-result="queryResult"></progress-renderer>';
+    const editTemplate = '<progress-editor options="visualization.options" query-result="queryResult"></progress-editor>';
 
     VisualizationProvider.registerVisualization({
-      type: 'echart-doughnut',
-      name: '圆环图',
+      type: 'echart-progress',
+      name: '进度条',
       renderTemplate,
       editorTemplate: editTemplate,
     });

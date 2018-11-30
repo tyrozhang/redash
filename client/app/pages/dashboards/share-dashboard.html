@@ -12,6 +12,11 @@
   </div>
 
   <div ng-if="$ctrl.dashboard.publicAccessEnabled">
-    <input type="text" class="form-control" value="{{$ctrl.dashboard.public_url}}">
+    <div class="gds_flex_cont">
+    <input type="text" class="form-control" value="{{$ctrl.dashboard.public_url}}" id="apiKey">&nbsp;
+      <div class="btn-group gds_btn-group-border dropdown">
+        <button type="button" class="btn btn-sm hidden-xs btn-default" ng-click="$ctrl.copyKey()">复制</button>
+      </div>
+    </div>
   </div>
 </div>

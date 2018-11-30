@@ -59,6 +59,12 @@ function getMaxValue(bubbleData) {
 
 function BubbleOption() {
   this.chartOption = {
+    grid: {
+      top: '60px',
+      left: '50px',
+      right: '50px',
+      bottom: '50px',
+    },
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -70,6 +76,7 @@ function BubbleOption() {
       show: true,
       x: 'right',
       y: 'top',
+      padding: [5, 20, 5, 5],
       orient: 'vertical',
     },
     xAxis: {},
