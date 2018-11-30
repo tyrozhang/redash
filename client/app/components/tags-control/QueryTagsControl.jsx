@@ -2,7 +2,7 @@ import { react2angular } from 'react2angular';
 import ModelTagsControl from '@/components/tags-control/ModelTagsControl';
 
 export class QueryTagsControl extends ModelTagsControl {
-  static archivedTooltip = 'This query is archived and can\'t be used in dashboards, and won\'t appear in search results.';
+  static archivedTooltip = '此查询已删除，将不能在仪表盘中使用，也不会出现在搜索结果中。';
 }
 
 export default function init(ngModule) {

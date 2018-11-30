@@ -60,7 +60,7 @@ export default class TagsControl extends React.Component {
       ) : (
         <a className="label label-tag" role="none" onClick={() => this.editTags()}>
           <i className="zmdi zmdi-plus" />
-          Add tag
+          添加标签
         </a>
       );
     }
