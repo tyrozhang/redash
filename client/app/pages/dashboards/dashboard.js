@@ -454,6 +454,11 @@ const ShareDashboardComponent = {
           });
       }
     };
+    this.copyKey = () => {
+      const target = document.getElementById('apiKey');
+      target.select();
+      document.execCommand('copy');
+    };
   },
 };
 
