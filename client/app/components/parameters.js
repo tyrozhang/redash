@@ -133,16 +133,20 @@ function ParametersDirective($location, $uibModal) {
     link(scope) {
       // is this the correct location for this logic?
       if (scope.syncValues !== false) {
-        scope.$watch('parameters', () => {
-          if (scope.changed) {
-            scope.changed({});
-          }
-          const params = extend({}, $location.search());
-          scope.parameters.forEach((param) => {
-            extend(params, param.toUrlParams());
-          });
-          $location.search(params);
-        }, true);
+        scope.$watch(
+          'parameters',
+          () => {
+            if (scope.changed) {
+              scope.changed({});
+            }
+            const params = extend({}, $location.search());
+            scope.parameters.forEach((param) => {
+              extend(params, param.toUrlParams());
+            });
+            $location.search(params);
+          },
+          true,
+        );
       }
 
       scope.showParameterSettings = (param) => {
@@ -188,3 +192,5 @@ export default function init(ngModule) {
   ngModule.component('parameterSettings', ParameterSettingsComponent);
   ngModule.component('parameterInput', ParameterInputComponent);
 }
+
+init.init = true;

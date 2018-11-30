@@ -59,8 +59,13 @@ class Vertica(BaseSQLQueryRunner):
                     "type": "number",
                     "title": zh.get("Read Timeout", "Read Timeout")
                 },
+                "connection_timeout": {
+                    "type": "number",
+                    "title": "Connection Timeout"
+                },
             },
             'required': ['database'],
+            'order': ['host', 'port', 'user', 'password', 'database', 'read_timeout', 'connection_timeout'],
             'secret': ['password']
         }
 
@@ -115,6 +120,10 @@ class Vertica(BaseSQLQueryRunner):
                 'database': self.configuration.get('database', ''),
                 'read_timeout': self.configuration.get('read_timeout', 600)
             }
+            
+            if self.configuration.get('connection_timeout'):
+                conn_info['connection_timeout'] = self.configuration.get('connection_timeout')
+
             connection = vertica_python.connect(**conn_info)
             cursor = connection.cursor()
             logger.debug("Vetica running query: %s", query)
