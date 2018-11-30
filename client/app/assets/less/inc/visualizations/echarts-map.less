@@ -1,0 +1,16 @@
+.echarts-map-visualization-container {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+
+  > div {
+    position: relative;
+
+    &:first-child {
+      flex-grow: 0;
+    }
+    &:last-child {
+      flex-grow: 1;
+    }
+  }
+}
