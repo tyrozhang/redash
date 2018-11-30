@@ -19,9 +19,9 @@ function DoughnutRenderer($location, currentUser) {
         const editOptions = $scope.visualization.options.editOptions;
         const doughnutExamples = new DoughnutOption();
 
-        if (editOptions.categoryColumn && editOptions.valueColumns) {
+        if (editOptions.categoryColumn && editOptions.valueColumn) {
           doughnutExamples.pieOption.result = data;
-          doughnutExamples.chartHelper.init(data, editOptions.categoryColumn, editOptions.valueColumns);
+          doughnutExamples.chartHelper.init(data, editOptions.categoryColumn, editOptions.valueColumn);
           doughnutExamples.setDoughnutData();
           doughnutExamples.setLegend(editOptions.legend);
         }
