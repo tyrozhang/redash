@@ -23,7 +23,7 @@ export default class ModelTagsControl extends TagsControl {
 
     if (isDraft && !isArchived) {
       result.push((
-        <span className="label label-tag-unpublished" key="query-tag-unpublished">Unpublished</span>
+        <span className="label label-tag-unpublished" key="query-tag-unpublished">未发布</span>
       ));
     }
 
@@ -34,7 +34,7 @@ export default class ModelTagsControl extends TagsControl {
           placement="right"
           title={this.constructor.archivedTooltip}
         >
-          <span className="label label-tag-archived">Archived</span>
+          <span className="label label-tag-archived">已删除</span>
         </Tooltip>
       ));
     }

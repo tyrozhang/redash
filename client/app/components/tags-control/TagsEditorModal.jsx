@@ -57,14 +57,14 @@ class TagsEditorModal extends React.Component {
       <div>
         <div className="modal-header">
           <button type="button" className="close" aria-hidden="true" onClick={dismiss}>&times;</button>
-          <h4 className="modal-title">Add/Edit Tags</h4>
+          <h4 className="modal-title">添加标签</h4>
         </div>
         <div className="modal-body">
           <Select
             ref={this.selectRef}
             mode="tags"
             className="w-100"
-            placeholder="Add some tags..."
+            placeholder="添加一些标签"
             defaultValue={this.state.result}
             onChange={values => this.setState({ result: map(values, trim) })}
             dropdownClassName="ant-dropdown-in-bootstrap-modal"
@@ -73,8 +73,8 @@ class TagsEditorModal extends React.Component {
           </Select>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-default" onClick={dismiss}>Close</button>
-          <button type="button" className="btn btn-primary" onClick={() => close({ $value: this.state.result })}>Save</button>
+          <button type="button" className="btn btn-default" onClick={dismiss}>关闭</button>
+          <button type="button" className="btn btn-primary" onClick={() => close({ $value: this.state.result })}>保存</button>
         </div>
       </div>
     );
