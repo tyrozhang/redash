@@ -38,12 +38,50 @@ function ChartDataHelper() {
   };
 }
 
+// 对x轴文本进行判断，如果超过5个字将折行显示
+function setAxisLabel(params) {
+  if (params.length > 5) {
+    let newParamsName = '';// 最终拼接成的字符串
+    const paramsNameNumber = params.length;// 实际标签的长度
+    const provideNumber = 5;// 每行能显示的字的长度
+    const rowNumber = Math.ceil(paramsNameNumber / provideNumber);// 换行的话，需要显示几行，向上取整
+    // 判断标签的个数是否大于规定的个数， 如果大于，则进行换行处理 如果不大于，即等于或小于，就返回原标签
+    if (paramsNameNumber > provideNumber) {
+      // 循环每一行,p表示行
+      for (let p = 0; p < rowNumber; p += 1) {
+        // 表示每一次截取的字符串
+        let tempStr = '';
+        // 开始截取的位置
+        const start = p * provideNumber;
+        // 结束截取的位置
+        const end = start + provideNumber;
+        // 此处特殊处理最后一行的索引值
+        if (p === rowNumber - 1) {
+          // 最后一次不换行
+          tempStr = params.substring(start, paramsNameNumber);
+        } else {
+          // 每一次拼接字符串并换行
+          tempStr = params.substring(start, end) + '\n';
+        }
+        // 最终拼成的字符串
+        newParamsName += tempStr;
+      }
+    } else {
+      // 将旧标签的值赋给新标签
+      newParamsName = params;
+    }
+    // 将最终的字符串返回
+    return newParamsName;
+  }
+  return params;
+}
+
 function ProgressOption() {
   this.progressOption = {
     silent: true,
     grid: {
       top: '30px',
-      left: '50px',
+      left: '70px',
       right: '50px',
       bottom: '20px',
     },
@@ -73,8 +111,8 @@ function ProgressOption() {
         barCategoryGap: '30%',
         itemStyle: {
           normal: {
-            // color: '#F57474',
-            barBorderRadius: 15,
+            color: '#EF9818',
+            barBorderRadius: 5,
           },
         },
         label: {},
@@ -87,14 +125,14 @@ function ProgressOption() {
         barCategoryGap: '30%',
         itemStyle: {
           normal: {
-            color: 'yellow',
-            borderColor: '#56D0E3',
-            barBorderRadius: 15,
+            color: '#989BA2',
+            borderColor: '#393939',
+            barBorderRadius: 5,
             borderWidth: 2,
           },
         },
         label: {
-          show: true,
+          show: false,
           color: '#56D0E3',
           position: 'right',
           formatter: '{c}',
@@ -129,6 +167,13 @@ function ProgressOption() {
         fontSize: 16,
       };
     }
+  };
+
+  this.setAxisLabel = () => {
+    this.progressOption.yAxis.axisLabel = {
+      interval: 0,
+      formatter: params => setAxisLabel(params),
+    };
   };
 }
 
