@@ -3,7 +3,7 @@ export default class PromiseRejectionError extends Error {
     let message;
     if (rejection.status !== undefined) {
       if (rejection.status === 404) {
-        message = "页面未找到。It seems like the page you're looking for cannot be found.";
+        message = '页面未找到。';
       } else if (rejection.status === 403 || rejection.status === 401) {
         message = '你没有权限访问这个页面。';
       }
