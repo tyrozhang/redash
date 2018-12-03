@@ -22,6 +22,7 @@ function ProgressRenderer($location, currentUser) {
           progressExamples.chartHelper
             .init(data, editOptions.categoryColumn, editOptions.valueColumn, editOptions.totalValueColumn);
           progressExamples.setProgressOption();
+          progressExamples.setAxisLabel();
         }
 
         echartFactory.setOption(progressChart, progressExamples.progressOption);
