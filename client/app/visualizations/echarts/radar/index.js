@@ -9,8 +9,10 @@ const option = {
   tooltip: {},
   legend: {
     data: [],
-    left: '10px',
-    top: '10px',
+    x: 'right',
+    y: 'top',
+    padding: [5, 20, 5, 5],
+    orient: 'vertical',
   },
   radar: {
     nameGap: 5,
