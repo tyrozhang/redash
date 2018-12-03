@@ -177,4 +177,4 @@ function ProgressOption() {
   };
 }
 
-export { ChartDataHelper, ProgressOption };
+export default ProgressOption;

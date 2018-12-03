@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
-import { BubbleOption } from './bubble-utils';
+import BubbleOption from './bubble-utils';
 import editorTemplate from './bubble-editor.html';
 
 

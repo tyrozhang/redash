@@ -70,6 +70,9 @@ function BubbleOption() {
       axisPointer: {
         show: true,
         type: 'cross',
+        label: {
+          backgroundColor: '#283b56',
+        },
       },
     },
     legend: {
@@ -122,4 +125,4 @@ function BubbleOption() {
   };
 }
 
-export { BubbleOption, ChartDataHelper };
+export default BubbleOption;

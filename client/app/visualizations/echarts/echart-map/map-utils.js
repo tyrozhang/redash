@@ -119,8 +119,8 @@ function MapOption() {
         data: [],
         symbolSize: (data) => {
           const maxValue = max(this.chartDataHelper.getValueData());
-          if (data[2] / (maxValue / 20) < 10) {
-            return 10;
+          if (data[2] / (maxValue / 20) < 5) {
+            return 5;
           }
           return data[2] / (maxValue / 20);
         },
@@ -134,7 +134,8 @@ function MapOption() {
         },
         itemStyle: {
           normal: {
-            color: '#DC0411',
+            // color: '#DC0411',
+            color: '#A9334C',
           },
         },
       },
@@ -170,4 +171,4 @@ function MapOption() {
 }
 
 
-export { MapOption, ChartDataHelper };
+export default MapOption;

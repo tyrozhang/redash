@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
-import { DoughnutOption } from './doughnut-utils';
+import DoughnutOption from './doughnut-utils';
 import editorTemplate from './doughnut-editor.html';
 
 

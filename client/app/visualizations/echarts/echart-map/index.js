@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import 'echarts/map/js/china';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
-import { MapOption } from './map-utils';
+import MapOption from './map-utils';
 import editorTemplate from './echart-map-editor.html';
 
 
@@ -29,7 +29,7 @@ function emapRenderer($location, currentUser) {
         window.onresize = mapChart.resize;
       }
 
-      $scope.handleResize = _.debounce(resize, 50);
+      $scope.handleResize = _.debounce(resize, 200);
       $scope.$watch('visualization.options', reloadData, true);
       $scope.$watch('queryResult && queryResult.getData()', reloadData);
     },

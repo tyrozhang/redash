@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
-import { ProgressOption } from './progress-utils';
+import ProgressOption from './progress-utils';
 import editorTemplate from './progress-editor.html';
 
 

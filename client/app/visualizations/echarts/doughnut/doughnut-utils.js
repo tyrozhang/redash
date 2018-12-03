@@ -147,4 +147,4 @@ function DoughnutOption() {
   };
 }
 
-export { ChartDataHelper, DoughnutOption };
+export default DoughnutOption;
