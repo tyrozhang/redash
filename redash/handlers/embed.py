@@ -98,3 +98,23 @@ def public_dashboard(token, org_slug=None):
         'referer': request.headers.get('Referer')
     })
     return render_index()
+
+
+@routes.route(org_scoped_rule('/large_screen/dashboards/<token>'), methods=['GET'])
+@login_required
+def large_screen_dashboard(token, org_slug=None):
+    if current_user.is_api_user():
+        dashboard = current_user.object
+    else:
+        api_key = get_object_or_404(models.ApiKey.get_by_api_key, token)
+        dashboard = api_key.object
+
+    record_event(current_org, current_user, {
+        'action': 'view',
+        'object_id': dashboard.id,
+        'object_type': 'dashboard',
+        'public': True,
+        'headless': 'embed' in request.args,
+        'referer': request.headers.get('Referer')
+    })
+    return render_index()
