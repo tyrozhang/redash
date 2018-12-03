@@ -217,36 +217,6 @@ function BaseChartOption() {
     });
   };
 
-  // 如果分类列内容过长，将倾斜内容来显示
-  // this.inclineContent = (horizontalBar) => {
-  //   if (horizontalBar) {
-  //     // this.chartOption.xAxis.axisLabel.rotate = '';
-  //     this.chartOption.grid.left = '100px';
-  //   } else {
-  //     const contentList = [];
-  //     each(this.chartHelper.getCategoryData(), (item) => {
-  //       // if (item.length > 3 && this.chartHelper.getCategoryData().length > 7) {
-  //       contentList.push(item.length);
-  //       // }
-  //     });
-  //     const contentTotal = sum(contentList);
-  //     const contentLongest = max(contentList);
-  //     if (contentTotal > 28) {
-  //       this.chartOption.xAxis.axisLabel = {
-  //         interval: 0,
-  //         formatter: (params) => {
-  //           params.split('').join('\n');
-  //         },
-  //       };
-  //       if (contentLongest <= 7) {
-  //         this.chartOption.grid.bottom = contentLongest + 3 + '9px';
-  //       } else if (contentLongest > 7) {
-  //         this.chartOption.grid.bottom = '100px';
-  //       }
-  //     }
-  //   }
-  // };
-
   // 根据列的数量是否倾斜显示x轴的文本，并根据标签的长度判断是否需要折行和底部间距的设置
   this.inclineContent = (horizontalBar) => {
     if (horizontalBar) {
