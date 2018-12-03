@@ -79,7 +79,7 @@ function BubbleOption() {
       show: true,
       x: 'right',
       y: 'top',
-      padding: [5, 20, 5, 5],
+      padding: [10, 10, 5, 5],
       orient: 'vertical',
     },
     xAxis: {},

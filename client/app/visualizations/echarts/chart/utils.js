@@ -74,8 +74,8 @@ function ChartHelper() {
   };
 }
 
-// 对x轴文本进行判断，如果超过5个字将折行显示
-function setXAxisLabel(params) {
+// 对轴文本进行判断，如果超过5个字将折行显示
+function setAxisLabel(params) {
   if (params.length > 5) {
     let newParamsName = '';// 最终拼接成的字符串
     const paramsNameNumber = params.length;// 实际标签的长度
@@ -133,7 +133,7 @@ function BaseChartOption() {
       show: true,
       x: 'right',
       y: 'top',
-      padding: [5, 20, 5, 5],
+      padding: [10, 10, 5, 5],
       orient: 'vertical',
     },
     title: {
@@ -220,7 +220,11 @@ function BaseChartOption() {
   // 根据列的数量是否倾斜显示x轴的文本，并根据标签的长度判断是否需要折行和底部间距的设置
   this.inclineContent = (horizontalBar) => {
     if (horizontalBar) {
-      this.chartOption.grid.left = '100px';
+      this.chartOption.grid.left = '80px';
+      this.chartOption.yAxis.axisLabel = {
+        interval: 0,
+        formatter: params => setAxisLabel(params),
+      };
     } else {
       const contentList = [];// 定义一个x轴文本列表
       each(this.chartHelper.getCategoryData(), (item) => {
@@ -233,7 +237,7 @@ function BaseChartOption() {
         this.chartOption.xAxis.axisLabel = {
           interval: 0,
           rotate: -45,
-          formatter: params => setXAxisLabel(params),
+          formatter: params => setAxisLabel(params),
         };
         // 根据最大长度进行底部间距的设置
         this.chartOption.grid.bottom = Math.ceil(contentLongest / 5) + 3 + '7px';
@@ -243,7 +247,7 @@ function BaseChartOption() {
       if (this.chartHelper.getCategoryData().length <= 7) {
         this.chartOption.xAxis.axisLabel = {
           interval: 0,
-          formatter: params => setXAxisLabel(params),
+          formatter: params => setAxisLabel(params),
         };
         // 根据最大长度进行底部间距的设置
         this.chartOption.grid.bottom = Math.ceil(contentLongest / 5) + 3 + '0px';
@@ -305,6 +309,7 @@ function BaseChartOption() {
 
 function BasePieOption() {
   this.pieOption = {
+    title: [],
     tooltip: {
       trigger: 'item',
       formatter: '{a} <br/>{b} : {c} ({d}%)',
@@ -312,7 +317,7 @@ function BasePieOption() {
     legend: {
       orient: 'vertical',
       left: 'right',
-      padding: [5, 20, 5, 5],
+      padding: [10, 10, 5, 5],
       data: [],
     },
     series: [
@@ -329,6 +334,26 @@ function BasePieOption() {
       },
     ],
   };
+
+  // 多圆情况下的圆的标题位置
+  const circleTitleX = [
+    // 1
+    [],
+    ['30%', '70%'],
+    ['30%', '70%', '30%'],
+    ['30%', '70%', '30%', '70%'],
+    ['20%', '50%', '80%', '20%', '50%'],
+    ['20%', '50%', '80%', '20%', '50%', '80%'],
+  ];
+  const circleTitleY = [
+    // 1
+    [],
+    ['75%', '75%'],
+    ['42%', '42%', '92%'],
+    ['42%', '42%', '92%', '92%'],
+    ['40%', '40%', '40%', '91%', '91%'],
+    ['40%', '40%', '40%', '91%', '91%', '91%'],
+  ];
 
   // 根据圆的数量定义各个圆的位置
   const circleCenter = [
@@ -374,6 +399,28 @@ function BasePieOption() {
   // 设置是否展示图例
   this.setLegend = (legend) => {
     this.pieOption.legend.data = legend ? this.chartHelper.getCategoryData() : [];
+  };
+
+  // 设置多饼图时的名称
+  this.setPieTitle = () => {
+    const getChartGroup = this.pieOption.groupByColumn ?
+      this.chartHelper.getGroupingData() : this.pieOption.valueColumns;
+    const labelX = circleTitleX[getChartGroup.length - 1];
+    const labelY = circleTitleY[getChartGroup.length - 1];
+    if (getChartGroup.length > 1) {
+      each(getChartGroup, (item, index) => {
+        this.pieOption.title[index] = {
+          text: item,
+          textAlign: 'center',
+          x: labelX[index],
+          y: labelY[index],
+          textStyle: {
+            fontWeight: 'normal',
+            fontSize: 16,
+          },
+        };
+      });
+    }
   };
 
   // 设置图形series.data的值

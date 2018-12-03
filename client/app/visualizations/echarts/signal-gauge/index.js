@@ -33,8 +33,8 @@ const gaugeOption = {
       axisLine: {
         lineStyle: {
           color: [
-            [0.2, ''],
-            [0.8, ''],
+            [0.3, ''],
+            [0.7, ''],
             [1, ''],
           ],
         },
@@ -104,7 +104,8 @@ function signalGaugeEditor() {
         columnName: '',
         gaugeLabel: '仪表盘',
         maxNumber: 100,
-        colors: ['#3BD973', '#356AFF', '#E92828'],
+        // colors: ['#3BD973', '#356AFF', '#E92828'],
+        colors: ['#20604F', '#f09426', '#D0104C'],
       };
 
       if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;

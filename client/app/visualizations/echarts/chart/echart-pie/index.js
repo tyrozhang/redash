@@ -34,6 +34,7 @@ function PieRenderer($location, currentUser, Dashboard, $http, Auth) {
         pieExamples.setDoughnut(editOptions.doughnut);
         pieExamples.setLegend(editOptions.hasLegend);
         pieExamples.setPieLabel(editOptions.hasLabel);
+        pieExamples.setPieTitle();
 
         echartFactory.setOption(pieChart, pieExamples.pieOption);
       }
