@@ -241,4 +241,4 @@ class HiveHttp(Hive):
 
 
 register(Hive)
-register(HiveHttp)
+#register(HiveHttp)
