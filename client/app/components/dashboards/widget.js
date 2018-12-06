@@ -64,8 +64,8 @@ function DashboardWidgetCtrl($location, $uibModal, $window, Events, currentUser)
       },
     });
   };
-
-  this.expandVisualization = () => {
+  /*
+ this.expandVisualization = () => {
     $uibModal.open({
       component: 'widgetDialog',
       resolve: {
@@ -73,6 +73,11 @@ function DashboardWidgetCtrl($location, $uibModal, $window, Events, currentUser)
       },
       size: 'lg',
     });
+  };
+  */
+
+  this.expandVisualization = () => {
+    this.maximize({});
   };
 
   this.localParametersDefs = () => {
@@ -132,6 +137,7 @@ export default function init(ngModule) {
       public: '<',
       dashboard: '<',
       deleted: '&onDelete',
+      maximize: '&onMaximize',
     },
   });
 }

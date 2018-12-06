@@ -92,7 +92,21 @@
     <filters filters="$ctrl.filters" on-change="$ctrl.filtersOnChange(filter, $modal)"></filters>
   </div>
 
-  <div style="padding-bottom: 5px;" ng-if="$ctrl.dashboard.widgets.length > 0">
+  <div style="padding-bottom: 5px;" ng-if="$ctrl.dashboard.widgets.length > 0 && $ctrl.isTodoWigetMaximize()">
+    <div gridstack editing="$ctrl.layoutEditing && !$ctrl.saveInProgress" batch-update="$ctrl.updateGridItems"
+      is-one-column-mode="$ctrl.isGridDisabled" class="dashboard-wrapper"
+      ng-class="{'preview-mode': !$ctrl.layoutEditing, 'editing-mode': $ctrl.layoutEditing}">
+      <div class="dashboard-widget-wrapper"
+        ng-repeat="widget in $ctrl.selectedMaximizeWidget track by widget.id"
+        gridstack-item="$ctrl.maximizeWidgetPosition" gridstack-item-id="{{ widget.id }}">
+        <div class="grid-stack-item-content">
+          <dashboard-widget widget="widget" dashboard="$ctrl.dashboard" on-delete="$ctrl.removeWidget(widget.id)" on-maximize="$ctrl.selectMaximizeWiget(widget.id)"></dashboard-widget>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding-bottom: 5px;" ng-if="$ctrl.dashboard.widgets.length > 0  && !$ctrl.isTodoWigetMaximize()">
     <div gridstack editing="$ctrl.layoutEditing && !$ctrl.saveInProgress" batch-update="$ctrl.updateGridItems"
       is-one-column-mode="$ctrl.isGridDisabled" class="dashboard-wrapper"
       ng-class="{'preview-mode': !$ctrl.layoutEditing, 'editing-mode': $ctrl.layoutEditing}">
@@ -100,7 +114,7 @@
         ng-repeat="widget in $ctrl.dashboard.widgets track by widget.id"
         gridstack-item="widget.options.position" gridstack-item-id="{{ widget.id }}">
         <div class="grid-stack-item-content">
-          <dashboard-widget widget="widget" dashboard="$ctrl.dashboard" on-delete="$ctrl.removeWidget(widget.id)"></dashboard-widget>
+          <dashboard-widget widget="widget" dashboard="$ctrl.dashboard" on-delete="$ctrl.removeWidget(widget.id)" on-maximize="$ctrl.selectMaximizeWiget(widget.id)"></dashboard-widget>
         </div>
       </div>
     </div>

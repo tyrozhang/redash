@@ -38,7 +38,17 @@ function DashboardCtrl(
   Policy,
 ) {
   this.saveInProgress = false;
+  this.selectedMaximizeWidget = '';
 
+  this.maximizeWidgetPosition = {
+    autoHeight: false,
+    col: 0,
+    maxSizeX: 10,
+    maxSizeY: 13,
+    row: 0,
+    sizeX: 10,
+    sizeY: 13,
+  };
   const saveDashboardLayout = (widgets) => {
     if (!this.dashboard.canEdit()) {
       return;
@@ -362,6 +372,33 @@ function DashboardCtrl(
         saveDashboardLayout(changedWidgets);
       }, 50);
     }
+  };
+
+  this.selectMaximizeWiget1 = (widgetId) => {
+    if (this.selectedMaximizeWidget === '') {
+      this.selectedMaximizeWidget = widgetId;
+    } else {
+      this.selectedMaximizeWidget = '';
+    }
+  };
+
+  this.selectMaximizeWiget = (widgetId) => {
+    if (this.selectedMaximizeWidget === '') {
+      this.selectedMaximizeWidget = this.dashboard.widgets.filter(w => w.id !== undefined && w.id === widgetId);
+    } else {
+      this.selectedMaximizeWidget = '';
+    }
+  };
+
+  this.isTodoWigetMaximize = () => {
+    if (this.layoutEditing) {
+      return false;
+    }
+
+    if (this.selectedMaximizeWidget === '') {
+      return false;
+    }
+    return true;
   };
 
   this.toggleFullscreen = () => {
