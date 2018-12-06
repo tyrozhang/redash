@@ -17,17 +17,17 @@ function dataDrilling($location, Dashboard, $http, Auth, selectSlug, chart) {
   const catalogValue = chart.name;
   const groupValue = chart.seriesName;
 
-  // isAuthenticated½á¹ûÎªTrueÊ±£¬±íÊ¾ÎªµÇÂ¼ÓÃ»§ÔÚÊ¹ÓÃ»ò±à¼­¸Ã¿ÉÊÓ»¯£¬·ñÔòÎªÍ¨¹ıtokenä¯ÀÀ¸Ã¿ÉÊÓ»¯
+  // isAuthenticatedç»“æœä¸ºTrueæ—¶ï¼Œè¡¨ç¤ºä¸ºç™»å½•ç”¨æˆ·åœ¨ä½¿ç”¨æˆ–ç¼–è¾‘è¯¥å¯è§†åŒ–ï¼Œå¦åˆ™ä¸ºé€šè¿‡tokenæµè§ˆè¯¥å¯è§†åŒ–
   if (Auth.isAuthenticated()) {
-    // ¸ù¾İÑ¡ÔñµÄdashboardµÄslug²éÕÒdashboard£¬ÎªÁËµÃµ½dashboardµÄwidgets
+    // æ ¹æ®é€‰æ‹©çš„dashboardçš„slugæŸ¥æ‰¾dashboardï¼Œä¸ºäº†å¾—åˆ°dashboardçš„widgets
     Dashboard.get(
       { slug: selectSlug },
       (dashboard) => {
         const widgets = dashboard.widgets;
-        // µÃµ½È«¾Ö²ÎÊı
+        // å¾—åˆ°å…¨å±€å‚æ•°
         const globalParams = Dashboard.getGlobalParams(widgets);
 
-        // Æ´½Ó²ÎÊı×Ö·û´®
+        // æ‹¼æ¥å‚æ•°å­—ç¬¦ä¸²
         const params = getParamsStr('?', globalParams, catalogValue, groupValue);
 
         const url = '/dashboard/' + selectSlug + params;
@@ -39,7 +39,7 @@ function dataDrilling($location, Dashboard, $http, Auth, selectSlug, chart) {
       .then((data) => {
         const apiKey = data.data.api_key;
 
-        // ×¢²áapiKey,Ğ´ÈësessionÖĞ
+        // æ³¨å†ŒapiKey,å†™å…¥sessionä¸­
         session(Auth, apiKey);
 
         $http.get('api/dashboards/public/' + apiKey)
@@ -47,10 +47,10 @@ function dataDrilling($location, Dashboard, $http, Auth, selectSlug, chart) {
             const dashboard = response.data;
             const widgets = Dashboard.prepareDashboardWidgets(dashboard.widgets);
 
-            // µÃµ½È«¾Ö²ÎÊı
+            // å¾—åˆ°å…¨å±€å‚æ•°
             const globalParams = Dashboard.getGlobalParams(widgets);
 
-            // Æ´½Ó²ÎÊı×Ö·û´®
+            // æ‹¼æ¥å‚æ•°å­—ç¬¦ä¸²
             const params = getParamsStr('&', globalParams, catalogValue, groupValue);
 
             const url = '/public/dashboards/' + apiKey + '?org_slug=default' + params;
