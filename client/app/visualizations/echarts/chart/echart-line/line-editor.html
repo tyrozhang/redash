@@ -126,7 +126,7 @@
         <ui-select-match allow-clear="true" placeholder="选择仪表盘...">
           {{$select.selected.name}}
         </ui-select-match>
-        <ui-select-choices repeat="dashboard in visualization.options.dashboardsList.results">
+        <ui-select-choices repeat="dashboard in visualization.options.dashboardsList">
           <span ng-bind-html="dashboard.name"></span>
         </ui-select-choices>
       </ui-select>

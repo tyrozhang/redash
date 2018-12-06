@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
-import { dataDrilling, PieOption } from '@/visualizations/echarts/chart/utils';
+import PieOption from '@/visualizations/echarts/chart/utils';
+import { dataDrilling, getHasFiltersDashboards } from '@/visualizations/echarts/chart/data-drilling/util';
 import editorTemplate from './pie-editor.html';
 
 
@@ -65,7 +66,7 @@ function PieEditor(Dashboard) {
       };
       if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
       // 获取dashboard集合
-      $scope.visualization.options.dashboardsList = Dashboard.query();
+      $scope.visualization.options.dashboardsList = getHasFiltersDashboards(Dashboard);
     },
   };
 }

@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { BarOption, dataDrilling } from '@/visualizations/echarts/chart/utils';
+import BarOption from '@/visualizations/echarts/chart/utils';
+import { dataDrilling, getHasFiltersDashboards } from '@/visualizations/echarts/chart/data-drilling/util';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import editorTemplate from './bar-editor.html';
 
@@ -85,8 +86,7 @@ function BarEditor(Dashboard) {
       };
       if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
 
-      // 获取dashboard集合
-      $scope.visualization.options.dashboardsList = Dashboard.query();
+      $scope.visualization.options.dashboardsList = getHasFiltersDashboards(Dashboard);
     },
   };
 }

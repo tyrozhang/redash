@@ -294,5 +294,5 @@ class CockroachDB(PostgreSQL):
         return "cockroach"
 
 register(PostgreSQL)
-register(Redshift)
-register(CockroachDB)
+#register(Redshift)
+#register(CockroachDB)
