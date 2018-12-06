@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
-import { dataDrilling, LineOption } from '@/visualizations/echarts/chart/utils';
+import LineOption from '@/visualizations/echarts/chart/utils';
+import { dataDrilling, getHasFiltersDashboards } from '@/visualizations/echarts/chart/data-drilling/util';
 import editorTemplate from './line-editor.html';
 
 
@@ -82,7 +83,7 @@ function LineEditor(Dashboard) {
         点状线: 'dotted',
       };
       // 获取dashboard集合
-      $scope.visualization.options.dashboardsList = Dashboard.query();
+      $scope.visualization.options.dashboardsList = getHasFiltersDashboards(Dashboard);
     },
   };
 }

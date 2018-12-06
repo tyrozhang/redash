@@ -148,6 +148,30 @@ function Dashboard($resource, $http, currentUser, Widget, dashboardGridOptions) 
       .value();
   };
 
+  function getGlobalParams(widgets) {
+    let globalParams = {};
+
+    widgets.forEach((widget) => {
+      if (widget.getQuery()) {
+        widget
+          .getQuery()
+          .getParametersDefs()
+          .filter(p => p.global)
+          .forEach((param) => {
+            const Defaults = {};
+            Defaults[param.name] = param.clone();
+            Defaults[param.name].locals = [];
+            globalParams = _.defaults(globalParams, Defaults);
+            globalParams[param.name].locals.push(param);
+          });
+      }
+    });
+    globalParams = _.values(globalParams);
+
+    return globalParams;
+  }
+
+  resource.getGlobalParams = getGlobalParams;
   resource.prepareDashboardWidgets = prepareDashboardWidgets;
   resource.prepareWidgetsForDashboard = prepareWidgetsForDashboard;
 
