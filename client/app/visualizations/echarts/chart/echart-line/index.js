@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
-import LineOption from '@/visualizations/echarts/chart/utils';
+import { LineOption } from '@/visualizations/echarts/chart/utils';
 import { dataDrilling, getHasFiltersDashboards } from '@/visualizations/echarts/chart/data-drilling/util';
 import editorTemplate from './line-editor.html';
 
