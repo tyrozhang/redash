@@ -1,4 +1,4 @@
-import each from 'lodash';
+import { each } from 'lodash';
 
 function getParamsStr(params, globalParams, catalogValue, groupValue) {
   params = params + 'p_' + globalParams[0].name + '=' + catalogValue;

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import BarOption from '@/visualizations/echarts/chart/utils';
+import { BarOption } from '@/visualizations/echarts/chart/utils';
 import { dataDrilling, getHasFiltersDashboards } from '@/visualizations/echarts/chart/data-drilling/util';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import editorTemplate from './bar-editor.html';
