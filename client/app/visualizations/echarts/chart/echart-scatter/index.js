@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
-import { ScatterOption, onClick } from '@/visualizations/echarts/chart/utils';
+import { ScatterOption } from '@/visualizations/echarts/chart/utils';
 import editorTemplate from './scatter-editor.html';
 
 
-function ScatterRenderer($location, currentUser, Dashboard) {
+function ScatterRenderer($location, currentUser) {
   return {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
@@ -12,12 +12,6 @@ function ScatterRenderer($location, currentUser, Dashboard) {
       const container = element[0].querySelector('.echarts-chart-visualization-container');
       const echartFactory = new EchartsFactory($location, currentUser);
       const scatterChart = echartFactory.createChart(container);
-
-      if ($scope.visualization.options.dashboard) {
-        // 得到页面上选择dashboard的slug
-        const selectSlug = $scope.visualization.options.dashboard.slug;
-        onClick($location, scatterChart, selectSlug, Dashboard);
-      }
 
       function reloadData() {
         const data = $scope.queryResult.getData();
@@ -62,7 +56,7 @@ function ScatterRenderer($location, currentUser, Dashboard) {
   };
 }
 
-function ScatterEditor(Dashboard) {
+function ScatterEditor() {
   return {
     restrict: 'E',
     template: editorTemplate,
@@ -75,8 +69,6 @@ function ScatterEditor(Dashboard) {
         legend: true,
       };
       if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
-      // 获取dashboard集合
-      $scope.visualization.options.dashboardsList = Dashboard.query();
     },
   };
 }

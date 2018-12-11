@@ -9,9 +9,6 @@
     <li ng-class="{active: currentTab == 'yAxis'}">
       <a ng-click="changeTab('yAxis')">{{'Y Axis' | translate}}</a>
     </li>
-    <li ng-class="{active: currentTab == 'drill'}">
-      <a ng-click="changeTab('drill')">数据钻取</a>
-    </li>
   </ul>
   <div ng-if="currentTab == 'general'" class="m-t-10 m-b-10">
     <div class="form-group">
@@ -89,22 +86,6 @@
         <label class="control-label">最大值</label>
         <input ng-model="visualization.options.editOptions.rangeMax" type="number" step="any" class="form-control">
       </div>
-
-  </div>
-
-  <div ng-if="currentTab == 'drill'" class="m-t-10 m-b-10">
-
-    <div class="form-group">
-      <label class="control-label">选择钻取数据所用仪表盘</label>
-      <ui-select name="slug" ng-model="visualization.options.dashboard" class="clearable">
-        <ui-select-match allow-clear="true" placeholder="选择仪表盘...">
-          {{$select.selected.name}}
-        </ui-select-match>
-        <ui-select-choices repeat="dashboard in visualization.options.dashboardsList.results">
-          <span ng-bind-html="dashboard.name"></span>
-        </ui-select-choices>
-      </ui-select>
-    </div>
 
   </div>
 </div>
