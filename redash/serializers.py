@@ -36,7 +36,6 @@ def public_widget(widget):
         }
         res['visualization']['query']['latest_query_data'] = query_data
 
-
     return res
 
 
