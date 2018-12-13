@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import functools
 
 from flask_login import current_user
@@ -15,6 +16,10 @@ ACCESS_TYPES = (ACCESS_TYPE_VIEW, ACCESS_TYPE_MODIFY, ACCESS_TYPE_DELETE)
 
 
 def has_access(object_groups, user, need_view_only):
+    # TODO：添加API_USER判断语句是为了支持共享dashboard添加的查询功能，本语句降低了系统的安全性和性能，为临时手段
+    if user.is_api_user():
+        return True
+
     if 'admin' in user.permissions:
         return True
 

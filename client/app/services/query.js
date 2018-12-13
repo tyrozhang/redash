@@ -414,7 +414,7 @@ function QueryResource(
 
   Query.prototype.getQueryResult = function getQueryResult(maxAge) {
     if (!this.query) {
-      return new QueryResultError("Can't execute empty query.");
+      return new QueryResultError('不能执行空的查询。');
     }
     let queryText = this.query;
 
@@ -458,7 +458,7 @@ function QueryResource(
     } else if (this.data_source_id) {
       this.queryResult = QueryResult.get(this.data_source_id, queryText, maxAge, this.id);
     } else {
-      return new QueryResultError('Please select data source to run this query.');
+      return new QueryResultError('请选择要运行此查询的数据源。');
     }
 
     return this.queryResult;

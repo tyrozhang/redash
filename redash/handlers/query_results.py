@@ -70,6 +70,7 @@ def run_query_sync(data_source, parameter_values, query_text, max_age=0):
             abort(503, message="Unable to get result from the database.")
         return None
 
+
 def run_query(data_source, parameter_values, query_text, query_id, max_age=0):
     query_parameters = set(collect_query_parameters(query_text))
     missing_params = set(query_parameters) - set(parameter_values.keys())
@@ -95,7 +96,12 @@ def run_query(data_source, parameter_values, query_text, query_id, max_age=0):
     if query_result:
         return {'query_result': query_result.to_dict()}
     else:
-        job = enqueue_query(query_text, data_source, current_user.id, metadata={"Username": current_user.email, "Query ID": query_id})
+        if current_user.is_api_user():
+            job = enqueue_query(query_text, data_source, user_id=None,
+                                metadata={"Username": current_user.id, "Query ID": query_id})
+        else:
+            job = enqueue_query(query_text, data_source, current_user.id,
+                                metadata={"Username": current_user.email, "Query ID": query_id})
         return {'job': job.to_dict()}
 
 
