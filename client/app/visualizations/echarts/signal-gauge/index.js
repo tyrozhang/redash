@@ -104,8 +104,7 @@ function signalGaugeEditor() {
         columnName: '',
         gaugeLabel: '仪表盘',
         maxNumber: 100,
-        // colors: ['#3BD973', '#356AFF', '#E92828'],
-        colors: ['#20604F', '#f09426', '#D0104C'],
+        colors: ['#9BEDF0', '#77DBCD', '#227993'],
       };
 
       if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
