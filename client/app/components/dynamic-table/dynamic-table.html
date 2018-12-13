@@ -1,6 +1,6 @@
 <div ng-if="!$ctrl.includeLargeScreen()">
   <div class="dynamic-table-container">
-    <table class="table table-condensed table-hover">
+    <table class="table table-condensed table-hover" data-test="DynamicTable">
       <thead>
         <tr>
           <th ng-repeat="column in $ctrl.columns" ng-click="$ctrl.onColumnHeaderClick($event, column)"
@@ -50,7 +50,7 @@
 
 <div ng-if="$ctrl.includeLargeScreen()">
   <div class="dynamic-table-container gds_dynamic-table-container">
-    <table class="table table-condensed table-hover gds_large_table">
+    <table class="table table-condensed table-hover gds_large_table" data-test="DynamicTable">
       <thead>
         <tr>
           <th ng-repeat="column in $ctrl.columns" ng-click="$ctrl.onColumnHeaderClick($event, column)"

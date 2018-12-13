@@ -1,17 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { react2angular } from 'react2angular';
-import { BigMessage } from './BigMessage';
+import { BigMessage } from '@/components/BigMessage';
+import TagsControl from '@/components/tags-control/TagsControl';
 
 function NoTaggedObjectsFound({ objectType, tags }) {
   return (
     <BigMessage icon="fa-tags">
-      没有 {objectType} 收藏在
-      {Array.from(tags).map(tag => (
-        <span className="label label-tag" key={tag}>
-          {tag}
-        </span>
-      ))}.
+      没有 {objectType} 收藏在&nbsp;<TagsControl className="inline-tags-control" tags={Array.from(tags)} />.
     </BigMessage>
   );
 }
