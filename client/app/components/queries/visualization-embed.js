@@ -13,6 +13,10 @@ const VisualizationEmbed = {
     document.querySelector('body').classList.add('headless');
     const visualizationId = parseInt($routeParams.visualizationId, 10);
     this.showQueryDescription = $routeParams.showDescription;
+
+    // 获取嵌入的iframe是否显示标题的参数，将在页面中进行判断，决定是否显示标题
+    this.showTitle = $routeParams.show_title;
+
     this.apiKey = $routeParams.api_key;
     this.logoUrl = logoUrl;
     this.query = new Query(this.data[0]);

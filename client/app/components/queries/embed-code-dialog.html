@@ -3,15 +3,26 @@
   <h4 class="modal-title">{{'Embed Code' | translate}}</h4>
 </div>
 <div class="modal-body">
-  <h5>{{'IFrame Embed' | translate}}</h5>
-  <div>
-    <code>&lt;iframe src="{{ $ctrl.embedUrl }}" width="720" height="391"&gt;&lt;/iframe&gt;</code>
-  </div>
+  <h5 style="display: inline">{{'IFrame Embed' | translate}}</h5>
   <span class="text-muted">{{'(height should be adjusted)' | translate}}</span>
+  <div>
+    <code id="iFrameUrl">&lt;iframe src="{{ $ctrl.embedUrl }}" width="720" height="391"&gt;&lt;/iframe&gt;</code>
+    <textarea id="iFrameInput" class="embed_code_dialog_iframe_input"></textarea>
+  </div>
+
   <div ng-if="$ctrl.snapshotUrl">
     <h5>{{'Image Embed' | translate}}</h5>
     <div>
       <code style="overflow-wrap:break-word;">{{$ctrl.snapshotUrl}}</code>
     </div>
+  </div>
+  <div>
+    <label>
+      <input type="checkbox" ng-model="$ctrl.showTitle" ng-click="$ctrl.isShowTitle()">
+      <i class="input-helper"></i> 显示标题
+    </label>
+  </div>
+  <div class="btn-group gds_btn-group-border dropdown">
+    <button type="button" class="btn btn-sm hidden-xs btn-default" ng-click="$ctrl.copyKey()">复制</button>
   </div>
 </div>
