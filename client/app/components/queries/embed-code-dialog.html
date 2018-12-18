@@ -16,13 +16,14 @@
       <code style="overflow-wrap:break-word;">{{$ctrl.snapshotUrl}}</code>
     </div>
   </div>
-  <div>
+  <div class="embed_code_dialog_checkbox">
     <label>
       <input type="checkbox" ng-model="$ctrl.showTitle" ng-click="$ctrl.isShowTitle()">
       <i class="input-helper"></i> 显示标题
     </label>
   </div>
-  <div class="btn-group gds_btn-group-border dropdown">
-    <button type="button" class="btn btn-sm hidden-xs btn-default" ng-click="$ctrl.copyKey()">复制</button>
+  <div class="btn-group gds_btn-group-border dropdown embed_code_dialog_btn">
+    <button type="button" class="btn btn-sm hidden-xs btn-default"
+            ng-click="$ctrl.copyKey()" title="复制此IFrame内容"><i class="zmdi zmdi-copy"></i>&nbsp;复制</button>
   </div>
 </div>
