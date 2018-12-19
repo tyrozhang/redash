@@ -22,7 +22,7 @@ function ChartDataHelper() {
   ChartDataHelper.prototype.getValuesData = () => {
     const data = [];
     each(queryResult, (item) => {
-      data.push(item[valuesColumn]);
+      data.push(parseInt(item[valuesColumn], 10));
     });
     return data;
   };
