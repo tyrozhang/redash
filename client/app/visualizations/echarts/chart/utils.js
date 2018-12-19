@@ -222,7 +222,6 @@ function BaseChartOption() {
     if (horizontalBar) {
       this.chartOption.grid.left = '80px';
       this.chartOption.yAxis.axisLabel = {
-        interval: 0,
         formatter: params => setAxisLabel(params),
       };
     } else {
@@ -235,7 +234,6 @@ function BaseChartOption() {
       // 如果分类列数量大于7列，将倾斜展示x轴文本，且超过五个字将会折行
       if (this.chartHelper.getCategoryData().length > 7) {
         this.chartOption.xAxis.axisLabel = {
-          interval: 0,
           rotate: -45,
           formatter: params => setAxisLabel(params),
         };
@@ -246,7 +244,6 @@ function BaseChartOption() {
       // 如果分类列数量小于等于7列，则水平显示x轴文本，且超过五个字将会折行
       if (this.chartHelper.getCategoryData().length <= 7) {
         this.chartOption.xAxis.axisLabel = {
-          interval: 0,
           formatter: params => setAxisLabel(params),
         };
         // 根据最大长度进行底部间距的设置
