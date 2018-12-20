@@ -53,7 +53,7 @@ function dataDrilling($location, Dashboard, $http, Auth, selectSlug, chart) {
             // 拼接参数字符串
             const params = getParamsStr('&', globalParams, catalogValue, groupValue);
 
-            const url = '/public/dashboards/' + apiKey + '?org_slug=default' + params;
+            const url = '/public/dashboards/' + apiKey + '?org_slug=default' + params + '&fullscreen';
             window.location.href = url;
           });
       });
