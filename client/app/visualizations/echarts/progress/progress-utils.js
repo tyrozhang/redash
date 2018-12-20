@@ -111,7 +111,7 @@ function ProgressOption() {
         barCategoryGap: '30%',
         itemStyle: {
           normal: {
-            color: '#227993',
+            color: '#EF9818',
             barBorderRadius: 5,
           },
         },
@@ -125,7 +125,7 @@ function ProgressOption() {
         barCategoryGap: '30%',
         itemStyle: {
           normal: {
-            color: '#4bccd1',
+            color: '#989BA2',
             borderColor: '#393939',
             barBorderRadius: 5,
             borderWidth: 2,
