@@ -184,7 +184,7 @@ default_query_runners = [
     #9#'redash.query_runner.google_analytics',
     #2#'redash.query_runner.axibase_tsd',
     #32#'redash.query_runner.salesforce',
-    #30#'redash.query_runner.query_results',
+    'redash.query_runner.query_results',
     'redash.query_runner.prometheus',
     #29#'redash.query_runner.qubole',
     #'redash.query_runner.db2',
