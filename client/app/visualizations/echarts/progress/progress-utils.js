@@ -171,7 +171,6 @@ function ProgressOption() {
 
   this.setAxisLabel = () => {
     this.progressOption.yAxis.axisLabel = {
-      interval: 0,
       formatter: params => setAxisLabel(params),
     };
   };
