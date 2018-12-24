@@ -2,6 +2,7 @@ import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import { LineOption } from '@/visualizations/echarts/chart/utils';
 import { dataDrilling, getHasFiltersDashboards } from '@/visualizations/echarts/chart/data-drilling/util';
+import { ColorPalette } from '@/visualizations/chart/plotly/utils';
 import editorTemplate from './line-editor.html';
 
 
@@ -49,6 +50,11 @@ function LineRenderer($location, currentUser, Dashboard, $http, Auth) {
         lineExamples.setSmoothStyle(editOptions.smoothStyle);
         lineExamples.setLineStyle(editOptions.lineStyle);
 
+        if (editOptions.showMarkLine) {
+          if (editOptions.markLineValue) lineExamples.setMarkLine(editOptions.markLineValue);
+          if (editOptions.markLineColor) lineExamples.setMarkLineColor(editOptions.markLineColor.value);
+        }
+
         echartFactory.setOption(lineChart, lineExamples.chartOption);
       }
 
@@ -72,6 +78,9 @@ function LineEditor(Dashboard) {
       $scope.changeTab = (tab) => {
         $scope.currentTab = tab;
       };
+
+      $scope.colors = ColorPalette;
+
       const editOptions = {
         legend: true,
       };

@@ -302,6 +302,31 @@ function BaseChartOption() {
       if (lineStyle === 'dotted') this.chartOption.series[index].lineStyle.type = 'dotted';
     });
   };
+
+  // 设置图形标线
+  this.setMarkLine = (markLineValue) => {
+    this.chartOption.series[0].markLine = {
+      data: [
+        {
+          yAxis: markLineValue,
+        },
+      ],
+      itemStyle: {
+        normal: {
+          lineStyle: {
+            type: 'solid',
+            color: '#E92828',
+            width: 2,
+          },
+        },
+      },
+    };
+  };
+
+  // 设置图形标线的颜色
+  this.setMarkLineColor = (markLineColor) => {
+    this.chartOption.series[0].markLine.itemStyle.normal.lineStyle.color = markLineColor;
+  };
 }
 
 function BasePieOption() {

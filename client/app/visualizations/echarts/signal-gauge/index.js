@@ -1,8 +1,20 @@
 import _ from 'lodash';
-import { ColorPalette } from '@/visualizations/chart/plotly/utils';
+import config from '@/visualizations/echarts/config';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import editorTemplate from './signal-gauge-editor.html';
 
+
+function setGaugeColor(option, color) {
+  option.series[0].axisLine = {
+    lineStyle: {
+      color: [
+        [0.3, color[0]],
+        [0.7, color[1]],
+        [1, color[2]],
+      ],
+    },
+  };
+}
 
 // 单仪表盘的绘图参数
 const gaugeOption = {
@@ -30,15 +42,6 @@ const gaugeOption = {
         { value: [], name: '仪表盘' },
       ],
       max: 100,
-      axisLine: {
-        lineStyle: {
-          color: [
-            [0.3, ''],
-            [0.7, ''],
-            [1, ''],
-          ],
-        },
-      },
     },
   ],
 };
@@ -60,9 +63,6 @@ function signalGaugeRenderer($location, currentUser) {
           const gaugeLabel = $scope.visualization.options.editOptions.gaugeLabel;
           const column = $scope.visualization.options.editOptions.columnName;
           const maxNumber = $scope.visualization.options.editOptions.maxNumber;
-          const colorLeft = $scope.visualization.options.editOptions.colors[0];
-          const colorCenter = $scope.visualization.options.editOptions.colors[1];
-          const colorRight = $scope.visualization.options.editOptions.colors[2];
 
           // 根据选择的列显示第一行数据
           gaugeOption.series[0].data[0].value = queryData[0][column];
@@ -74,9 +74,7 @@ function signalGaugeRenderer($location, currentUser) {
           gaugeOption.series[0].max = maxNumber;
 
           // 颜色的参数设置
-          gaugeOption.series[0].axisLine.lineStyle.color[0][1] = colorLeft;
-          gaugeOption.series[0].axisLine.lineStyle.color[1][1] = colorCenter;
-          gaugeOption.series[0].axisLine.lineStyle.color[2][1] = colorRight;
+          setGaugeColor(gaugeOption, config.defaultColors);
 
           echartFactory.setOption(gaugeChart, gaugeOption);
         }
@@ -104,12 +102,9 @@ function signalGaugeEditor() {
         columnName: '',
         gaugeLabel: '仪表盘',
         maxNumber: 100,
-        colors: ['#3BD973', '#356AFF', '#E92828'],
       };
 
       if (!$scope.visualization.id) $scope.visualization.options.editOptions = editOptions;
-      $scope.visualization.options.colors = ColorPalette;
-      $scope.sectorLabels = ['左侧区域颜色', '中间区域颜色', '右侧区域颜色'];
     },
   };
 }

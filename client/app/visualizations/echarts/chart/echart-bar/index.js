@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { BarOption } from '@/visualizations/echarts/chart/utils';
 import { dataDrilling, getHasFiltersDashboards } from '@/visualizations/echarts/chart/data-drilling/util';
+import { ColorPalette } from '@/visualizations/chart/plotly/utils';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import editorTemplate from './bar-editor.html';
 
@@ -54,6 +55,11 @@ function BarRenderer($location, currentUser, Dashboard, $http, Auth) {
         barExamples.setShowValueLabel(editOptions.showValueLabel);
         barExamples.setStack(editOptions.stack);
 
+        if (editOptions.showMarkLine) {
+          if (editOptions.markLineValue) barExamples.setMarkLine(editOptions.markLineValue);
+          if (editOptions.markLineColor) barExamples.setMarkLineColor(editOptions.markLineColor.value);
+        }
+
         echartFactory.setOption(barChart, barExamples.chartOption);
       }
 
@@ -77,6 +83,8 @@ function BarEditor(Dashboard) {
       $scope.changeTab = (tab) => {
         $scope.currentTab = tab;
       };
+
+      $scope.colors = ColorPalette;
 
       const editOptions = {
         conversion: false,

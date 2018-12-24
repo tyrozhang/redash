@@ -73,6 +73,31 @@
       </label>
     </div>
 
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="visualization.options.editOptions.showMarkLine">
+        <i class="input-helper"></i> 显示图形标线
+      </label>
+    </div>
+
+    <div class="form-group" ng-if="visualization.options.editOptions.showMarkLine">
+      <label class="control-label">图形标线值</label>
+      <input ng-model="visualization.options.editOptions.markLineValue" type="number" step="any" min='any' class="form-control">
+    </div>
+    <div class="form-group" ng-if="visualization.options.editOptions.showMarkLine">
+      <label class="control-label">选择标线的颜色</label>
+        <ui-select ng-model="visualization.options.editOptions.markLineColor">
+            <ui-select-match>
+              <color-box color="$select.selected.value"></color-box>
+            </ui-select-match>
+            <ui-select-choices repeat="color as (key, color) in colors">
+              <color-box color="color.value"></color-box>
+              <span ng-bind-html="color.key"></span>
+            </ui-select-choices>
+          </ui-select>
+    </div>
+
+
   </div>
   <div ng-if="currentTab == 'xAxis'" class="m-t-10 m-b-10" >
 
