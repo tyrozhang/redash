@@ -2,10 +2,10 @@ const config = {
   defaultColors: [
     '#4bccd1',
     '#227993',
-    '#fddbc1',
-    '#9bedf0',
+    '#fdc59b',
     '#77dbcd',
-    '#ccf3f8',
+    '#32dad8',
+    '#6edfe3',
     '#18a5ab'],
 };
 export default config;

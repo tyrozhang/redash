@@ -87,28 +87,31 @@ function MapOption() {
   this.mapOption = {
     geo: {
       map: 'china',
+      itemStyle: {
+        normal: {
+          color: 'rgba(0, 0, 0, 0)',
+        },
+      },
     },
     series: [
       {
         type: 'map',
         mapType: 'china',
-        // roam: true,
         data: [],
         itemStyle: {
           normal: {
             color: 'rgba(255, 255, 255, 0)',
-            // areaColor: 'red',
-            borderColor: '#C0C0C0',
+            borderColor: '#2884C1',
+            areaColor: 'rgba(0, 0, 0, 0)',
+            borderWidth: 1,
           },
           emphasis: {
-            areaColor: '#9BC482',
-            color: 'rgba(255, 255, 255, 0)',
-            borderColor: 'rgba(255, 255, 255, 0)',
+            areaColor: 'rgba(0, 0, 0, 0)',
           },
         },
         label: {
           emphasis: {
-            show: true,
+            show: false,
             fontSize: 13,
           },
         },
@@ -119,14 +122,14 @@ function MapOption() {
         data: [],
         symbolSize: (data) => {
           const maxValue = max(this.chartDataHelper.getValueData());
-          if (data[2] / (maxValue / 20) < 5) {
-            return 5;
+          if (data[2] / (maxValue / 13) < 3) {
+            return 3;
           }
-          return data[2] / (maxValue / 20);
+          return data[2] / (maxValue / 13);
         },
         label: {
           normal: {
-            show: true,
+            show: false,
             color: '#000000',
             formatter: params => params.value[2],
             position: 'top',
@@ -134,9 +137,11 @@ function MapOption() {
         },
         itemStyle: {
           normal: {
-            // color: '#DC0411',
-            color: '#A9334C',
+            color: '#FCC775',
           },
+        },
+        rippleEffect: {
+          brushType: 'stroke',
         },
       },
     ],
@@ -166,7 +171,8 @@ function MapOption() {
         },
       });
     });
-    this.mapOption.series[0].data = mapDataColor;
+    // this.mapOption.series[0].data = mapDataColor;
+    this.mapOption.series[0].data = [];
   };
 }
 
