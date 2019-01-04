@@ -1,63 +1,72 @@
 import * as _ from 'lodash';
-import logoUrl from '@/assets/images/redash_icon_small.png';
 import template from './public-dashboard-page.html';
 import './dashboard.less';
 
+function loadDashboard($http, $route) {
+  const token = $route.current.params.token;
+  return $http.get(`api/dashboards/public/${token}`).then(response => response.data);
+}
+
 const PublicDashboardPage = {
   template,
-  controller($timeout, $location, $http, $route, $q, dashboardGridOptions, Dashboard) {
+  bindings: {
+    dashboard: '<',
+  },
+  controller($timeout, $location, $http, $route, $q, Dashboard) {
     'ngInject';
 
-    this.loadDashboard = () => {
-      const token = $route.current.params.token;
-      $http.get(`api/dashboards/public/${token}`).then((response) => {
-        const dashboard = response.data;
-        dashboard.widgets = Dashboard.prepareDashboardWidgets(dashboard.widgets);
-
-        const queryResultPromises = _.compact(dashboard.widgets.map(widget => widget.load(true)));
-        $q.all(queryResultPromises).then(() => {
-          this.dashboard = dashboard;
-          this.extractGlobalParameters();
-        });
-      });
-    };
-
-    this.loadDashboard();
-
-    this.dashboardGridOptions = Object.assign({}, dashboardGridOptions, {
-      resizable: { enabled: false },
-      draggable: { enabled: false },
-    });
-
-    this.logoUrl = logoUrl;
     this.public = true;
-
-    this.globalParameters = [];
+    this.dashboard.widgets = Dashboard.prepareDashboardWidgets(this.dashboard.widgets);
     const refreshRate = Math.max(30, parseFloat($location.search().refresh));
 
-    this.extractGlobalParameters = () => {
-      this.globalParameters = Dashboard.getGlobalParams(this.dashboard.widgets);
-    };
+    const collectFilters = (dashboard, forceRefresh) => {
+      const queryResultPromises = _.compact(this.dashboard.widgets.map(widget => widget.load(forceRefresh)));
 
-    this.onGlobalParametersChange = () => {
-      this.globalParameters.forEach((global) => {
-        global.locals.forEach((local) => {
-          local.value = global.value;
+      $q.all(queryResultPromises).then((queryResults) => {
+        const filters = {};
+        queryResults.forEach((queryResult) => {
+          const queryFilters = queryResult.getFilters();
+          queryFilters.forEach((queryFilter) => {
+            const hasQueryStringValue = _.has($location.search(), queryFilter.name);
+
+            if (hasQueryStringValue) {
+              queryFilter.current = $location.search()[queryFilter.name];
+            }
+
+            if (!_.has(filters, queryFilter.name)) {
+              const filter = _.extend({}, queryFilter);
+              filters[filter.name] = filter;
+              filters[filter.name].originFilters = [];
+            }
+
+            filters[queryFilter.name].originFilters.push(queryFilter);
+          });
         });
+
+        this.filters = _.values(filters);
+        this.filtersOnChange = (filter) => {
+          _.each(filter.originFilters, (originFilter) => {
+            originFilter.current = filter.current;
+          });
+        };
       });
     };
 
-    this.refreshDashboard = () => {
-      this.loadDashboard().then(() => {
-        this.extractGlobalParameters();
-      });
+    this.showDashboardFilters = () => {
+      collectFilters(this.dashboard, undefined);
     };
+
+    this.showDashboardFilters();
 
     if (refreshRate) {
       const refresh = () => {
-        this.refreshDashboard();
-        $timeout(refresh, refreshRate * 1000.0);
+        loadDashboard($http, $route).then((data) => {
+          this.dashboard = data;
+          this.dashboard.widgets = Dashboard.prepareDashboardWidgets(this.dashboard.widgets);
+          $timeout(refresh, refreshRate * 1000.0);
+        });
       };
+
       $timeout(refresh, refreshRate * 1000.0);
     }
   },
@@ -65,6 +74,12 @@ const PublicDashboardPage = {
 
 export default function init(ngModule) {
   ngModule.component('publicDashboardPage', PublicDashboardPage);
+
+  function loadPublicDashboard($http, $route) {
+    'ngInject';
+
+    return loadDashboard($http, $route);
+  }
 
   function session($http, $route, Auth) {
     const token = $route.current.params.token;
@@ -77,6 +92,7 @@ export default function init(ngModule) {
       template: '<public-dashboard-page dashboard="$resolve.dashboard"></public-dashboard-page>',
       reloadOnSearch: false,
       resolve: {
+        dashboard: loadPublicDashboard,
         session,
       },
     });
