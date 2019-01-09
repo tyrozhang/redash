@@ -2,6 +2,7 @@ import angular from 'angular';
 import _ from 'lodash';
 import d3 from 'd3';
 
+import chartIcon from '@/assets/images/visualizationIcons/icon_sankey.png';
 import d3sankey from '@/lib/visualizations/d3sankey';
 import editorTemplate from './sankey-editor.html';
 
@@ -281,6 +282,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'SANKEY',
       name: '桑基图',
+      icon: chartIcon,
       renderTemplate,
       editorTemplate: editTemplate,
       defaultOptions,

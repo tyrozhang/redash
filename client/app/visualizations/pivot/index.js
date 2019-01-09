@@ -3,6 +3,7 @@ import $ from 'jquery';
 import 'pivottable';
 import 'pivottable/dist/pivot.css';
 
+import chartIcon from '@/assets/images/visualizationIcons/icon_pivot.png';
 import editorTemplate from './pivottable-editor.html';
 import './pivot.less';
 
@@ -94,6 +95,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'PIVOT',
       name: '数据透视表',
+      icon: chartIcon,
       renderTemplate:
         '<pivot-table-renderer visualization="visualization" query-result="queryResult"></pivot-table-renderer>',
       editorTemplate: editTemplate,

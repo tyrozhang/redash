@@ -2,6 +2,7 @@ import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import { PieOption } from '@/visualizations/echarts/chart/utils';
 import { dataDrilling, getHasFiltersDashboards } from '@/visualizations/echarts/chart/data-drilling/util';
+import chartIcon from '@/assets/images/visualizationIcons/icon_pie.png';
 import editorTemplate from './pie-editor.html';
 
 
@@ -82,6 +83,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'echart-pie',
       name: '饼图',
+      icon: chartIcon,
       renderTemplate,
       editorTemplate: editTemplate,
     });

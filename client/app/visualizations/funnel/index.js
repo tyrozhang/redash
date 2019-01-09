@@ -1,4 +1,5 @@
 import { debounce, sortBy, isNumber, every, difference } from 'lodash';
+import chartIcon from '@/assets/images/visualizationIcons/icon_funnel.png';
 import d3 from 'd3';
 import angular from 'angular';
 
@@ -231,6 +232,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'FUNNEL',
       name: '漏斗图',
+      icon: chartIcon,
       renderTemplate,
       editorTemplate: editTemplate,
       defaultOptions,

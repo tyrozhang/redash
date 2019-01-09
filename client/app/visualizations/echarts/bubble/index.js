@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
+import chartIcon from '@/assets/images/visualizationIcons/icon_bubble.png';
 import BubbleOption from './bubble-utils';
 import editorTemplate from './bubble-editor.html';
 
@@ -83,6 +84,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'echart-bubble',
       name: '气泡图',
+      icon: chartIcon,
       renderTemplate,
       editorTemplate: editTemplate,
     });

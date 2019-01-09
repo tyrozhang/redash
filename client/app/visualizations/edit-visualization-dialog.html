@@ -12,10 +12,23 @@
             <div class="form-group">
               <label class="control-label">{{'Visualization Type' | translate}}</label>
 
-              <select required ng-model="$ctrl.visualization.type"
-                ng-disabled="!$ctrl.canChangeType"
-                ng-options="type.type as type.name for type in $ctrl.visTypes" class="form-control"
-                ng-change="$ctrl.typeChanged('{{$ctrl.visualization.type}}')"></select>
+              <ui-select required ng-model="$ctrl.visualization.type"
+                ng-change="$ctrl.typeChanged('{{ $ctrl.visualization.type }}')"
+                ng-disabled="!$ctrl.canChangeType">
+                <ui-select-match>
+                  <div>
+                    {{ $select.selected.name }}
+                  </div>
+                </ui-select-match>
+                <ui-select-choices repeat="type.type as type in $ctrl.visTypes">
+                  <div class="select_chart_type_div">
+                    <img src="{{ type.icon }}">
+                    <span> </span>
+                    <span ng-bind-html="type.name | highlight: $select.search"></span>
+                  </div>
+                </ui-select-choices>
+              </ui-select>
+
             </div>
 
             <div class="form-group">
