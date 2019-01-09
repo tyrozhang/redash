@@ -1,54 +1,32 @@
-import * as _ from 'lodash';
-import logoUrl from '@/assets/images/redash_icon_small.png';
 import template from './large-screen-dashboards-page.html';
 import './dashboard.less';
 
+function loadDashboard($http, $route) {
+  const token = $route.current.params.token;
+  return $http.get(`api/dashboards/public/${token}`).then(response => response.data);
+}
+
 const LargeScreenDashboardsPage = {
   template,
-  controller($timeout, $location, $http, $route, $q, dashboardGridOptions, Dashboard) {
+  bindings: {
+    dashboard: '<',
+  },
+  controller(Dashboard) {
     'ngInject';
 
-    this.loadDashboard = () => {
-      const token = $route.current.params.token;
-      $http.get(`api/dashboards/public/${token}`).then((response) => {
-        const dashboard = response.data;
-        dashboard.widgets = Dashboard.prepareDashboardWidgets(dashboard.widgets);
-
-        const queryResultPromises = _.compact(dashboard.widgets.map(widget => widget.load(true)));
-        $q.all(queryResultPromises).then(() => {
-          this.dashboard = dashboard;
-        });
-      });
-    };
-
-    this.loadDashboard();
-
-    this.dashboardGridOptions = Object.assign({}, dashboardGridOptions, {
-      resizable: { enabled: false },
-      draggable: { enabled: false },
-    });
-
-    this.logoUrl = logoUrl;
     this.public = true;
-
-    const refreshRate = Math.max(30, parseFloat($location.search().refresh));
-
-    this.refreshDashboard = () => {
-      this.loadDashboard();
-    };
-
-    if (refreshRate) {
-      const refresh = () => {
-        this.refreshDashboard();
-        $timeout(refresh, refreshRate * 1000.0);
-      };
-      $timeout(refresh, refreshRate * 1000.0);
-    }
+    this.dashboard.widgets = Dashboard.prepareDashboardWidgets(this.dashboard.widgets);
   },
 };
 
 export default function init(ngModule) {
   ngModule.component('largeScreenDashboardsPage', LargeScreenDashboardsPage);
+
+  function loadLargeScreenDashboard($http, $route) {
+    'ngInject';
+
+    return loadDashboard($http, $route);
+  }
 
   function session($http, $route, Auth) {
     const token = $route.current.params.token;
@@ -61,6 +39,7 @@ export default function init(ngModule) {
       template: '<large-screen-dashboards-page dashboard="$resolve.dashboard"></large-screen-dashboards-page>',
       reloadOnSearch: false,
       resolve: {
+        dashboard: loadLargeScreenDashboard,
         session,
       },
     });

@@ -225,7 +225,6 @@ class QueryResultResource(BaseResource):
                     query_result = get_object_or_404(models.QueryResult.get_by_id_and_org,
                                                          query.latest_query_data_id, self.current_org)
 
-            # 此注释为了支持共享IFrame小部件具有刷新数据功能，降低了系统的安全性和性能，为临时手段
             if query is not None and query_result is not None and self.current_user.is_api_user():
                 if query.query_hash != query_result.query_hash:
                     abort(404, message='No cached result found for this query.')

@@ -168,7 +168,7 @@ const zh = {
   'Manage Permissions': '管理权限',
   Unpublish: '撤销发布',
   Archive: '删除',
-  'Use Dashboard Level Filters': '使用仪表盘级过滤器',
+  'Use Dashboard Level Filters': '使用仪表盘级过滤器（使用后，将会隐藏各小部件的过滤器）',
   'Widgets are individual query visualizations or text boxes you can place on your dashboard in various arrangements.': '组件是单独的查询可视化或文本框，您可以在仪表盘上以各种方式放置.',
   'Add Widget': '添加组件',
   // Share

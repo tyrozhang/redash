@@ -28,7 +28,7 @@
 
     <!-- 加载成功时展现 -->
     <div ng-switch-when="done" class="body-row-auto gds_contbox_box_cont_middle">
-      <visualization-renderer visualization="$ctrl.widget.visualization" query-result="$ctrl.widget.getQueryResult()" class="t-body"></visualization-renderer>
+      <visualization-renderer is-use-filter="false" visualization="$ctrl.widget.visualization" query-result="$ctrl.widget.getQueryResult()" class="t-body"></visualization-renderer>
     </div>
 
     <!-- 加载默认时展现 -->
