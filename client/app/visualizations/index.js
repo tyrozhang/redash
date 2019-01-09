@@ -22,7 +22,7 @@ function VisualizationProvider() {
     this.visualizations[config.type] = visualization;
 
     if (!config.skipTypes) {
-      this.visualizationTypes.push({ name: config.name, type: config.type });
+      this.visualizationTypes.push({ name: config.name, type: config.type, icon: config.icon });
     }
   };
 
@@ -81,16 +81,20 @@ function VisualizationName(Visualization) {
 }
 
 function VisualizationRenderer(Visualization) {
+  // isUseFilter is undefined if the dashboard level filter is not used.
+  const noDashboardFilter = undefined;
+
   return {
     restrict: 'E',
     scope: {
       visualization: '=',
       queryResult: '=',
+      isUseFilter: '=',
     },
     // TODO: using switch here (and in the options editor) might introduce errors and bad
     // performance wise. It's better to eventually show the correct template based on the
     // visualization type and not make the browser render all of them.
-    template: `<filters filters="filters"></filters>\n${Visualization.renderVisualizationsTemplate}`,
+    template: `<filters filters="filters" ng-if="isUseFilter || isUseFilter === ${noDashboardFilter}"></filters>\n${Visualization.renderVisualizationsTemplate}`,
     replace: false,
     link(scope) {
       scope.$watch('queryResult && queryResult.getFilters()', (filters) => {
