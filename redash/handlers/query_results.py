@@ -11,9 +11,7 @@ from redash.permissions import (has_access, not_view_only, require_access,
                                 require_permission, view_only)
 from redash.tasks import QueryTask, record_event
 from redash.tasks.queries import enqueue_query
-from redash.utils import (collect_parameters_from_request,
-                          collect_query_parameters, gen_query_hash, json_dumps,
-                          utcnow)
+from redash.utils import (collect_parameters_from_request, find_missing_params, gen_query_hash, json_dumps, utcnow)
 from redash.utils.sql_query import SQLInjectionError, SQLQuery
 
 
@@ -36,6 +34,8 @@ def apply_parameters(template, parameters, data_source):
             'timestamp': time.time(),
             'org_id': data_source.org_id
         })
+    except Exception as e:
+        logging.info(u"Failed applying parameters for query %s: %s", gen_query_hash(query.query), e.message)
     finally:
         text = query.query
 
@@ -49,8 +49,7 @@ def apply_parameters(template, parameters, data_source):
 #             on the client side. Please don't reuse in other API handlers.
 #
 def run_query_sync(data_source, parameter_values, query_text, max_age=0):
-    query_parameters = set(collect_query_parameters(query_text))
-    missing_params = set(query_parameters) - set(parameter_values.keys())
+    missing_params = find_missing_params(query_text, parameter_values)
     if missing_params:
         raise Exception('Missing parameter value for: {}'.format(", ".join(missing_params)))
 
@@ -92,10 +91,9 @@ def run_query_sync(data_source, parameter_values, query_text, max_age=0):
 
 
 def run_query(data_source, parameter_values, query_text, query_id, max_age=0):
-    query_parameters = set(collect_query_parameters(query_text))
-    missing_params = set(query_parameters) - set(parameter_values.keys())
+    missing_params = find_missing_params(query_text, parameter_values)
     if missing_params:
-        return error_response('Missing parameter value for: {}'.format(", ".join(missing_params)))
+        return error_response(u'Missing parameter value for: {}'.format(u", ".join(missing_params)))
 
     if data_source.paused:
         if data_source.pause_reason:
@@ -149,7 +147,7 @@ class QueryResultListResource(BaseResource):
 
         data_source = models.DataSource.get_by_id_and_org(params.get('data_source_id'), self.current_org)
 
-        if not has_access(data_source.groups, self.current_user, not_view_only) and not isinstance(self.current_user, models.ApiUser):
+        if not has_access(data_source.groups, self.current_user, not_view_only):
             return {'job': {'status': 4, 'error': 'You do not have permission to run queries with this data source.'}}, 403
 
         self.record_event({

@@ -20,6 +20,8 @@ from redash.authentication.account import invite_link_for_user, send_invite_emai
 order_map = {
     'name': 'name',
     '-name': '-name',
+    'active_at': 'active_at',
+    '-active_at': '-active_at',
     'created_at': 'created_at',
     '-created_at': '-created_at',
     'groups': 'group_ids',
@@ -100,6 +102,7 @@ class UserListResource(BaseResource):
         user = models.User(org=self.current_org,
                            name=req['name'],
                            email=req['email'],
+                           is_invitation_pending=True,
                            group_ids=[self.current_org.default_group.id])
 
         try:
@@ -214,6 +217,22 @@ class UserResource(BaseResource):
             'object_type': 'user',
             'updated_fields': params.keys()
         })
+
+        return user.to_dict(with_api_key=is_admin_or_owner(user_id))
+
+    @require_admin
+    def delete(self, user_id):
+        user = models.User.get_by_id_and_org(user_id, self.current_org)
+        # admin cannot delete self; current user is an admin (`@require_admin`)
+        # so just check user id
+        if user.id == current_user.id:
+            abort(403, message="You cannot delete your own account. "
+                               "Please ask another admin to do this for you.")
+        elif not user.is_invitation_pending:
+            abort(403, message="You cannot delete activated users. "
+                               "Please disable the user instead.")
+        models.db.session.delete(user)
+        models.db.session.commit()
 
         return user.to_dict(with_api_key=is_admin_or_owner(user_id))
 

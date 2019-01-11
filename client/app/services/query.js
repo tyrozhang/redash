@@ -361,7 +361,12 @@ function QueryResource(
     return new Query({
       query: '',
       name: '新的查询',
-      schedule: null,
+      schedule: {
+        time: null,
+        until: null,
+        interval: null,
+        day_of_week: null,
+      },
       user: currentUser,
       options: {},
     });
