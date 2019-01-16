@@ -1,4 +1,5 @@
 import moment from 'moment';
+import 'moment/locale/zh-cn';
 
 function rdTimer() {
   return {
@@ -11,7 +12,7 @@ function rdTimer() {
       // We're using setInterval directly instead of $timeout, to avoid using $apply, to
       // prevent the digest loop being run every second.
       let currentTimer = setInterval(() => {
-        $scope.currentTime = moment(moment() - moment($scope.timestamp)).utc().format('HH:mm:ss');
+        $scope.currentTime = moment(moment() - moment($scope.timestamp), 'zh-cn').utc().format('HH:mm:ss');
         $scope.$digest();
       }, 1000);
 
