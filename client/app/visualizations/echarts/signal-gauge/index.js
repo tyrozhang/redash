@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import config from '@/visualizations/echarts/config';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
+import chartIcon from '@/assets/images/visualizationIcons/icon_gauge.png';
 import editorTemplate from './signal-gauge-editor.html';
 
 
@@ -121,6 +122,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'signal-gauge',
       name: '单仪表盘',
+      icon: chartIcon,
       renderTemplate,
       editorTemplate: editTemplate,
     });

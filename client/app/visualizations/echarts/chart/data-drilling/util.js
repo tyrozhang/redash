@@ -1,60 +1,68 @@
-import { each } from 'lodash';
+import * as _ from 'lodash';
 
-function getParamsStr(params, globalParams, catalogValue, groupValue) {
-  params = params + 'p_' + globalParams[0].name + '=' + catalogValue;
-  if (globalParams.length === 2) {
-    params = params + '&p_' + globalParams[1].name + '=' + groupValue;
+
+function getParamsStr(params, newFilters, catalogValue, groupValue) {
+  params = params + newFilters[0].name + '=' + catalogValue;
+  if (newFilters.length === 2) {
+    params = params + '&' + newFilters[1].name + '=' + groupValue;
   }
   return params;
 }
+
+// 执行钻取跳转的方法
+function executeDataDrilling($q, widgets, catalogValue, groupValue, drillingUrl, char) {
+  const queryResultPromises = _.compact(widgets.map(widget => widget.load(undefined)));
+
+  $q.all(queryResultPromises)
+    .then((queryResults) => {
+      const filters = {};
+      queryResults.forEach((queryResult) => {
+        const queryFilters = queryResult.getFilters();
+        queryFilters.forEach((queryFilter) => {
+          if (!_.has(filters, queryFilter.name)) {
+            const filter = _.extend({}, queryFilter);
+            filters[filter.name] = filter;
+            filters[filter.name].originFilters = [];
+          }
+        });
+      });
+      const newFilters = _.values(filters);
+      const params = getParamsStr(char, newFilters, catalogValue, groupValue);
+      window.location.href = drillingUrl + params;
+    });
+}
+
 
 function session(Auth, apiKey) {
   Auth.setApiKey(apiKey);
   Auth.loadConfig();
 }
 
-function dataDrilling($location, Dashboard, $http, Auth, selectSlug, chart) {
+function dataDrilling($location, $q, Dashboard, $http, Auth, selectSlug, chart) {
   const catalogValue = chart.name;
   const groupValue = chart.seriesName;
 
-  // isAuthenticated结果为True时，表示为登录用户在使用或编辑该可视化，否则为通过token浏览该可视化
   if (Auth.isAuthenticated()) {
-    // 根据选择的dashboard的slug查找dashboard，为了得到dashboard的widgets
     Dashboard.get(
       { slug: selectSlug },
       (dashboard) => {
-        const widgets = dashboard.widgets;
-        // 得到全局参数
-        const globalParams = Dashboard.getGlobalParams(widgets);
-
-        // 拼接参数字符串
-        const params = getParamsStr('?', globalParams, catalogValue, groupValue);
-
-        const url = '/dashboard/' + selectSlug + params;
-        window.location.href = url;
+        const drillingUrl = '/dashboard/' + selectSlug;
+        executeDataDrilling($q, dashboard.widgets, catalogValue, groupValue, drillingUrl, '?');
       },
     );
   } else {
     $http.get('/dashboards/' + selectSlug + '/share/token')
       .then((data) => {
         const apiKey = data.data.api_key;
+        const drillingUrl = '/public/dashboards/' + apiKey + '?org_slug=default';
 
-        // 注册apiKey,写入session中
         session(Auth, apiKey);
 
         $http.get('api/dashboards/public/' + apiKey)
           .then((response) => {
             const dashboard = response.data;
             const widgets = Dashboard.prepareDashboardWidgets(dashboard.widgets);
-
-            // 得到全局参数
-            const globalParams = Dashboard.getGlobalParams(widgets);
-
-            // 拼接参数字符串
-            const params = getParamsStr('&', globalParams, catalogValue, groupValue);
-
-            const url = '/public/dashboards/' + apiKey + '?org_slug=default' + params + '&fullscreen';
-            window.location.href = url;
+            executeDataDrilling($q, widgets, catalogValue, groupValue, drillingUrl, '&');
           });
       });
   }
@@ -65,17 +73,10 @@ function getHasFiltersDashboards(Dashboard) {
   Dashboard.query((data) => {
     const results = data.results;
 
-    each(results, (dashboard) => {
-      Dashboard.get(
-        { slug: dashboard.slug },
-        (result) => {
-          const globalParams = Dashboard.getGlobalParams(result.widgets);
-
-          if (globalParams.length > 0) {
-            dashboardsList.push(dashboard);
-          }
-        },
-      );
+    _.each(results, (dashboard) => {
+      if (dashboard.dashboard_filters_enabled) {
+        dashboardsList.push(dashboard);
+      }
     });
   });
   return dashboardsList;

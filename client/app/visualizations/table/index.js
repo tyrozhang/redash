@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { getColumnCleanName } from '@/services/query-result';
 import { createFormatter } from '@/lib/value-format';
+import chartIcon from '@/assets/images/visualizationIcons/icon_table.png';
 import template from './table.html';
 import editorTemplate from './table-editor.html';
 import './table-editor.less';
@@ -242,6 +243,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'TABLE',
       name: '表格',
+      icon: chartIcon,
       renderTemplate: '<grid-renderer visualization="visualization" options="visualization.options" query-result="queryResult"></grid-renderer>',
       editorTemplate: '<grid-editor></grid-editor>',
       defaultOptions,

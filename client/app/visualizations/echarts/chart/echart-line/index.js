@@ -3,6 +3,7 @@ import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import { LineOption } from '@/visualizations/echarts/chart/utils';
 import { dataDrilling, getHasFiltersDashboards } from '@/visualizations/echarts/chart/data-drilling/util';
 import { ColorPalette } from '@/visualizations/chart/plotly/utils';
+import chartIcon from '@/assets/images/visualizationIcons/icon_line.png';
 import editorTemplate from './line-editor.html';
 
 
@@ -108,6 +109,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'echart-line',
       name: '折线图',
+      icon: chartIcon,
       renderTemplate,
       editorTemplate: editTemplate,
     });

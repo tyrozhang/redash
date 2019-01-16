@@ -3,6 +3,8 @@ import angular from 'angular';
 import cloud from 'd3-cloud';
 import { each } from 'lodash';
 
+import chartIcon from '@/assets/images/visualizationIcons/icon_word-cloud.png';
+
 import editorTemplate from './word-cloud-editor.html';
 
 function findWordFrequencies(data, columnName) {
@@ -103,6 +105,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'WORD_CLOUD',
       name: '词云图',
+      icon: chartIcon,
       renderTemplate:
         '<word-cloud-renderer options="visualization.options" query-result="queryResult"></word-cloud-renderer>',
       editorTemplate: '<word-cloud-editor></word-cloud-editor>',

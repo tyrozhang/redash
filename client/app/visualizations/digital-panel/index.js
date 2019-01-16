@@ -1,7 +1,7 @@
+import * as _ from 'lodash';
 import numberFormat from 'underscore.string/numberFormat';
 import { ColorPalette } from '@/visualizations/chart/plotly/utils';
-import * as _ from 'lodash';
-
+import chartIcon from '@/assets/images/visualizationIcons/icon_digital.png';
 import counterTemplate from './digital-panel.html';
 import counterEditorTemplate from './digital-panel-editor.html';
 
@@ -97,6 +97,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'digitalPanel',
       name: '计数器',
+      icon: chartIcon,
       renderTemplate,
       editorTemplate: editTemplate,
       defaultOptions,

@@ -2,11 +2,12 @@ import _ from 'lodash';
 import { BarOption } from '@/visualizations/echarts/chart/utils';
 import { dataDrilling, getHasFiltersDashboards } from '@/visualizations/echarts/chart/data-drilling/util';
 import { ColorPalette } from '@/visualizations/chart/plotly/utils';
+import chartIcon from '@/assets/images/visualizationIcons/icon_bar.png';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import editorTemplate from './bar-editor.html';
 
 
-function BarRenderer($location, currentUser, Dashboard, $http, Auth) {
+function BarRenderer($location, $q, currentUser, Dashboard, $http, Auth) {
   return {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
@@ -14,11 +15,10 @@ function BarRenderer($location, currentUser, Dashboard, $http, Auth) {
       const container = element[0].querySelector('.echarts-chart-visualization-container');
       const echartFactory = new EchartsFactory($location, currentUser);
       const barChart = echartFactory.createChart(container);
-
       if ($scope.visualization.options.dataDrillingDashboard) {
         // 得到页面上选择dashboard的slug
         const selectSlug = $scope.visualization.options.dataDrillingDashboard.slug;
-        barChart.on('click', chart => dataDrilling($location, Dashboard, $http, Auth, selectSlug, chart));
+        barChart.on('click', chart => dataDrilling($location, $q, Dashboard, $http, Auth, selectSlug, chart));
       }
 
       function reloadData() {
@@ -110,6 +110,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'echart-bar',
       name: '柱状图',
+      icon: chartIcon,
       renderTemplate,
       editorTemplate: editTemplate,
     });

@@ -2,14 +2,10 @@
   <page-header title="{{$ctrl.dashboard.name}}">
   </page-header>
 
-  <div class="m-b-5">
-    <filters ng-if="$ctrl.dashboard.dashboard_filters_enabled"></filters>
+  <div class="m-b-10 p-15 bg-white tiled" ng-if="$ctrl.dashboard.dashboard_filters_enabled">
+    <filters filters="$ctrl.filters" on-change="$ctrl.filtersOnChange(filter)"></filters>
   </div>
 
-  <div class="m-b-10 p-15 bg-white tiled" ng-if="$ctrl.globalParameters.length > 0">
-    <parameters parameters="$ctrl.globalParameters" on-change="$ctrl.onGlobalParametersChange()"   on-refresh="$ctrl.refreshDashboard()"></parameters>
-  </div>
-  
   <div style="padding-bottom: 5px" ng-if="$ctrl.dashboard.widgets.length > 0">
     <div gridstack editing="false" class="dashboard-wrapper preview-mode">
       <div class="dashboard-widget-wrapper"
@@ -22,11 +18,3 @@
     </div>
   </div>
 </div>
-<!--
-<div id="footer">
-  <div class="text-center">
-    <a href="https://redash.io"><img ng-src="{{$ctrl.logoUrl}}" width="38"/></a>
-  </div>
-  Powered by <a href="https://redash.io/?ref=public-dashboard">Redash</a>
-</div>
--->

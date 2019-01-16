@@ -1,4 +1,5 @@
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
+import chartIcon from '@/assets/images/visualizationIcons/icon_radar.png';
 import _ from 'lodash';
 import config from '../config';
 import radarTemplate from './radar-editor.html';
@@ -182,6 +183,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'radar',
       name: '雷达图',
+      icon: chartIcon,
       renderTemplate,
       editorTemplate: radarEditorTemplate,
       defaultOptions: {},

@@ -316,6 +316,7 @@ function DashboardCtrl(
         }
       },
     );
+    this.loadDashboard();
   };
 
   this.addWidget = () => {
@@ -338,10 +339,10 @@ function DashboardCtrl(
 
   this.removeWidget = (widgetId) => {
     this.dashboard.widgets = this.dashboard.widgets.filter(w => w.id !== undefined && w.id !== widgetId);
+    this.extractGlobalParameters();
     if (!this.layoutEditing) {
       // We need to wait a bit while `angular` updates widgets, and only then save new layout
       $timeout(() => {
-        this.extractGlobalParameters();
         const changedWidgets = getWidgetsWithChangedPositions(this.dashboard.widgets);
         saveDashboardLayout(changedWidgets);
       }, 50);

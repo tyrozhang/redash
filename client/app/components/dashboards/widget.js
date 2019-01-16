@@ -119,6 +119,13 @@ function DashboardWidgetCtrl($location, $uibModal, $window, Events, currentUser)
   } else {
     this.type = 'textbox';
   }
+
+  this.useFilter = () => {
+    if (this.dashboard.dashboard_filters_enabled) {
+      return false;
+    }
+    return true;
+  };
 }
 
 export default function init(ngModule) {

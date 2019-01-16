@@ -1,8 +1,10 @@
 import angular from 'angular';
 import $ from 'jquery';
 import 'pivottable';
+import 'pivottable/dist/pivot.zh';
 import 'pivottable/dist/pivot.css';
 
+import chartIcon from '@/assets/images/visualizationIcons/icon_pivot.png';
 import editorTemplate from './pivottable-editor.html';
 import './pivot.less';
 
@@ -39,7 +41,6 @@ function pivotTableRenderer() {
             // it which interferes with other visualizations.
             data = angular.copy($scope.queryResult.getData());
             const options = {
-              renderers: $.pivotUtilities.renderers,
               onRefresh(config) {
                 const configCopy = Object.assign({}, config);
                 // delete some values which are functions
@@ -60,7 +61,7 @@ function pivotTableRenderer() {
               Object.assign(options, $scope.visualization.options);
             }
 
-            $(element).pivotUI(data, options, true);
+            $(element).pivotUI(data, options, true, 'zh');
             removeControls();
           }
         });
@@ -94,6 +95,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'PIVOT',
       name: '数据透视表',
+      icon: chartIcon,
       renderTemplate:
         '<pivot-table-renderer visualization="visualization" query-result="queryResult"></pivot-table-renderer>',
       editorTemplate: editTemplate,

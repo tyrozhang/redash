@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
+import chartIcon from '@/assets/images/visualizationIcons/icon_progress.png';
 import ProgressOption from './progress-utils';
 import editorTemplate from './progress-editor.html';
 
@@ -66,6 +67,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'echart-progress',
       name: '进度条',
+      icon: chartIcon,
       renderTemplate,
       editorTemplate: editTemplate,
     });

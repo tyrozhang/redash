@@ -1,5 +1,6 @@
 import { debounce } from 'lodash';
 import Sunburst from '@/lib/visualizations/sunburst';
+import chartIcon from '@/assets/images/visualizationIcons/icon_sunburst.png';
 import editorTemplate from './sunburst-sequence-editor.html';
 
 function sunburstSequenceRenderer() {
@@ -49,6 +50,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'SUNBURST_SEQUENCE',
       name: '旭日图',
+      icon: chartIcon,
       renderTemplate,
       editorTemplate: editTemplate,
       defaultOptions,

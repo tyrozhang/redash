@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import 'echarts/map/js/china';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
+import chartIcon from '@/assets/images/visualizationIcons/icon_map.png';
 import MapOption from './map-utils';
 import editorTemplate from './echart-map-editor.html';
 
@@ -64,6 +65,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'echart-map',
       name: '中国地图',
+      icon: chartIcon,
       renderTemplate,
       editorTemplate: editTemplate,
     });

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
+import chartIcon from '@/assets/images/visualizationIcons/icon_doughnut.png';
 import DoughnutOption from './doughnut-utils';
 import editorTemplate from './doughnut-editor.html';
 
@@ -68,6 +69,7 @@ export default function init(ngModule) {
     VisualizationProvider.registerVisualization({
       type: 'echart-doughnut',
       name: '圆环图',
+      icon: chartIcon,
       renderTemplate,
       editorTemplate: editTemplate,
     });

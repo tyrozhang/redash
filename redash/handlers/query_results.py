@@ -113,12 +113,7 @@ def run_query(data_source, parameter_values, query_text, query_id, max_age=0):
     if query_result:
         return {'query_result': query_result.to_dict()}
     else:
-        # 共享Dashboard将会执行新的查询
-        if current_user.is_api_user():
-            job = enqueue_query(query_text, data_source, user_id=None,
-                                metadata={"Username": current_user.id, "Query ID": query_id})
-        else:
-            job = enqueue_query(query_text, data_source, current_user.id,
+        job = enqueue_query(query_text, data_source, current_user.id,
                                 metadata={"Username": current_user.email, "Query ID": query_id})
         return {'job': job.to_dict()}
 
@@ -225,18 +220,12 @@ class QueryResultResource(BaseResource):
                 if settings.ALLOW_PARAMETERS_IN_EMBEDS and parameter_values:
                     query_result = run_query_sync(query.data_source, parameter_values, query.query_text, max_age=max_age)
                 elif query.latest_query_data_id is not None:
-                    # 判断当为API用户访问共享IFrame小部件，将执行新的查询
-                    if current_user.is_api_user():
-                        query_result = run_query_sync(query.data_source, parameter_values,
-                                                      query.query_text, max_age=max_age)
-                    else:
-                        query_result = get_object_or_404(models.QueryResult.get_by_id_and_org,
+                    query_result = get_object_or_404(models.QueryResult.get_by_id_and_org,
                                                          query.latest_query_data_id, self.current_org)
 
-            # 此注释为了支持共享IFrame小部件具有刷新数据功能，降低了系统的安全性和性能，为临时手段
-            # if query is not None and query_result is not None and self.current_user.is_api_user():
-            #     if query.query_hash != query_result.query_hash:
-            #         abort(404, message='No cached result found for this query.')
+            if query is not None and query_result is not None and self.current_user.is_api_user():
+                if query.query_hash != query_result.query_hash:
+                    abort(404, message='No cached result found for this query.')
 
         if query_result:
             require_access(query_result.data_source.groups, self.current_user, view_only)
