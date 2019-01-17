@@ -2,11 +2,11 @@ import moment from 'moment';
 import { capitalize as _capitalize, isEmpty } from 'lodash';
 
 export const IntervalEnum = {
-  NEVER: 'Never',
-  MINUTES: 'minute(s)',
-  HOURS: 'hour(s)',
-  DAYS: 'day(s)',
-  WEEKS: 'week(s)',
+  NEVER: '无',
+  MINUTES: '分钟',
+  HOURS: '小时',
+  DAYS: '天',
+  WEEKS: '周',
 };
 
 export function localizeTime(time) {

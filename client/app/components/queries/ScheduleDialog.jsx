@@ -81,7 +81,7 @@ class ScheduleDialog extends React.Component {
     });
   }
 
-  getCounts = interval => range(1, INTERVAL_OPTIONS_MAP[interval])
+  getCounts = interval => range(1, INTERVAL_OPTIONS_MAP[interval]);
 
   setTime = (time) => {
     this.newSchedule = {
@@ -164,7 +164,7 @@ class ScheduleDialog extends React.Component {
   setUntilToggle = (e) => {
     const date = e.target.value ? moment().format(DATE_FORMAT) : null;
     this.setScheduleUntil(null, date);
-  }
+  };
 
   save() {
     // save if changed
@@ -193,14 +193,17 @@ class ScheduleDialog extends React.Component {
 
     return (
       <Modal
-        title="Refresh Schedule"
+        title="刷新计划"
         className="schedule"
         visible={this.props.show}
+        okType="default"
+        okText="确认"
+        cancelText="取消"
         onCancel={() => this.cancel()}
         onOk={() => this.save()}
       >
         <div className="schedule-component" ref={this.modalRef}>
-          <h5>Refresh every</h5>
+          <h5>刷新频率</h5>
           <div>
             {interval !== IntervalEnum.NEVER ? (
               <Select value={count} onChange={this.setCount} {...selectProps}>
@@ -218,7 +221,7 @@ class ScheduleDialog extends React.Component {
         </div>
         {[IntervalEnum.DAYS, IntervalEnum.WEEKS].indexOf(interval) !== -1 ? (
           <div className="schedule-component">
-            <h5>On time</h5>
+            <h5>指定时间</h5>
             <div>
               <TimePicker
                 allowEmpty={false}
@@ -233,7 +236,7 @@ class ScheduleDialog extends React.Component {
         ) : null}
         {IntervalEnum.WEEKS === interval ? (
           <div className="schedule-component">
-            <h5>On day</h5>
+            <h5>指定某天</h5>
             <Radio.Group
               size="medium"
               defaultValue={this.state.dayOfWeek}
@@ -249,15 +252,15 @@ class ScheduleDialog extends React.Component {
         ) : null}
         {interval !== IntervalEnum.NEVER ? (
           <div className="schedule-component">
-            <h5>Ends</h5>
+            <h5>结束时间</h5>
             <div className="ends">
               <Radio.Group
                 size="medium"
                 value={!!until}
                 onChange={this.setUntilToggle}
               >
-                <Radio value={false}>Never</Radio>
-                <Radio value>On</Radio>
+                <Radio value={false}>不启用</Radio>
+                <Radio value>启用</Radio>
               </Radio.Group>
               {until ? (
                 <DatePicker

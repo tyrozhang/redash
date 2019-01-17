@@ -81,7 +81,7 @@ const zh = {
   'Results in JSON format': 'JSON格式',
   created: '创建于',
   updated: '更新于',
-  'Refresh Schedule': '刷新时间',
+  'Refresh Schedule': '刷新计划',
   'No Refresh': '不刷新',
   Never: '从不',
   Save: '保存',

@@ -21,18 +21,18 @@ class SchedulePhrase extends React.Component {
   get content() {
     const { interval: seconds } = this.props.schedule;
     if (!seconds) {
-      return ['Never'];
+      return ['无'];
     }
     const { count, interval } = secondsToInterval(seconds);
-    const short = `Every ${count} ${interval}`;
-    let full = `Refreshes every ${count} ${interval}`;
+    const short = `每 ${count} ${interval}`;
+    let full = `每 ${count} ${interval} 刷新`;
 
     const { time, day_of_week: dayOfWeek } = this.props.schedule;
     if (time) {
-      full += ` at ${localizeTime(time)}`;
+      full += ` 于 ${localizeTime(time)}`;
     }
     if (dayOfWeek) {
-      full += ` on ${dayOfWeek}`;
+      full += ` 在 ${dayOfWeek}`;
     }
 
     return [short, full];
@@ -40,7 +40,7 @@ class SchedulePhrase extends React.Component {
 
   render() {
     if (this.props.isNew) {
-      return 'Never';
+      return '无';
     }
 
     const [short, full] = this.content;
