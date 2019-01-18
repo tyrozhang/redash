@@ -80,7 +80,7 @@ class EditParameterMappingsDialog extends React.Component {
           >
             &times;
           </button>
-          <h4 className="modal-title">Parameters</h4>
+          <h4 className="modal-title">参数</h4>
         </div>
         <div className="modal-body">
           {

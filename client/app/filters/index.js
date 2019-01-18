@@ -68,7 +68,7 @@ export function intervalToSeconds(count, interval) {
 
 export function pluralize(text, count) {
   const should = count !== 1;
-  return text + (should ? 's' : '');
+  return text + (should ? '' : '');
 }
 
 export function durationHumanize(duration, options = {}) {

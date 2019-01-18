@@ -104,13 +104,13 @@ export class ParameterMappingInput extends React.Component {
           onChange={type => this.updateParamMapping(mapping, { type })}
           dropdownClassName="ant-dropdown-in-bootstrap-modal"
         >
-          <Option value={MappingType.DashboardAddNew}>Add the parameter to the dashboard</Option>
+          <Option value={MappingType.DashboardAddNew}>将参数添加到仪表盘</Option>
           {
             (existingParamNames.length > 0) &&
-            <Option value={MappingType.DashboardMapToExisting}>Map to existing parameter</Option>
+            <Option value={MappingType.DashboardMapToExisting}>替换现有参数</Option>
           }
-          <Option value={MappingType.StaticValue}>Use static value for the parameter</Option>
-          <Option value={MappingType.WidgetLevel}>Keep the parameter at the widget level</Option>
+          <Option value={MappingType.StaticValue}>对参数使用静态值</Option>
+          <Option value={MappingType.WidgetLevel}>在小部件中显示参数栏</Option>
         </Select>
       </div>
     );
@@ -129,7 +129,7 @@ export class ParameterMappingInput extends React.Component {
         />
         { alreadyExists &&
         <div className="help-block">
-          Dashboard parameter with this name already exists
+          具有此名称的仪表盘参数已经存在
         </div>
         }
       </div>
@@ -159,7 +159,7 @@ export class ParameterMappingInput extends React.Component {
     const { mapping } = this.props;
     return (
       <div className="m-t-10">
-        <label>Change parameter value:</label>
+        <label>改变参数值：</label>
         <ParameterValueInput
           className="w-100"
           type={mapping.param.type}
@@ -191,7 +191,7 @@ export class ParameterMappingInput extends React.Component {
     }
     return (
       <div className="m-t-10">
-        <label>Change parameter title (leave empty to use existing):</label>
+        <label>更改参数的标题（如果为空则使用现有的标题）</label>
         <input
           type="text"
           className="form-control"

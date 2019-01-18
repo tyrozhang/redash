@@ -14,6 +14,14 @@ const WidgetDialog = {
   },
   controller() {
     this.widget = this.resolve.widget;
+    this.dashboard = this.resolve.dashboard;
+
+    this.useFilter = () => {
+      if (this.dashboard.dashboard_filters_enabled) {
+        return false;
+      }
+      return true;
+    };
   },
 };
 
@@ -70,6 +78,7 @@ function DashboardWidgetCtrl($location, $uibModal, $window, $rootScope, Events, 
       component: 'widgetDialog',
       resolve: {
         widget: this.widget,
+        dashboard: this.dashboard,
       },
       size: 'lg',
     });

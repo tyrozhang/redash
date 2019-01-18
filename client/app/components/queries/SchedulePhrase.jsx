@@ -26,15 +26,15 @@ class SchedulePhrase extends React.Component {
     const humanized = durationHumanize(seconds, {
       omitSingleValueNumber: true,
     });
-    const short = `每 ${humanized}`;
-    let full = `每 ${humanized} 刷新`;
+    const short = `每${humanized}`;
+    let full = `每${humanized} 刷新`;
 
     const { time, day_of_week: dayOfWeek } = this.props.schedule;
     if (time) {
-      full += ` 于 ${localizeTime(time)}`;
+      full += ` 于${localizeTime(time)}`;
     }
     if (dayOfWeek) {
-      full += ` 在 ${dayOfWeek}`;
+      full += ` 在${dayOfWeek}`;
     }
 
     return [short, full];

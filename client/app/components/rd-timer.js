@@ -12,7 +12,7 @@ function rdTimer() {
       // We're using setInterval directly instead of $timeout, to avoid using $apply, to
       // prevent the digest loop being run every second.
       let currentTimer = setInterval(() => {
-        $scope.currentTime = moment(moment() - moment($scope.timestamp), 'zh-cn').utc().format('HH:mm:ss');
+        $scope.currentTime = moment(moment() - moment($scope.timestamp)).locale('zh-cn').utc().format('HH:mm:ss');
         $scope.$digest();
       }, 1000);
 

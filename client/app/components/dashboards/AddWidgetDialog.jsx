@@ -146,7 +146,7 @@ class AddWidgetDialog extends React.Component {
         this.props.close();
       })
       .catch(() => {
-        toastr.error('Widget can not be added');
+        toastr.error('无法添加小部件。');
       })
       .finally(() => {
         this.setState({ saveInProgress: false });
@@ -162,7 +162,7 @@ class AddWidgetDialog extends React.Component {
       <div className="form-group">
         {!this.state.selectedQuery && <input
           type="text"
-          placeholder="Search a query by name"
+          placeholder="按名称搜索查询"
           className="form-control"
           value={this.state.searchTerm}
           onChange={this.onSearchTermChanged}
@@ -222,7 +222,7 @@ class AddWidgetDialog extends React.Component {
           <div>
             {
               (this.state.searchedQueries.length === 0) &&
-              <div className="text-muted">No results matching search term.</div>
+              <div className="text-muted">未找到匹配搜索词的结果。</div>
             }
             {
               (this.state.searchedQueries.length > 0) &&
@@ -257,7 +257,7 @@ class AddWidgetDialog extends React.Component {
     return (
       <div>
         <div className="form-group">
-          <label>Choose Visualization</label>
+          <label>选择可视化</label>
           <Select
             className="w-100"
             defaultValue={first(this.state.selectedQuery.visualizations).id}
@@ -298,7 +298,7 @@ class AddWidgetDialog extends React.Component {
           >
             &times;
           </button>
-          <h4 className="modal-title">Add Widget</h4>
+          <h4 className="modal-title">添加小部件</h4>
         </div>
         <div className="modal-body">
           {this.renderQueryInput()}
@@ -327,7 +327,7 @@ class AddWidgetDialog extends React.Component {
             disabled={this.state.saveInProgress}
             onClick={this.props.dismiss}
           >
-            Close
+            关闭
           </button>
           <button
             type="button"
@@ -335,7 +335,7 @@ class AddWidgetDialog extends React.Component {
             disabled={this.state.saveInProgress}
             onClick={() => this.saveWidget()}
           >
-            Add to Dashboard
+            添加到仪表盘
           </button>
         </div>
       </div>

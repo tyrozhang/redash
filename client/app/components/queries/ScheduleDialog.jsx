@@ -173,7 +173,7 @@ export class ScheduleDialog extends React.Component {
         title="刷新计划"
         className="schedule"
         visible={this.props.show}
-        okType="default"
+        // okType="default"
         okText="确认"
         cancelText="取消"
         onCancel={() => this.cancel()}
@@ -183,7 +183,7 @@ export class ScheduleDialog extends React.Component {
           <h5>刷新频率</h5>
           <div data-testid="interval">
             <Select value={seconds} onChange={this.setInterval} {...selectProps}>
-              <Option value={null} key="never">Never</Option>
+              <Option value={null} key="never">无</Option>
               {Object.keys(this.intervals).map(int => (
                 <OptGroup label={capitalize(pluralize(int))} key={int}>
                   {this.intervals[int].map(([cnt, secs]) => (

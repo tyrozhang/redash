@@ -86,7 +86,7 @@ class AddTextboxDialog extends React.Component {
           >
             &times;
           </button>
-          <h4 className="modal-title">Add Textbox</h4>
+          <h4 className="modal-title">添加文本框</h4>
         </div>
         <div className="modal-body">
           <div className="form-group m-b-0">
@@ -102,7 +102,7 @@ class AddTextboxDialog extends React.Component {
             ng-show="$ctrl.text"
             className="m-t-15"
           >
-            <strong>Preview:</strong>
+            <strong>预览：</strong>
             <p
               dangerouslySetInnerHTML={{ __html: this.state.preview }} // eslint-disable-line react/no-danger
               className="word-wrap-break"
@@ -117,7 +117,7 @@ class AddTextboxDialog extends React.Component {
             disabled={this.state.saveInProgress}
             onClick={this.props.dismiss}
           >
-            Close
+            关闭
           </button>
           <button
             type="button"
@@ -125,7 +125,7 @@ class AddTextboxDialog extends React.Component {
             disabled={this.state.saveInProgress}
             onClick={() => this.saveWidget()}
           >
-            Add to Dashboard
+            添加到仪表盘
           </button>
         </div>
       </div>
