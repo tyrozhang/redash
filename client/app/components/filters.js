@@ -6,7 +6,7 @@ const FiltersComponent = {
     onChange: '&',
     filters: '<',
   },
-  controller() {
+  controller($scope) {
     'ngInject';
 
     this.filterChangeListener = (filter, modal) => {
@@ -19,6 +19,15 @@ const FiltersComponent = {
       }
 
       return 'Values';
+    };
+
+    this.onChange = (date, dateString, filterName) => {
+      this.filters.forEach((filter) => {
+        if (filter.name === filterName) {
+          filter.current = date;
+        }
+      });
+      $scope.$apply();
     };
   },
 };

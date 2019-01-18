@@ -7,6 +7,7 @@ import { RangePicker } from 'antd/lib/date-picker';
 
 function DateRangeInput({
   value,
+  id,
   onSelect,
   // eslint-disable-next-line react/prop-types
   clientConfig,
@@ -16,11 +17,14 @@ function DateRangeInput({
   if (isArray(value) && value[0].isValid() && value[1].isValid()) {
     additionalAttributes.defaultValue = value;
   }
+  function onChange(date, dateString) {
+    onSelect(date, dateString, id);
+  }
   return (
     <RangePicker
       {...additionalAttributes}
       format={format}
-      onChange={onSelect}
+      onChange={onChange}
     />
   );
 }
@@ -38,11 +42,13 @@ DateRangeInput.propTypes = {
         '` should be an array of two Moment.js instances.');
     }
   },
+  id: PropTypes.string,
   onSelect: PropTypes.func,
 };
 
 DateRangeInput.defaultProps = {
   value: null,
+  id: null,
   onSelect: () => {},
 };
 
