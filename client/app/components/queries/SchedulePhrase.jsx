@@ -2,7 +2,7 @@ import { react2angular } from 'react2angular';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from 'antd/lib/tooltip';
-import { localizeTime, secondsToInterval } from '@/filters';
+import { localizeTime, durationHumanize } from '@/filters';
 
 import './ScheduleDialog.css';
 
@@ -23,9 +23,11 @@ class SchedulePhrase extends React.Component {
     if (!seconds) {
       return ['无'];
     }
-    const { count, interval } = secondsToInterval(seconds);
-    const short = `每 ${count} ${interval}`;
-    let full = `每 ${count} ${interval} 刷新`;
+    const humanized = durationHumanize(seconds, {
+      omitSingleValueNumber: true,
+    });
+    const short = `每 ${humanized}`;
+    let full = `每 ${humanized} 刷新`;
 
     const { time, day_of_week: dayOfWeek } = this.props.schedule;
     if (time) {

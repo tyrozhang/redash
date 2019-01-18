@@ -8,7 +8,7 @@
     <button class="btn btn-default btn-xs" ng-if="editable" ng-click="showParameterSettings(param)">
       <i class="zmdi zmdi-settings"></i>
     </button>
-    <parameter-input param="param"></parameter-input>
+    <parameter-value-input param="param"></parameter-value-input>
     <button id="refresh-button" type="button"  class="btn btn-default" ng-if="!editable && $last" ng-click="refreshDashboard()">
       <span class="zmdi zmdi-refresh"></span>
     </button>

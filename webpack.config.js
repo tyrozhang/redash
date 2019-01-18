@@ -23,7 +23,11 @@ const appPath = fs.realpathSync(path.join(__dirname, "client", "app"));
 const config = {
   mode: isProduction ? "production" : "development",
   entry: {
-    app: ["./client/app/index.js", "./client/app/assets/less/main.less"],
+    app: [
+      "./client/app/index.js",
+      "./client/app/assets/less/main.less",
+      "./client/app/assets/less/ant.less"
+    ],
     server: ["./client/app/assets/less/server.less"]
   },
   output: {
