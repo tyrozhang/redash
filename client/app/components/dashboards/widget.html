@@ -21,8 +21,7 @@
 
             <li ng-if="$ctrl.canViewQuery || ($ctrl.dashboard.canEdit() && $ctrl.hasParameters())" class="divider"></li>
             <li ng-if="$ctrl.canViewQuery"><a ng-href="{{$ctrl.widget.getQuery().getUrl(true, $ctrl.widget.visualization.id)}}">{{'View Query' | translate}}</a></li>
-            <!-- TODO:暂时屏蔽小部件的参数编辑页面 -->
-            <li ng-if="$ctrl.dashboard.canEdit() && $ctrl.hasParameters() && false"><a ng-click="$ctrl.editParameterMappings()">修改参数</a></li>
+            <li ng-if="$ctrl.dashboard.canEdit() && $ctrl.hasParameters()"><a ng-click="$ctrl.editParameterMappings()">修改参数</a></li>
 
             <li ng-if="$ctrl.dashboard.canEdit()" class="divider"></li>
             <li ng-if="$ctrl.dashboard.canEdit()"><a ng-click="$ctrl.deleteWidget()">从仪表盘中删除</a></li>

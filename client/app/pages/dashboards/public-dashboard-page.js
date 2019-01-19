@@ -12,7 +12,7 @@ const PublicDashboardPage = {
   bindings: {
     dashboard: '<',
   },
-  controller($timeout, $location, $http, $route, $q, Dashboard) {
+  controller($timeout, $location, $http, $route, $q, $routeParams, Dashboard) {
     'ngInject';
 
     this.public = true;
@@ -69,6 +69,8 @@ const PublicDashboardPage = {
 
       $timeout(refresh, refreshRate * 1000.0);
     }
+
+    this.showTitle = $routeParams.show_title;
   },
 };
 
