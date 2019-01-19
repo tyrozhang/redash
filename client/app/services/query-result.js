@@ -1,6 +1,6 @@
 import debug from 'debug';
 import moment from 'moment';
-import { sortBy, uniqBy, values, some, each, isArray, isNumber, isString, includes, forOwn } from 'lodash';
+import { sortBy, uniqBy, values, some, each, isArray, isNumber, isString, includes, forOwn, startsWith, endsWith, toString } from 'lodash';
 
 const logger = debug('redash:services:QueryResult');
 const filterTypes = ['filter', 'multi-filter', 'multiFilter'];
@@ -53,6 +53,7 @@ function addPointToSeries(point, seriesCollection, seriesName) {
 function QueryResultService($resource, $timeout, $q, QueryResultError) {
   const QueryResultResource = $resource('api/query_results/:id', { id: '@id' }, { post: { method: 'POST' } });
   const Job = $resource('api/jobs/:id', { id: '@id' });
+  const Query = $resource('api/queries/:id', { id: '@id' }, { post: { method: 'POST' } });
   const statuses = {
     1: 'waiting',
     2: 'processing',
@@ -248,6 +249,13 @@ function QueryResultService($resource, $timeout, $q, QueryResultError) {
                 some(filter.current, (v) => {
                   const value = row[filter.name];
                   if (moment.isMoment(value)) {
+                    if (filter.isDate && filter.current.length === 2) {
+                      const startDate = moment(toString(filter.current[0].format('YYYY-MM-DD')));
+                      const endDate = moment(toString(filter.current[1].format('YYYY-MM-DD')));
+                      const date = moment(toString(value.format('YYYY-MM-DD')));
+
+                      return date.isSameOrAfter(startDate) && date.isSameOrBefore(endDate);
+                    }
                     return value.isSame(v);
                   }
                   // We compare with either the value or the String representation of the value,
@@ -386,11 +394,43 @@ function QueryResultService($resource, $timeout, $q, QueryResultError) {
         return;
       }
 
+      function setDefaultFilterValue(filter, defaultValue) {
+        if (filter.multiple && filter.values.length === 3) {
+          filter.current = [defaultValue];
+        }
+        if (!filter.multiple && filter.values.length === 1) {
+          filter.current = defaultValue;
+        }
+      }
+
+      function setFilterValues(filter) {
+        // 引用查询，格式为【query_<查询ID>_<被引用查询列名>】
+        const citeQuery = filter.name.split('::')[2] || filter.name.split('__')[2];
+
+        Query.get(
+          { id: citeQuery.split('_')[1] },
+          (query) => {
+            QueryResultResource.get(
+              { id: query.latest_query_data_id },
+              (response) => {
+                const rowsData = response.query_result.data.rows;
+                rowsData.forEach((row) => {
+                  const cellValue = row[citeQuery.split('_')[2]];
+                  filter.values.push(cellValue);
+                  setDefaultFilterValue(filter, cellValue);
+                });
+              },
+            );
+          },
+        );
+      }
+
       const filters = [];
 
       this.getColumns().forEach((col) => {
         const name = col.name;
         const type = name.split('::')[1] || name.split('__')[1];
+        const isIncludeCiteQueryOrDate = name.split('::').length === 3 || name.split('__').length === 3;
         if (includes(filterTypes, type)) {
           // filter found
           const filter = {
@@ -399,19 +439,48 @@ function QueryResultService($resource, $timeout, $q, QueryResultError) {
             column: col,
             values: [],
             multiple: type === 'multiFilter' || type === 'multi-filter',
+            // 是否引用查询
+            isCiteQuery: isIncludeCiteQueryOrDate && startsWith((name.split('::')[2] || name.split('__')[2]), 'query'),
+            // 是否日期区段过滤
+            isDate: isIncludeCiteQueryOrDate && endsWith(name, 'date'),
           };
+
+          if (filter.isCiteQuery) {
+            setFilterValues(filter);
+          }
+
           filters.push(filter);
         }
       }, this);
 
       this.getRawData().forEach((row) => {
         filters.forEach((filter) => {
-          filter.values.push(row[filter.name]);
-          if (filter.values.length === 1) {
-            if (filter.multiple) {
-              filter.current = [row[filter.name]];
+          if (!(filter.isCiteQuery || filter.isDate)) {
+            filter.values.push(row[filter.name]);
+            if (filter.values.length === 1) {
+              if (filter.multiple) {
+                filter.current = [row[filter.name]];
+              } else {
+                filter.current = row[filter.name];
+              }
+            }
+          }
+          if (filter.isDate) {
+            const date = moment(toString(row[filter.name].format('YYYY-MM-DD')));
+            if (filter.current) {
+              let startDate = filter.current[0];
+              let endDate = filter.current[1];
+
+              if (date.isBefore(startDate)) {
+                startDate = date;
+              }
+
+              if (date.isAfter(endDate)) {
+                endDate = date;
+              }
+              filter.current = [startDate, endDate];
             } else {
-              filter.current = row[filter.name];
+              filter.current = [date, date];
             }
           }
         });

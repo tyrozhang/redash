@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { react2angular } from 'react2angular';
 import DatePicker from 'antd/lib/date-picker';
+import locale from 'antd/lib/date-picker/locale/zh_CN';
 
 const { RangePicker } = DatePicker;
 
@@ -28,6 +29,8 @@ export function DateRangeInput({
       className={className}
       {...additionalAttributes}
       format={format}
+      locale={locale}
+      value={value}
       onChange={onChange}
     />
   );
