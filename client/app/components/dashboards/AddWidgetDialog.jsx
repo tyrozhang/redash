@@ -307,7 +307,7 @@ class AddWidgetDialog extends React.Component {
 
           {
             (this.state.parameterMappings.length > 0) && [
-              <label key="parameters-title">Parameters</label>,
+              <label key="parameters-title">参数</label>,
               <ParameterMappingListInput
                 key="parameters-list"
                 mappings={this.state.parameterMappings}

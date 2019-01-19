@@ -12,11 +12,16 @@
   </div>
 
   <div ng-if="$ctrl.dashboard.publicAccessEnabled">
+
     <div class="gds_flex_cont">
     <input type="text" class="form-control" value="{{$ctrl.dashboard.public_url}}" id="apiKey">&nbsp;
       <div class="btn-group gds_btn-group-border dropdown">
         <button type="button" class="btn btn-sm hidden-xs btn-default" ng-click="$ctrl.copyKey()" title="复制"><i class="zmdi zmdi-copy"></i></button>
       </div>
     </div>
+    <label class="gds_checkbox_show_title">
+        <input type="checkbox" ng-model="$ctrl.showTitle" ng-click="$ctrl.isShowTitle()">
+        <i class="input-helper"></i> 显示标题
+    </label>
   </div>
 </div>

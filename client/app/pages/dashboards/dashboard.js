@@ -406,6 +406,8 @@ const ShareDashboardComponent = {
     'ngInject';
 
     this.dashboard = this.resolve.dashboard;
+    this.dashboardPublicUrl = this.dashboard.public_url;
+    this.showTitle = true;
 
     this.toggleSharing = () => {
       const url = `api/dashboards/${this.dashboard.id}/share`;
@@ -435,6 +437,16 @@ const ShareDashboardComponent = {
           });
       }
     };
+
+    this.isShowTitle = () => {
+      if (this.showTitle) {
+        this.dashboard.public_url = this.dashboardPublicUrl;
+      } else {
+        this.dashboard.public_url = this.dashboardPublicUrl + '&show_title=false';
+      }
+    };
+
+
     this.copyKey = () => {
       const target = document.getElementById('apiKey');
       target.select();
