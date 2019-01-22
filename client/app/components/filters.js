@@ -21,7 +21,7 @@ const FiltersComponent = {
       return 'Values';
     };
 
-    this.onChange = (date, dateString, filterName) => {
+    this.onChangeDate = (date, dateString, filterName) => {
       this.filters.forEach((filter) => {
         if (filter.name === filterName) {
           filter.current = date;
