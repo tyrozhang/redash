@@ -20,6 +20,34 @@ const redashBackend = process.env.REDASH_BACKEND || "http://localhost:5000";
 const basePath = fs.realpathSync(path.join(__dirname, "client"));
 const appPath = fs.realpathSync(path.join(__dirname, "client", "app"));
 
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// 主题路径
+const THEME_PATH = './client/app/assets/less/theme';
+const resolveToThemeStaticPath = fileName => path.resolve(THEME_PATH, fileName);
+const themeFileNameSet = fs.readdirSync(path.resolve(THEME_PATH));
+const themePaths = themeFileNameSet.map(resolveToThemeStaticPath);
+const getThemeName = fileName => `theme-${path.basename(fileName, path.extname(fileName))}`;
+
+// 全部 ExtractLessS 的集合
+const themesExtractLessSet = themeFileNameSet.map(fileName => new ExtractTextPlugin(`${getThemeName(fileName)}.css`))
+// 主题 Loader 的集合
+const themeLoaderSet = themeFileNameSet.map((fileName, index) => {
+  return {
+    test: /\.(less|css)$/,
+    include: resolveToThemeStaticPath(fileName),
+    loader: themesExtractLessSet[index].extract({
+      use: [
+        {
+          loader: 'css-loader',
+        },
+        {
+          loader: 'less-loader',
+        },
+      ]
+    })
+  }
+});
+
 const config = {
   mode: isProduction ? "production" : "development",
   entry: {
@@ -28,7 +56,12 @@ const config = {
       "./client/app/assets/less/main.less",
       "./client/app/assets/less/ant.less"
     ],
-    server: ["./client/app/assets/less/server.less"]
+    server: ["./client/app/assets/less/server.less"],
+    themes: [
+      "./client/app/assets/less/theme/green.less",
+      "./client/app/assets/less/theme/red.less",
+      "./client/app/assets/less/theme/black.less"
+    ]
   },
   output: {
     path: path.join(basePath, "./dist"),
@@ -50,16 +83,17 @@ const config = {
     new HtmlWebpackPlugin({
       template: "./client/app/index.html",
       filename: "index.html",
-      excludeChunks: ["server"]
+      excludeChunks: ["server", "themes"]
     }),
     new HtmlWebpackPlugin({
       template: "./client/app/multi_org.html",
       filename: "multi_org.html",
-      excludeChunks: ["server"]
+      excludeChunks: ["server", "themes"]
     }),
     new MiniCssExtractPlugin({
       filename: "[name].[chunkhash].css"
     }),
+    ...themesExtractLessSet,
     new ManifestPlugin({
       fileName: "asset-manifest.json",
       publicPath: "",
@@ -95,6 +129,7 @@ const config = {
       },
       {
         test: /\.css$/,
+        exclude: themePaths,
         use: [
           {
             loader: MiniCssExtractPlugin.loader
@@ -109,6 +144,7 @@ const config = {
       },
       {
         test: /\.less$/,
+        exclude: themePaths,
         use: [
           {
             loader: MiniCssExtractPlugin.loader
@@ -129,6 +165,7 @@ const config = {
           }
         ]
       },
+      ...themeLoaderSet,
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: [

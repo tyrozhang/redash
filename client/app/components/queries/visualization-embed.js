@@ -7,7 +7,7 @@ const VisualizationEmbed = {
   bindings: {
     data: '<',
   },
-  controller($routeParams, Query, QueryResult) {
+  controller($routeParams, $rootScope, $scope, Query, QueryResult) {
     'ngInject';
 
     document.querySelector('body').classList.add('headless');
@@ -23,6 +23,8 @@ const VisualizationEmbed = {
     this.queryResult = new QueryResult(this.data[1]);
     this.visualization =
       find(this.query.visualizations, visualization => visualization.id === visualizationId);
+
+    $scope.theme = 'shine';
   },
 };
 

@@ -12,7 +12,7 @@ const PublicDashboardPage = {
   bindings: {
     dashboard: '<',
   },
-  controller($timeout, $location, $http, $route, $q, $routeParams, Dashboard) {
+  controller($timeout, $location, $http, $route, $q, $routeParams, $rootScope, $scope, Dashboard) {
     'ngInject';
 
     this.public = true;
@@ -71,6 +71,8 @@ const PublicDashboardPage = {
     }
 
     this.showTitle = $routeParams.show_title;
+
+    $scope.theme = 'shine';
   },
 };
 

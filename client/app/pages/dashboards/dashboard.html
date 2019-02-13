@@ -100,7 +100,7 @@
         ng-repeat="widget in $ctrl.dashboard.widgets track by widget.id"
         gridstack-item="widget.options.position" gridstack-item-id="{{ widget.id }}">
         <div class="grid-stack-item-content">
-          <dashboard-widget widget="widget" dashboard="$ctrl.dashboard" on-delete="$ctrl.removeWidget(widget.id)"></dashboard-widget>
+          <dashboard-widget widget="widget" theme="theme" dashboard="$ctrl.dashboard" on-delete="$ctrl.removeWidget(widget.id)"></dashboard-widget>
         </div>
       </div>
     </div>

@@ -1,23 +1,25 @@
 import * as echarts from 'echarts';
-import config from '@/visualizations/echarts/config';
+// import config from '@/visualizations/echarts/config';
+// import 'echarts/theme/vintage';
+import 'echarts/theme/shine';
+// import 'echarts/theme/macarons';
+// import 'echarts/theme/green';
 
-export default function EchartsFactory(location, currentUser) {
+export default function EchartsFactory(location, currentUser, theme) {
   const _location = location;
   const _currentUser = currentUser;
-
   EchartsFactory.prototype.createChart = (container) => {
     const url = _location.url();
 
     if (url.indexOf('large_screen') !== -1) {
       return echarts.init(container, 'dark');
     }
-    return echarts.init(container);
+    return echarts.init(container, theme);
   };
-
   EchartsFactory.prototype.setOption = (echartObj, option) => {
     const url = _location.url();
 
-    option.color = config.defaultColors;
+    // option.color = config.defaultColors;
 
     if (url.indexOf('large_screen') !== -1) {
       option.backgroundColor = 'rgba(0, 0, 0, 0)';

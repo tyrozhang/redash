@@ -12,7 +12,7 @@
         ng-repeat="widget in $ctrl.dashboard.widgets"
         gridstack-item="widget.options.position" gridstack-item-id="{{ widget.id }}">
         <div class="grid-stack-item-content">
-          <dashboard-widget widget="widget" dashboard="$ctrl.dashboard" public="true"></dashboard-widget>
+          <dashboard-widget widget="widget" theme="theme" dashboard="$ctrl.dashboard" public="true"></dashboard-widget>
         </div>
       </div>
     </div>

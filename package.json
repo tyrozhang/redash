@@ -82,7 +82,8 @@
     "ui-select": "^0.19.8",
     "underscore.string": "^3.3.4",
     "echarts": "~4.2.0-rc.2",
-    "babel-polyfill": "^6.26.0"
+    "babel-polyfill": "^6.26.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

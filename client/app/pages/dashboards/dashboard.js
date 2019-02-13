@@ -28,6 +28,7 @@ function DashboardCtrl(
   $timeout,
   $q,
   $uibModal,
+  $rootScope,
   $scope,
   Title,
   AlertDialog,
@@ -393,6 +394,10 @@ function DashboardCtrl(
       },
     });
   };
+
+  $rootScope.$watch('theme', () => {
+    $scope.theme = $rootScope.theme;
+  }, true);
 }
 
 const ShareDashboardComponent = {
