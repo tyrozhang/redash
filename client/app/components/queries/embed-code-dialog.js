@@ -2,7 +2,7 @@ import { each } from 'lodash';
 import template from './embed-code-dialog.html';
 
 const EmbedCodeDialog = {
-  controller(clientConfig, $window) {
+  controller(clientConfig, $window, $rootScope) {
     'ngInject';
 
     this.query = this.resolve.query;
@@ -21,12 +21,22 @@ const EmbedCodeDialog = {
     }?api_key=${this.query.api_key}` + params;
     this.embedUrl = defaultEmbedUrI;
 
+    // 从作用域中取到主题的参数并根据情况添加到嵌入的url中
+    const theme = $rootScope.dashboardTheme;
+
+    let themeParameter = '';
+    if (theme) {
+      themeParameter = '&theme=' + theme;
+    }
+    this.embedUrl = defaultEmbedUrI + themeParameter;
+
     this.isShowTitle = () => {
-      if (this.showTitle) {
-        this.embedUrl = defaultEmbedUrI;
-      } else {
-        this.embedUrl = defaultEmbedUrI + '&show_title=false';
+      let titleParameter = '';
+      if (!this.showTitle) {
+        titleParameter = '&show_title=false';
       }
+
+      this.embedUrl = defaultEmbedUrI + titleParameter + themeParameter;
     };
 
     if (window.snapshotUrlBuilder) {

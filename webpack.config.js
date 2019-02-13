@@ -22,7 +22,7 @@ const appPath = fs.realpathSync(path.join(__dirname, "client", "app"));
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 // 主题路径
-const THEME_PATH = './client/app/assets/less/theme';
+const THEME_PATH = './client/app/assets/less/themes';
 const resolveToThemeStaticPath = fileName => path.resolve(THEME_PATH, fileName);
 const themeFileNameSet = fs.readdirSync(path.resolve(THEME_PATH));
 const themePaths = themeFileNameSet.map(resolveToThemeStaticPath);
@@ -58,9 +58,9 @@ const config = {
     ],
     server: ["./client/app/assets/less/server.less"],
     themes: [
-      "./client/app/assets/less/theme/green.less",
-      "./client/app/assets/less/theme/red.less",
-      "./client/app/assets/less/theme/black.less"
+      "./client/app/assets/less/themes/green.less",
+      "./client/app/assets/less/themes/black.less",
+      "./client/app/assets/less/themes/red.less"
     ]
   },
   output: {

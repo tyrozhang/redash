@@ -55,6 +55,7 @@ function controller($rootScope, $location, $route, $uibModal, Auth, currentUser,
   this.logout = () => {
     Auth.logout();
   };
+
   // 定义通过webpack打包之后的样式文件的名称
   this.themes = ['theme-black', 'theme-green', 'theme-red'];
 
@@ -70,19 +71,8 @@ function controller($rootScope, $location, $route, $uibModal, Auth, currentUser,
   this.changeTheme = (theme) => {
     this.removeTheme();
 
-    // $rootScope.theme = theme.split('-')[1];
-    if (theme === 'theme-black') {
-      $rootScope.theme = 'dark';
-      // $rootScope.theme = green;
-    }
-    if (theme === 'theme-green') {
-      $rootScope.theme = sea;
-      // $rootScope.theme = red;
-    }
-    if (theme === 'theme-red') {
-      $rootScope.theme = 'shine';
-      // $rootScope.theme = sea;
-    }
+    $rootScope.dashboardTheme = theme;
+
     const link = document.createElement('link');
 
     link.rel = 'stylesheet';
@@ -95,7 +85,7 @@ function controller($rootScope, $location, $route, $uibModal, Auth, currentUser,
   // 初始按钮的作用，清除自定义样式引用，使用默认样式
   this.resetTheme = () => {
     this.removeTheme();
-    $rootScope.theme = '';
+    $rootScope.dashboardTheme = '';
   };
 }
 

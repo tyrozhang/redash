@@ -28,8 +28,8 @@ function DashboardCtrl(
   $timeout,
   $q,
   $uibModal,
-  $rootScope,
   $scope,
+  $rootScope,
   Title,
   AlertDialog,
   Dashboard,
@@ -395,6 +395,37 @@ function DashboardCtrl(
     });
   };
 
+  // // 定义通过webpack打包之后的样式文件的名称
+  // this.themes = ['theme-black', 'theme-green', 'theme-red'];
+  //
+  // // 删除引用样式的link标签
+  // this.removeTheme = () => {
+  //   const oldLink = document.getElementById('dashboard_themes');
+  //   if (oldLink) {
+  //     oldLink.parentNode.removeChild(oldLink);
+  //   }
+  // };
+  //
+  // // 当点击主题按钮时，动态的引入对应的主题样式
+  // this.changeTheme = (theme) => {
+  //   this.removeTheme();
+  //
+  //   $rootScope.dashboardTheme = theme;
+  //
+  //   const link = document.createElement('link');
+  //
+  //   link.rel = 'stylesheet';
+  //   link.href = './static/' + theme + '.css';
+  //   link.id = 'dashboard_themes';
+  //
+  //   document.head.appendChild(link);
+  // };
+  //
+  // // 初始按钮的作用，清除自定义样式引用，使用默认样式
+  // this.resetTheme = () => {
+  //   this.removeTheme();
+  // };
+
   $rootScope.$watch('theme', () => {
     $scope.theme = $rootScope.theme;
   }, true);
@@ -407,7 +438,7 @@ const ShareDashboardComponent = {
     close: '&',
     dismiss: '&',
   },
-  controller($http) {
+  controller($http, $rootScope, $location) {
     'ngInject';
 
     this.dashboard = this.resolve.dashboard;
@@ -443,6 +474,7 @@ const ShareDashboardComponent = {
       }
     };
 
+    // 是否在dashboard分享url中拼入显示标题的参数
     this.isShowTitle = () => {
       if (this.showTitle) {
         this.dashboard.public_url = this.dashboardPublicUrl;
@@ -451,12 +483,22 @@ const ShareDashboardComponent = {
       }
     };
 
-
+    // 增加复制按钮，复制dashboard分享链接
     this.copyKey = () => {
       const target = document.getElementById('apiKey');
       target.select();
       document.execCommand('copy');
     };
+
+    // 将主题参数传入url中
+    const theme = $rootScope.dashboardTheme;
+    if (theme) {
+      if ($location.$$port) {
+        this.dashboard.public_url = $location.$$host + ':' + $location.$$port + '/public/dashboards/' + this.dashboard.api_key + '?org_slug=default&theme=' + theme;
+      } else {
+        this.dashboard.public_url = $location.$$host + '/public/dashboards/' + this.dashboard.api_key + '?org_slug=default&theme=' + theme;
+      }
+    }
   },
 };
 
@@ -464,6 +506,9 @@ export default function init(ngModule) {
   ngModule.component('shareDashboard', ShareDashboardComponent);
   ngModule.component('dashboardPage', {
     template,
+    bindings: {
+      resolve: '<',
+    },
     controller: DashboardCtrl,
   });
 

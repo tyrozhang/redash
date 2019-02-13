@@ -70,7 +70,15 @@ const PublicDashboardPage = {
       $timeout(refresh, refreshRate * 1000.0);
     }
 
+    // 从url中获取是否显示标题的参数
     this.showTitle = $routeParams.show_title;
+
+    // 从url中获取主题名称的参数，然后引用此样式文件
+    const theme = $routeParams.theme;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = './static/' + theme + '.css';
+    document.head.appendChild(link);
 
     $scope.theme = 'shine';
   },

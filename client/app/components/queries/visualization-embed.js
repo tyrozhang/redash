@@ -17,6 +17,13 @@ const VisualizationEmbed = {
     // 获取嵌入的iframe是否显示标题的参数，将在页面中进行判断，决定是否显示标题
     this.showTitle = $routeParams.show_title;
 
+    // 从url中获取主题名称的参数，然后引用此样式文件
+    const theme = $routeParams.theme;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = './static/' + theme + '.css';
+    document.head.appendChild(link);
+
     this.apiKey = $routeParams.api_key;
     this.logoUrl = logoUrl;
     this.query = new Query(this.data[0]);
