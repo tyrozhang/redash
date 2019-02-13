@@ -1,9 +1,8 @@
 import * as echarts from 'echarts';
-// import cyan from '@/lib/visualizations/echarts/cyan';
 // import blue from '@/lib/visualizations/echarts/themes/blue';
 // import blueness from '@/lib/visualizations/echarts/themes/blueness';
+import green from '@/lib/visualizations/echarts/themes/green';
 // import purple from '@/lib/visualizations/echarts/themes/purple';
-// import green from '@/lib/visualizations/echarts/themes/green';
 import red from '@/lib/visualizations/echarts/themes/red';
 // import sea from '@/lib/visualizations/echarts/themes/sea';
 import 'echarts/theme/shine';
@@ -14,7 +13,7 @@ function getTheme(changeTheme) {
     theme = 'dark';
   }
   if (changeTheme === 'theme-green') {
-    theme = 'shine';
+    theme = green;
   }
   if (changeTheme === 'theme-red') {
     theme = red;
