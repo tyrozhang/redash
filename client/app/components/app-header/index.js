@@ -1,14 +1,5 @@
 import debug from 'debug';
-
 import logoUrl from '@/assets/images/redash_icon_small.png';
-// import cyan from '@/lib/visualizations/echarts/cyan';
-// import blue from '@/lib/visualizations/echarts/themes/blue';
-// import blueness from '@/lib/visualizations/echarts/themes/blueness';
-// import purple from '@/lib/visualizations/echarts/themes/purple';
-// import green from '@/lib/visualizations/echarts/themes/green';
-// import red from '@/lib/visualizations/echarts/themes/red';
-import sea from '@/lib/visualizations/echarts/themes/sea';
-
 import template from './app-header.html';
 import './app-header.css';
 
@@ -57,7 +48,7 @@ function controller($rootScope, $location, $route, $uibModal, Auth, currentUser,
   };
 
   // 定义通过webpack打包之后的样式文件的名称
-  this.themes = ['theme-black', 'theme-green', 'theme-red'];
+  this.themes = ['theme-dark', 'theme-green', 'theme-red'];
 
   // 删除引用样式的link标签
   this.removeTheme = () => {
@@ -71,8 +62,6 @@ function controller($rootScope, $location, $route, $uibModal, Auth, currentUser,
   this.changeTheme = (theme) => {
     this.removeTheme();
 
-    $rootScope.dashboardTheme = theme;
-
     const link = document.createElement('link');
 
     link.rel = 'stylesheet';
@@ -80,6 +69,8 @@ function controller($rootScope, $location, $route, $uibModal, Auth, currentUser,
     link.id = 'dashboard_themes';
 
     document.head.appendChild(link);
+
+    $rootScope.dashboardTheme = theme;
   };
 
   // 初始按钮的作用，清除自定义样式引用，使用默认样式

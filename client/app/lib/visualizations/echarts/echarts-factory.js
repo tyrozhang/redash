@@ -1,9 +1,26 @@
 import * as echarts from 'echarts';
-// import config from '@/visualizations/echarts/config';
-// import 'echarts/theme/vintage';
+// import cyan from '@/lib/visualizations/echarts/cyan';
+// import blue from '@/lib/visualizations/echarts/themes/blue';
+// import blueness from '@/lib/visualizations/echarts/themes/blueness';
+// import purple from '@/lib/visualizations/echarts/themes/purple';
+// import green from '@/lib/visualizations/echarts/themes/green';
+import red from '@/lib/visualizations/echarts/themes/red';
+// import sea from '@/lib/visualizations/echarts/themes/sea';
 import 'echarts/theme/shine';
-// import 'echarts/theme/macarons';
-// import 'echarts/theme/green';
+
+function getTheme(changeTheme) {
+  let theme;
+  if (changeTheme === 'theme-dark') {
+    theme = 'dark';
+  }
+  if (changeTheme === 'theme-green') {
+    theme = 'shine';
+  }
+  if (changeTheme === 'theme-red') {
+    theme = red;
+  }
+  return theme;
+}
 
 export default function EchartsFactory(location, currentUser, theme) {
   const _location = location;
@@ -14,12 +31,10 @@ export default function EchartsFactory(location, currentUser, theme) {
     if (url.indexOf('large_screen') !== -1) {
       return echarts.init(container, 'dark');
     }
-    return echarts.init(container, theme);
+    return echarts.init(container, getTheme(theme));
   };
   EchartsFactory.prototype.setOption = (echartObj, option) => {
     const url = _location.url();
-
-    // option.color = config.defaultColors;
 
     if (url.indexOf('large_screen') !== -1) {
       option.backgroundColor = 'rgba(0, 0, 0, 0)';

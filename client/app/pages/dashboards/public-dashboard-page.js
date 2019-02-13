@@ -80,7 +80,7 @@ const PublicDashboardPage = {
     link.href = './static/' + theme + '.css';
     document.head.appendChild(link);
 
-    $scope.theme = 'shine';
+    $scope.theme = theme;
   },
 };
 

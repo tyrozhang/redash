@@ -121,25 +121,12 @@
              ng-repeat="widget in $ctrl.dashboard.widgets track by widget.id"
              gridstack-item="widget.options.position" gridstack-item-id="{{ widget.id }}">
           <div class="grid-stack-item-content">
-            <dashboard-widget widget="widget" dashboard="$ctrl.dashboard"
+            <dashboard-widget widget="widget" theme="theme" dashboard="$ctrl.dashboard"
                               on-delete="$ctrl.removeWidget(widget.id)"></dashboard-widget>
           </div>
         </div>
       </div>
     </div>
-  <div style="padding-bottom: 5px;" ng-if="$ctrl.dashboard.widgets.length > 0">
-    <div gridstack editing="$ctrl.layoutEditing && !$ctrl.saveInProgress" batch-update="$ctrl.updateGridItems"
-      is-one-column-mode="$ctrl.isGridDisabled" class="dashboard-wrapper"
-      ng-class="{'preview-mode': !$ctrl.layoutEditing, 'editing-mode': $ctrl.layoutEditing}">
-      <div class="dashboard-widget-wrapper"
-        ng-repeat="widget in $ctrl.dashboard.widgets track by widget.id"
-        gridstack-item="widget.options.position" gridstack-item-id="{{ widget.id }}">
-        <div class="grid-stack-item-content">
-          <dashboard-widget widget="widget" theme="theme" dashboard="$ctrl.dashboard" on-delete="$ctrl.removeWidget(widget.id)"></dashboard-widget>
-        </div>
-      </div>
-    </div>
-  </div>
 
     <div class="dashboard_add_widget" ng-if="$ctrl.layoutEditing">
       <!--<a class="dashboard_add_widget_button" ng-click="$ctrl.addWidget('textbox')"><i class="zmdi zmdi-plus"></i></a>-->

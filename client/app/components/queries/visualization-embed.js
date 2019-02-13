@@ -31,7 +31,7 @@ const VisualizationEmbed = {
     this.visualization =
       find(this.query.visualizations, visualization => visualization.id === visualizationId);
 
-    $scope.theme = 'shine';
+    $scope.theme = theme;
   },
 };
 
