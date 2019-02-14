@@ -102,18 +102,6 @@
   <div ng-if="currentTab == 'xAxis'" class="m-t-10 m-b-10" >
 
     <div class="form-group">
-      <label class="control-label">轴类型</label>
-        <ui-select ng-model="visualization.options.editOptions.horizontalAxisType">
-            <ui-select-match placeholder="选择轴类型">
-              {{$select.selected.name}}
-            </ui-select-match>
-            <ui-select-choices repeat="type as (name ,type) in axisTypes">
-              <span ng-bind-html="type.name"></span>
-            </ui-select-choices>
-          </ui-select>
-    </div>
-
-    <div class="form-group">
       <label class="control-label">名称</label>
       <input ng-model="visualization.options.editOptions.xName" type="text" class="form-control">
     </div>
@@ -121,18 +109,18 @@
 
   <div ng-if="currentTab == 'yAxis'" class="m-t-10 m-b-10">
 
-    <div class="form-group">
-      <label class="control-label">名称</label>
-      <input ng-model="visualization.options.editOptions.yName" type="text" class="form-control">
-    </div>
-    <div class="form-group">
-      <label class="control-label">最小值</label>
-      <input ng-model="visualization.options.editOptions.rangeMin" type="number" step="any" class="form-control">
-    </div>
-    <div class="form-group">
-      <label class="control-label">最大值</label>
-      <input ng-model="visualization.options.editOptions.rangeMax" type="number" step="any" class="form-control">
-    </div>
+      <div class="form-group">
+        <label class="control-label">名称</label>
+        <input ng-model="visualization.options.editOptions.yName" type="text" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="control-label">最小值</label>
+        <input ng-model="visualization.options.editOptions.rangeMin" type="number" step="any" class="form-control">
+      </div>
+      <div class="form-group">
+        <label class="control-label">最大值</label>
+        <input ng-model="visualization.options.editOptions.rangeMax" type="number" step="any" class="form-control">
+      </div>
 
   </div>
 

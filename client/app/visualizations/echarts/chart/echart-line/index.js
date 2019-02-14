@@ -12,9 +12,9 @@ function LineRenderer($location, currentUser, Dashboard, $http, Auth) {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
-      const container = element[0].querySelector('.echarts-chart-visualization-container');
-      const echartFactory = new EchartsFactory($location, currentUser);
-      const lineChart = echartFactory.createChart(container);
+      let container = element[0].querySelector('.echarts-chart-visualization-container');
+      let echartFactory = new EchartsFactory($location, currentUser, '');
+      let lineChart = echartFactory.createChart(container);
 
       if ($scope.visualization.options.dataDrillingDashboard) {
         // 得到页面上选择dashboard的slug
@@ -62,10 +62,18 @@ function LineRenderer($location, currentUser, Dashboard, $http, Auth) {
       function resize() {
         window.onresize = lineChart.resize;
       }
+      function changTheme() {
+        lineChart.dispose();
+        echartFactory = new EchartsFactory($location, currentUser, $scope.theme);
+        container = element[0].querySelector('.echarts-chart-visualization-container');
+        lineChart = echartFactory.createChart(container);
+        reloadData();
+      }
 
       $scope.handleResize = _.debounce(resize, 50);
       $scope.$watch('visualization.options', reloadData, true);
       $scope.$watch('queryResult && queryResult.getData()', reloadData);
+      $scope.$watch('theme', changTheme, true);
     },
   };
 }
@@ -103,7 +111,7 @@ export default function init(ngModule) {
   ngModule.directive('lineRenderer', LineRenderer);
   ngModule.directive('lineEditor', LineEditor);
   ngModule.config((VisualizationProvider) => {
-    const renderTemplate = '<line-renderer options="visualization.options" query-result="queryResult"></line-renderer>';
+    const renderTemplate = '<line-renderer options="visualization.options" theme="theme" query-result="queryResult"></line-renderer>';
     const editTemplate = '<line-editor options="visualization.options" query-result="queryResult"></line-editor>';
 
     VisualizationProvider.registerVisualization({

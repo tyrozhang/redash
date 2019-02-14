@@ -10,9 +10,9 @@ function DoughnutRenderer($location, currentUser) {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
-      const container = element[0].querySelector('.echarts-chart-visualization-container');
-      const echartFactory = new EchartsFactory($location, currentUser);
-      const doughnutChart = echartFactory.createChart(container);
+      let container = element[0].querySelector('.echarts-chart-visualization-container');
+      let echartFactory = new EchartsFactory($location, currentUser, '');
+      let doughnutChart = echartFactory.createChart(container);
 
 
       function reloadData() {
@@ -34,9 +34,18 @@ function DoughnutRenderer($location, currentUser) {
         window.onresize = doughnutChart.resize;
       }
 
+      function changTheme() {
+        doughnutChart.dispose();
+        echartFactory = new EchartsFactory($location, currentUser, $scope.theme);
+        container = element[0].querySelector('.echarts-chart-visualization-container');
+        doughnutChart = echartFactory.createChart(container);
+        reloadData();
+      }
+
       $scope.handleResize = _.debounce(resize, 50);
       $scope.$watch('visualization.options', reloadData, true);
       $scope.$watch('queryResult && queryResult.getData()', reloadData);
+      $scope.$watch('theme', changTheme, true);
     },
   };
 }
@@ -63,7 +72,7 @@ export default function init(ngModule) {
   ngModule.directive('doughnutRenderer', DoughnutRenderer);
   ngModule.directive('doughnutEditor', DoughnutEditor);
   ngModule.config((VisualizationProvider) => {
-    const renderTemplate = '<doughnut-renderer options="visualization.options" query-result="queryResult"></doughnut-renderer>';
+    const renderTemplate = '<doughnut-renderer options="visualization.options" theme="theme" query-result="queryResult"></doughnut-renderer>';
     const editTemplate = '<doughnut-editor options="visualization.options" query-result="queryResult"></doughnut-editor>';
 
     VisualizationProvider.registerVisualization({

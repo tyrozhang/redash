@@ -1,4 +1,4 @@
-import { each, uniq, values, max, isString } from 'lodash';
+import { each, uniq, values, max } from 'lodash';
 
 
 function ChartHelper() {
@@ -76,7 +76,7 @@ function ChartHelper() {
 
 // 对轴文本进行判断，如果超过5个字将折行显示
 function setAxisLabel(params) {
-  if (params.length > 5 && isString(params)) {
+  if (params.length > 5) {
     let newParamsName = '';// 最终拼接成的字符串
     const paramsNameNumber = params.length;// 实际标签的长度
     const provideNumber = 5;// 每行能显示的字的长度
@@ -227,9 +227,7 @@ function BaseChartOption() {
     } else {
       const contentList = [];// 定义一个x轴文本列表
       each(this.chartHelper.getCategoryData(), (item) => {
-        if (isString(item)) {
-          contentList.push(item.length);
-        }
+        contentList.push(item.length);
       });
       const contentLongest = max(contentList);// 获取x轴文本中的最大长度
 
@@ -240,9 +238,7 @@ function BaseChartOption() {
           formatter: params => setAxisLabel(params),
         };
         // 根据最大长度进行底部间距的设置
-        if (contentLongest) {
-          this.chartOption.grid.bottom = Math.ceil(contentLongest / 5) + 3 + '7px';
-        }
+        this.chartOption.grid.bottom = Math.ceil(contentLongest / 5) + 3 + '7px';
       }
 
       // 如果分类列数量小于等于7列，则水平显示x轴文本，且超过五个字将会折行
@@ -251,9 +247,7 @@ function BaseChartOption() {
           formatter: params => setAxisLabel(params),
         };
         // 根据最大长度进行底部间距的设置
-        if (contentLongest) {
-          this.chartOption.grid.bottom = Math.ceil(contentLongest / 5) + 3 + '0px';
-        }
+        this.chartOption.grid.bottom = Math.ceil(contentLongest / 5) + 3 + '0px';
       }
     }
   };

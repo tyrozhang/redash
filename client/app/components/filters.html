@@ -2,8 +2,8 @@
   <div class="row">
     <div class="col-sm-6 p-l-0 filter-container" ng-repeat="filter in $ctrl.filters">
       <label>{{filter.friendlyName}}</label>
-      <br ng-if="filter.isDate">
-      <date-range-input id="filter.name" value="filter.current" ng-if="filter.isDate" on-select="$ctrl.onChangeDate"></date-range-input>
+
+      <date-range-input id="filter.name" value="filter.current" ng-if="filter.isDate" on-select="$ctrl.onChange"></date-range-input>
 
       <ui-select
         ng-if="!filter.multiple && !filter.isDate"

@@ -12,7 +12,7 @@ const PublicDashboardPage = {
   bindings: {
     dashboard: '<',
   },
-  controller($timeout, $location, $http, $route, $q, $rootScope, $routeParams, Dashboard) {
+  controller($timeout, $location, $http, $route, $q, $routeParams, $rootScope, $scope, Dashboard) {
     'ngInject';
 
     this.public = true;
@@ -79,6 +79,8 @@ const PublicDashboardPage = {
     link.rel = 'stylesheet';
     link.href = './static/' + theme + '.css';
     document.head.appendChild(link);
+
+    $scope.theme = theme;
   },
 };
 

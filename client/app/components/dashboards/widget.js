@@ -164,6 +164,7 @@ export default function init(ngModule) {
       public: '<',
       dashboard: '<',
       deleted: '&onDelete',
+      theme: '=',
     },
   });
 }

@@ -10,9 +10,9 @@ function ProgressRenderer($location, currentUser) {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
-      const container = element[0].querySelector('.echarts-chart-visualization-container');
-      const echartFactory = new EchartsFactory($location, currentUser);
-      const progressChart = echartFactory.createChart(container);
+      let container = element[0].querySelector('.echarts-chart-visualization-container');
+      let echartFactory = new EchartsFactory($location, currentUser, '');
+      let progressChart = echartFactory.createChart(container);
 
       function reloadData() {
         const data = $scope.queryResult.getData();
@@ -33,9 +33,18 @@ function ProgressRenderer($location, currentUser) {
         window.onresize = progressChart.resize;
       }
 
+      function changTheme() {
+        progressChart.dispose();
+        echartFactory = new EchartsFactory($location, currentUser, $scope.theme);
+        container = element[0].querySelector('.echarts-chart-visualization-container');
+        progressChart = echartFactory.createChart(container);
+        reloadData();
+      }
+
       $scope.handleResize = _.debounce(resize, 50);
       $scope.$watch('visualization.options', reloadData, true);
       $scope.$watch('queryResult && queryResult.getData()', reloadData);
+      $scope.$watch('theme', changTheme, true);
     },
   };
 }
@@ -61,7 +70,7 @@ export default function init(ngModule) {
   ngModule.directive('progressRenderer', ProgressRenderer);
   ngModule.directive('progressEditor', ProgressEditor);
   ngModule.config((VisualizationProvider) => {
-    const renderTemplate = '<progress-renderer options="visualization.options" query-result="queryResult"></progress-renderer>';
+    const renderTemplate = '<progress-renderer options="visualization.options" theme="theme" query-result="queryResult"></progress-renderer>';
     const editTemplate = '<progress-editor options="visualization.options" query-result="queryResult"></progress-editor>';
 
     VisualizationProvider.registerVisualization({

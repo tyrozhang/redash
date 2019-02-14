@@ -7,14 +7,14 @@ import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import editorTemplate from './bar-editor.html';
 
 
-function BarRenderer($location, $q, currentUser, Dashboard, $http, Auth) {
+function BarRenderer($location, $q, $rootScope, currentUser, Dashboard, $http, Auth) {
   return {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
-      const container = element[0].querySelector('.echarts-chart-visualization-container');
-      const echartFactory = new EchartsFactory($location, currentUser);
-      const barChart = echartFactory.createChart(container);
+      let container = element[0].querySelector('.echarts-chart-visualization-container');
+      let echartFactory = new EchartsFactory($location, currentUser, '');
+      let barChart = echartFactory.createChart(container);
       if ($scope.visualization.options.dataDrillingDashboard) {
         // 得到页面上选择dashboard的slug
         const selectSlug = $scope.visualization.options.dataDrillingDashboard.slug;
@@ -37,24 +37,6 @@ function BarRenderer($location, $q, currentUser, Dashboard, $http, Auth) {
         } else {
           barExamples.chartOption.xAxis.type = 'category';
           barExamples.chartOption.yAxis.type = 'value';
-        }
-
-        // 当更改了轴类型并且为横向柱状图时，对轴类型进行设置
-        if (editOptions.horizontalAxisType && editOptions.horizontalBar) {
-          if (editOptions.horizontalAxisType.value === 'log') {
-            barExamples.chartOption.xAxis.type = editOptions.horizontalAxisType.value;
-          } else {
-            barExamples.chartOption.yAxis.type = editOptions.horizontalAxisType.value;
-          }
-        }
-
-        // 当更改了轴类型，为纵向柱状图时，对轴类型进行设置
-        if (editOptions.horizontalAxisType && !editOptions.horizontalBar) {
-          if (editOptions.horizontalAxisType.value === 'log') {
-            barExamples.chartOption.yAxis.type = editOptions.horizontalAxisType.value;
-          } else {
-            barExamples.chartOption.xAxis.type = editOptions.horizontalAxisType.value;
-          }
         }
 
         barExamples.chartOption.categoryColumn = editOptions.categoryColumn;
@@ -85,9 +67,18 @@ function BarRenderer($location, $q, currentUser, Dashboard, $http, Auth) {
         window.onresize = barChart.resize;
       }
 
+      function changTheme() {
+        barChart.dispose();
+        echartFactory = new EchartsFactory($location, currentUser, $scope.theme);
+        container = element[0].querySelector('.echarts-chart-visualization-container');
+        barChart = echartFactory.createChart(container);
+        reloadData();
+      }
+
       $scope.handleResize = _.debounce(resize, 50);
       $scope.$watch('visualization.options', reloadData, true);
       $scope.$watch('queryResult && queryResult.getData()', reloadData);
+      $scope.$watch('theme', changTheme, true);
     },
   };
 }
@@ -103,12 +94,6 @@ function BarEditor(Dashboard) {
       };
 
       $scope.colors = ColorPalette;
-
-      $scope.axisTypes = {
-        类目轴: 'category',
-        时间轴: 'time',
-        对数轴: 'log',
-      };
 
       const editOptions = {
         conversion: false,
@@ -128,7 +113,7 @@ export default function init(ngModule) {
   ngModule.directive('barRenderer', BarRenderer);
   ngModule.directive('barEditor', BarEditor);
   ngModule.config((VisualizationProvider) => {
-    const renderTemplate = '<bar-renderer options="visualization.options" query-result="queryResult"></bar-renderer>';
+    const renderTemplate = '<bar-renderer options="visualization.options" theme="theme" query-result="queryResult"></bar-renderer>';
     const editTemplate = '<bar-editor options="visualization.options" query-result="queryResult"></bar-editor>';
 
     VisualizationProvider.registerVisualization({

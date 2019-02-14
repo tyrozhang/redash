@@ -111,7 +111,7 @@ function ProgressOption() {
         barCategoryGap: '30%',
         itemStyle: {
           normal: {
-            color: '#EF9818',
+            // color: '#EF9818',
             barBorderRadius: 5,
           },
         },
@@ -125,7 +125,7 @@ function ProgressOption() {
         barCategoryGap: '30%',
         itemStyle: {
           normal: {
-            color: '#989BA2',
+            // color: '#989BA2',
             borderColor: '#393939',
             barBorderRadius: 5,
             borderWidth: 2,
@@ -133,7 +133,7 @@ function ProgressOption() {
         },
         label: {
           show: false,
-          color: '#56D0E3',
+          // color: '#56D0E3',
           position: 'right',
           formatter: '{c}',
         },

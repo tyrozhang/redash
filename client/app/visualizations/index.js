@@ -80,7 +80,7 @@ function VisualizationName(Visualization) {
   };
 }
 
-function VisualizationRenderer(Visualization) {
+function VisualizationRenderer($rootScope, Visualization) {
   // isUseFilter is undefined if the dashboard level filter is not used.
   const noDashboardFilter = undefined;
 
@@ -90,6 +90,7 @@ function VisualizationRenderer(Visualization) {
       visualization: '=',
       queryResult: '=',
       isUseFilter: '=',
+      theme: '=',
     },
     // TODO: using switch here (and in the options editor) might introduce errors and bad
     // performance wise. It's better to eventually show the correct template based on the

@@ -10,9 +10,9 @@ function ScatterRenderer($location, currentUser) {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
-      const container = element[0].querySelector('.echarts-chart-visualization-container');
-      const echartFactory = new EchartsFactory($location, currentUser);
-      const scatterChart = echartFactory.createChart(container);
+      let container = element[0].querySelector('.echarts-chart-visualization-container');
+      let echartFactory = new EchartsFactory($location, currentUser, '');
+      let scatterChart = echartFactory.createChart(container);
 
       function reloadData() {
         const data = $scope.queryResult.getData();
@@ -50,9 +50,18 @@ function ScatterRenderer($location, currentUser) {
         window.onresize = scatterChart.resize;
       }
 
+      function changTheme() {
+        scatterChart.dispose();
+        echartFactory = new EchartsFactory($location, currentUser, $scope.theme);
+        container = element[0].querySelector('.echarts-chart-visualization-container');
+        scatterChart = echartFactory.createChart(container);
+        reloadData();
+      }
+
       $scope.handleResize = _.debounce(resize, 50);
       $scope.$watch('visualization.options', reloadData, true);
       $scope.$watch('queryResult && queryResult.getData()', reloadData);
+      $scope.$watch('theme', changTheme, true);
     },
   };
 }
@@ -79,7 +88,7 @@ export default function init(ngModule) {
   ngModule.directive('scatterRenderer', ScatterRenderer);
   ngModule.directive('scatterEditor', ScatterEditor);
   ngModule.config((VisualizationProvider) => {
-    const renderTemplate = '<scatter-renderer options="visualization.options" query-result="queryResult"></scatter-renderer>';
+    const renderTemplate = '<scatter-renderer options="visualization.options" theme="theme" query-result="queryResult"></scatter-renderer>';
     const editTemplate = '<scatter-editor options="visualization.options" query-result="queryResult"></scatter-editor>';
 
     VisualizationProvider.registerVisualization({

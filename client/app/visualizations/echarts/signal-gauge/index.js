@@ -53,9 +53,9 @@ function signalGaugeRenderer($location, currentUser) {
     restrict: 'E',
     template: '<div class="signal-gauge-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
-      const container = element[0].querySelector('.signal-gauge-visualization-container');
-      const echartFactory = new EchartsFactory($location, currentUser);
-      const gaugeChart = echartFactory.createChart(container);
+      let container = element[0].querySelector('.signal-gauge-visualization-container');
+      let echartFactory = new EchartsFactory($location, currentUser, '');
+      let gaugeChart = echartFactory.createChart(container);
 
       function reloadData() {
         const queryData = $scope.queryResult.getData();
@@ -86,9 +86,18 @@ function signalGaugeRenderer($location, currentUser) {
         window.onresize = gaugeChart.resize;
       }
 
+      function changTheme() {
+        gaugeChart.dispose();
+        echartFactory = new EchartsFactory($location, currentUser, $scope.theme);
+        container = element[0].querySelector('.signal-gauge-visualization-container');
+        gaugeChart = echartFactory.createChart(container);
+        reloadData();
+      }
+
       $scope.handleResize = _.debounce(resize, 50);
       $scope.$watch('visualization.options', reloadData, true);
       $scope.$watch('queryResult && queryResult.getData()', reloadData);
+      $scope.$watch('theme', changTheme, true);
     },
 
   };
@@ -116,7 +125,7 @@ export default function init(ngModule) {
   ngModule.directive('signalGaugeEditor', signalGaugeEditor);
 
   ngModule.config((VisualizationProvider) => {
-    const renderTemplate = '<signal-gauge-renderer></signal-gauge-renderer>';
+    const renderTemplate = '<signal-gauge-renderer theme="theme"></signal-gauge-renderer>';
     const editTemplate = '<signal-gauge-editor></signal-gauge-editor>';
 
     VisualizationProvider.registerVisualization({
