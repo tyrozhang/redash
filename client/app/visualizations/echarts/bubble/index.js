@@ -10,9 +10,9 @@ function BubbleRenderer($location, currentUser) {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
-      const container = element[0].querySelector('.echarts-chart-visualization-container');
-      const echartFactory = new EchartsFactory($location, currentUser);
-      const bubbleChart = echartFactory.createChart(container);
+      let container = element[0].querySelector('.echarts-chart-visualization-container');
+      let echartFactory = new EchartsFactory($location, currentUser, '');
+      let bubbleChart = echartFactory.createChart(container);
 
 
       function reloadData() {
@@ -49,9 +49,18 @@ function BubbleRenderer($location, currentUser) {
         window.onresize = bubbleChart.resize;
       }
 
+      function changTheme() {
+        bubbleChart.dispose();
+        echartFactory = new EchartsFactory($location, currentUser, $scope.theme);
+        container = element[0].querySelector('.echarts-chart-visualization-container');
+        bubbleChart = echartFactory.createChart(container);
+        reloadData();
+      }
+
       $scope.handleResize = _.debounce(resize, 50);
       $scope.$watch('visualization.options', reloadData, true);
       $scope.$watch('queryResult && queryResult.getData()', reloadData);
+      $scope.$watch('theme', changTheme, true);
     },
   };
 }
@@ -78,7 +87,7 @@ export default function init(ngModule) {
   ngModule.directive('bubbleRenderer', BubbleRenderer);
   ngModule.directive('bubbleEditor', BubbleEditor);
   ngModule.config((VisualizationProvider) => {
-    const renderTemplate = '<bubble-renderer options="visualization.options" query-result="queryResult"></bubble-renderer>';
+    const renderTemplate = '<bubble-renderer options="visualization.options" theme="theme" query-result="queryResult"></bubble-renderer>';
     const editTemplate = '<bubble-editor options="visualization.options" query-result="queryResult"></bubble-editor>';
 
     VisualizationProvider.registerVisualization({

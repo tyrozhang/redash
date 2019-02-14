@@ -13,7 +13,7 @@ function BarRenderer($location, $q, $rootScope, currentUser, Dashboard, $http, A
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
       let container = element[0].querySelector('.echarts-chart-visualization-container');
-      let echartFactory = new EchartsFactory($location, currentUser);
+      let echartFactory = new EchartsFactory($location, currentUser, '');
       let barChart = echartFactory.createChart(container);
       if ($scope.visualization.options.dataDrillingDashboard) {
         // 得到页面上选择dashboard的slug

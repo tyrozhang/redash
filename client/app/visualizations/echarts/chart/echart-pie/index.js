@@ -11,9 +11,9 @@ function PieRenderer($location, currentUser, Dashboard, $http, Auth) {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
-      const container = element[0].querySelector('.echarts-chart-visualization-container');
-      const echartFactory = new EchartsFactory($location, currentUser);
-      const pieChart = echartFactory.createChart(container);
+      let container = element[0].querySelector('.echarts-chart-visualization-container');
+      let echartFactory = new EchartsFactory($location, currentUser, '');
+      let pieChart = echartFactory.createChart(container);
 
       if ($scope.visualization.options.dataDrillingDashboard) {
         // 得到页面上选择dashboard的slug
@@ -44,10 +44,18 @@ function PieRenderer($location, currentUser, Dashboard, $http, Auth) {
       function resize() {
         window.onresize = pieChart.resize;
       }
+      function changTheme() {
+        pieChart.dispose();
+        echartFactory = new EchartsFactory($location, currentUser, $scope.theme);
+        container = element[0].querySelector('.echarts-chart-visualization-container');
+        pieChart = echartFactory.createChart(container);
+        reloadData();
+      }
 
       $scope.handleResize = _.debounce(resize, 50);
       $scope.$watch('visualization.options', reloadData, true);
       $scope.$watch('queryResult && queryResult.getData()', reloadData);
+      $scope.$watch('theme', changTheme, true);
     },
   };
 }
@@ -77,7 +85,7 @@ export default function init(ngModule) {
   ngModule.directive('pieRenderer', PieRenderer);
   ngModule.directive('pieEditor', PieEditor);
   ngModule.config((VisualizationProvider) => {
-    const renderTemplate = '<pie-renderer options="visualization.options" query-result="queryResult"></pie-renderer>';
+    const renderTemplate = '<pie-renderer options="visualization.options" theme="theme" query-result="queryResult"></pie-renderer>';
     const editTemplate = '<pie-editor options="visualization.options" query-result="queryResult"></pie-editor>';
 
     VisualizationProvider.registerVisualization({

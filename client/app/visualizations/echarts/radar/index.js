@@ -1,12 +1,10 @@
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import chartIcon from '@/assets/images/visualizationIcons/icon_radar.png';
 import _ from 'lodash';
-import config from '../config';
 import radarTemplate from './radar-editor.html';
 
 // 雷达图的配置项
 const option = {
-  color: config.defaultColors,
   tooltip: {},
   legend: {
     data: [],
@@ -44,15 +42,15 @@ function radarRenderer($location, currentUser) {
     scope: {
       options: '=',
       queryResult: '=',
+      theme: '=',
     },
     replace: false,
     template: '<div class="radar-visualization-container" resize-event="handleResize()"></div>',
     link($scope, element) {
       // 根据类样式名得到用于展现Echarts图表展现的div的dom对象
-      const container = element[0].querySelector('.radar-visualization-container');
-
-      const echartFactory = new EchartsFactory($location, currentUser);
-      const radarChart = echartFactory.createChart(container);
+      let container = element[0].querySelector('.radar-visualization-container');
+      let echartFactory = new EchartsFactory($location, currentUser, '');
+      let radarChart = echartFactory.createChart(container);
 
       // 定义一个数组，用于存储查询的结果集。
       let resultData = [];
@@ -137,8 +135,17 @@ function radarRenderer($location, currentUser) {
 
       $scope.handleResize = _.debounce(resize, 50);
 
+      function changTheme() {
+        radarChart.dispose();
+        echartFactory = new EchartsFactory($location, currentUser, $scope.theme);
+        container = element[0].querySelector('.radar-visualization-container');
+        radarChart = echartFactory.createChart(container);
+        reloadData();
+      }
+
       $scope.$watch('options', reloadData, true);
       $scope.$watch('queryResult && queryResult.getData()', reloadData);
+      $scope.$watch('theme', changTheme, true);
     },
   };
 }
@@ -178,7 +185,7 @@ export default function init(ngModule) {
   ngModule.directive('radarEditor', radarEditor);
 
   ngModule.config((VisualizationProvider) => {
-    const renderTemplate = '<radar-renderer options="visualization.options" query-result="queryResult"></radar-renderer>';
+    const renderTemplate = '<radar-renderer options="visualization.options" theme="theme" query-result="queryResult"></radar-renderer>';
     const radarEditorTemplate = '<radar-editor></radar-editor>';
     VisualizationProvider.registerVisualization({
       type: 'radar',
