@@ -1,154 +1,83 @@
+body{
+  padding: 0;
+}
 /* --------------------------------------------------------
     dashboard标题、背景、字体、按钮
 -----------------------------------------------------------*/
 // 仪表盘总div
 .theme-dashboard .container{
-  background: #E4E5E9;
-  //margin-top: -20px;
-  //padding-top: 20px;
+  background: url("/static/images/gdsImages/large_screen_bg.png") repeat-y center;
 }
-
-// dashboard标题栏
+// dashboard标题导航栏
 .theme-dashboard .page-header--new{
-  background: #99CC99 !important;
+  background: url("/static/images/gdsImages/large_screen_top.png") no-repeat top center;
+  margin: 0;
+  padding: 0;
+  height: 71px;
 }
-
 // dashboard中widget所占布局的背景颜色
 .theme-dashboard .dashboard-wrapper{
-  background: #E4E5E9;
+  background: rgba(0,0,0,0) !important;
 }
-
 // dashboard中标题字体颜色
-.theme-dashboard .fa-star-o:before{
-  color: #000000 !important;
+.theme-dashboard page-header h3{
+  color: #31b1f2;
 }
-.theme-dashboard page-header h3, .page-header--new h3{
-  color: #000000;
-}
-.theme-dashboard a.label-tag:hover{
-  color: #000000;
-}
-.theme-dashboard a.label-tag{
-  color: #000000;
-}
-
+// 分享出的dashboard的标题样式
 .theme-dashboard .fa-institution{
-  color: #000000;
+  color: #31b1f2;
   font-size: 18px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
-.theme-dashboard page-header h3, .page-header--new h3{
+.theme-dashboard page-header h3{
   display: inline !important;
 }
-
-
+// 分享出的dashboard中小部件左下角的刷新时间的样式
+.theme-dashboard .small{
+  color: #31b1f2;
+}
+// 收藏图标
+.theme-dashboard .fa-star-o:before{
+  color: #31b1f2 !important;
+}
+// dashboard标题后面的标签
+.theme-dashboard a.label-tag:hover{
+  color: #31b1f2;
+}
+.theme-dashboard a.label-tag{
+  color: #31b1f2;
+}
 // 分享按钮背景颜色
 .theme-dashboard .btn-primary{
-  background: #000 !important;
+  background: transparent !important;
+  color: #31b1f2;
+}
+// dashboard页面按钮通用样式
+.theme-dashboard .btn-default{
+  background: transparent !important;
+  color: #31b1f2;
+}
+.theme-dashboard .gds_btn-group-border{
+  border: 0;
 }
 
-.theme-dashboard .btn-primary:hover{
-  background: #000 !important;
-}
+
+
 /* --------------------------------------------------------
     过滤器下拉框样式
 -----------------------------------------------------------*/
 // 过滤器默认字体颜色
-.ui-select-toggle.btn-default{
-  color: #000;
+.theme-dashboard .ui-select-toggle.btn-default{
+  color: #31b1f2;
   background: #E4E5E9;
 }
-
-
 // 参数栏与dashboard过滤条件栏的背景色
 .theme-dashboard .bg-white{
-  color: #000000;
-  background: #E4E5E9 !important;
-}
-.theme-dashboard .btn-default{
-  background: #E4E5E9;
-}
-.gds_btn-group-border{
-  border: 1px solid #e8e8e8;
+  color: #31b1f2;
+  background: transparent !important;
 }
 
-
-/* --------------------------------------------------------
-    widget标题、背景、字体、按钮
------------------------------------------------------------*/
-// widget主标题
-.theme-dashboard visualization-name{
-  color: #000000 !important;
-}
-
-.theme-dashboard h3{
-  color: #000000 !important;
-}
-
-// widget主标题
-.theme-dashboard visualization-name:empty + span{
-   color: #000000 !important;
-}
-.theme-dashboard .query-link{
-  color: #000000 !important;
-}
-
-.theme-dashboard .tile__bottom-control a span{
-  color: #000000 !important;
-}
-
-
-// 小部件的背景颜色
-.theme-dashboard .tile .t-header.widget{
-  background: #E4E5E9 !important;
-  border: none;
-}
-.theme-dashboard .tile .tile__bottom-control{
-  background: #E4E5E9;
-  border: none;
-}
-
-// 小部件的边框
-.theme-dashboard .widget-wrapper .scrollbox{
-  border: none;
-}
-.theme-dashboard .dashboard-widget-wrapper{
-  border: none;
-}
-
-// 表格的背景颜色
-.theme-dashboard table,
-.theme-dashboard .t-body{
-  background: #E4E5E9;
-}
-
-// 表格翻页的div
-.theme-dashboard .tile .paginator-container{
-  background: #E4E5E9;
-}
-.theme-dashboard .pagination > li > a,
-.theme-dashboard .pagination > li > span{
-  color: #000;
-}
-.theme-dashboard .pagination > .active > a{
-  background: #999900;
-}
-// 表格中的字体
-.theme-dashboard table > tbody{
-  color: #000000;
-}
-.theme-dashboard .table > thead > tr > th{
-  color: #000000;
-}
-
-
-// 小部件右上角的菜单按钮
-.theme-dashboard .dropdown-toggle,
-.theme-dashboard .dropdown-toggle:hover,
-.theme-dashboard .dropdown-toggle:focus{
-  color: #000 !important;
-}
 
 
 /* --------------------------------------------------------
@@ -156,24 +85,139 @@
 -----------------------------------------------------------*/
 // dashboard标题栏下拉框样式
 .theme-dashboard .dropdown-menu{
-  background: #E4E5E9;
+  background: #174367;
+}
+.theme-dashboard .dropdown-menu a{
+  color:#31b1f2;
+  border: 1px #31b1f2 solid;
+}
+.theme-dashboard .dropdown-menu a:hover{
+  color:#31b1f2 !important;
 }
 
 
-
-// 嵌入的小部件的标题栏样式
-.theme-dashboard .embed-heading{
-  background: #99CC99;
-  color: red;
+/* --------------------------------------------------------
+    widget标题、背景、字体、按钮
+-----------------------------------------------------------*/
+// widget主标题
+.theme-dashboard visualization-name,
+.theme-dashboard h3,
+.theme-dashboard visualization-name:empty + span,
+.theme-dashboard .query-link,
+.theme-dashboard .tile__bottom-control a span{
+  color: #31b1f2 !important;
 }
-// 嵌入小部件的背景颜色
-.theme-dashboard .query__vis{
-  background: #99CC99;
-}
 
-// 小部件的背景色
+// 可视化小部件的背景色
 .theme-dashboard .echarts-chart-visualization-container{
-  background: #E4E5E9 !important;
+  background: transparent !important;
+}
+.theme-dashboard .visualization-renderer{
+  border: none !important;
+}
+// 小部件的背景颜色
+.theme-dashboard .tile .t-header.widget{
+  background: rgba(0,0,0,0) !important;
+  border: none;
+}
+.theme-dashboard .body-row{
+  background: rgba(0,0,0,0,) !important;
+}
+.theme-dashboard .tile{
+  background: rgba(0,0,0,0,) !important;
+  border-left: 1px #174367 solid;
+  border-right: 1px #174367 solid;
+  border-top: 1px #2884c1 solid;
+  border-bottom: 1px #2884c1 solid;
+  border-radius: 0 !important;
+  box-shadow: 0 0 40px #0e304c inset !important;
+}
+.theme-dashboard .tile .tile__bottom-control{
+  background: rgba(0,0,0,0) !important;
+  border: none;
+}
+// 小部件左右边框（默认白边）
+.theme-dashboard .widget-wrapper .scrollbox{
+  border-left: 0;
+  border-right: 0;
+}
+// 小部件中带有滚动条的表格的边框
+.theme-dashboard .dynamic-table-container{
+  border: 1px #174367 solid !important;
+}
+// 表格的背景颜色
+.theme-dashboard table,
+.theme-dashboard .t-body{
+  background: rgba(0,0,0,0,);
+}
+// 表格翻页按钮所在的div的背景色
+.theme-dashboard .tile .paginator-container{
+  background: transparent;
+}
+.theme-dashboard .tile .paginator-container a{
+  border: 0;
+  background: transparent;
+}
+// 翻页按钮的字体
+.theme-dashboard .pagination > li > a,
+.theme-dashboard .pagination > li > span{
+  color: #31b1f2;
+}
+// 翻页按钮中当前页按钮的背景色
+.theme-dashboard .pagination > .active > a{
+  background: transparent;
+  border: 1px #31b1f2 solid;
+}
+// 表格中的字体
+.theme-dashboard table > tbody{
+  margin:0 auto;
+  background: #081325;
+  color:#9cd3fa;
+  width:96%;
+  border:0 !important;
+}
+.theme-dashboard .table > thead > tr > th{
+  color:#31b1f2 !important;
+  border-bottom: 2px solid #202f42 !important;
+  background: #062041;
+  font-size: 14px !important;
+  font-weight: bold !important;
+}
+// 表格中的边框
+.theme-dashboard .table > thead > tr > th,
+.theme-dashboard .table > tbody > tr > th,
+.theme-dashboard .table > tfoot > tr > th,
+.theme-dashboard .table > thead > tr > td,
+.theme-dashboard .table > tbody > tr > td,
+.theme-dashboard .table > tfoot > tr > td{
+  border-top: 1px solid #202f42 !important;
+}
+// 小部件右上角的菜单按钮
+.theme-dashboard .dropdown-toggle,
+.theme-dashboard .dropdown-toggle:hover,
+.theme-dashboard .dropdown-toggle:focus{
+  color: #31b1f2 !important;
+}
+// 小部件下拉框的样式
+.theme-dashboard .form-control{
+  border: 1px #31b1f2 solid;
+  background: #174367 !important;
+  color: #31b1f2 !important;
+}
+
+
+
+/* --------------------------------------------------------
+    嵌入的样式
+-----------------------------------------------------------*/
+// 嵌入的小部件的标题栏样式
+.theme-dashboard .embed-heading,
+.theme-dashboard .query__vis{
+  background: transparent;
+}
+// 嵌入小部件所处div的背景颜色
+.theme-dashboard .embed__vis{
+  background: url("/static/images/gdsImages/large_screen_bg.png") no-repeat top center !important;
 }
 
 
@@ -184,3 +228,35 @@
     color: #99CC99;
   }
 }
+// 小部件放大后的样式
+//.modal-content{
+//  background: url("/static/images/gdsImages/large_screen_bg.png") no-repeat top center;
+//}
+//.modal-content .visualization-title span{
+//  color: #31b1f2;
+//}
+//.modal-content .close{
+//  color: #31b1f2;
+//}
+//.modal-content .modal-footer button{
+//  color: #31b1f2;
+//  background: transparent !important;
+//}
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width:12px;
+  background-color: #174367;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+  background-color: #174367;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  background-color: #2884C1;
+}
+//div::-webkit-scrollbar-button:start {
+//  background-color: #41B5A4;
+//}
+
