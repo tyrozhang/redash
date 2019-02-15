@@ -395,9 +395,71 @@ function DashboardCtrl(
     });
   };
 
+  // 获取对应dashboard的样式
+  this.getDashboardTheme = () => {
+    Dashboard.get(
+      { slug: $routeParams.dashboardSlug },
+      (dashboard) => {
+        this.theme = dashboard.theme;
+        if (this.theme) {
+          const newlink = document.createElement('link');
+          newlink.rel = 'stylesheet';
+          newlink.href = './static/' + this.theme + '.css';
+          newlink.id = 'dashboard_themes';
+          document.head.appendChild(newlink);
+          $rootScope.dashboardTheme = dashboard.theme;
+        }
+      },
+    );
+  };
+
+  this.getDashboardTheme();
+
+  // 将用户选择的主题保存至数据库
+  this.saveTheme = (theme) => {
+    updateDashboard({ theme });
+  };
+  // 定义通过webpack打包之后的样式文件的名称
+  this.themes = ['theme-dark', 'theme-green', 'theme-red'];
+
+  // 删除引用样式的link标签
+  this.removeTheme = () => {
+    const oldLink = document.getElementById('dashboard_themes');
+    if (oldLink) {
+      oldLink.parentNode.removeChild(oldLink);
+    }
+    $rootScope.dashboardTheme = '';
+  };
+
+  // 当点击主题按钮时，动态的引入对应的主题样式
+  this.changeTheme = (theme) => {
+    this.removeTheme();
+
+    $rootScope.dashboardTheme = theme;
+    // 存储主题名称
+    this.saveTheme(theme);
+    const link = document.createElement('link');
+
+    link.rel = 'stylesheet';
+    link.href = './static/' + theme + '.css';
+    link.id = 'dashboard_themes';
+
+    document.head.appendChild(link);
+  };
+
+  // 初始按钮的作用，清除自定义样式引用，使用默认样式
+  this.resetTheme = () => {
+    this.removeTheme();
+    this.saveTheme('');
+  };
   $rootScope.$watch('dashboardTheme', () => {
     $scope.theme = $rootScope.dashboardTheme;
   }, true);
+
+  // 当离开此页面时执行清除样式
+  $scope.$on('$destroy', () => {
+    this.removeTheme();
+  });
 }
 
 const ShareDashboardComponent = {

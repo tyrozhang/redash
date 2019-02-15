@@ -182,7 +182,7 @@ class DashboardResource(BaseResource):
         require_object_modify_permission(dashboard, self.current_user)
 
         updates = project(dashboard_properties, ('name', 'layout', 'version', 'tags',
-                                                 'is_draft', 'dashboard_filters_enabled'))
+                                                 'is_draft', 'dashboard_filters_enabled', 'theme'))
 
         # SQLAlchemy handles the case where a concurrent transaction beats us
         # to the update. But we still have to make sure that we're not starting

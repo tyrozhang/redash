@@ -204,23 +204,6 @@ body{
   background: #174367 !important;
   color: #31b1f2 !important;
 }
-
-
-
-/* --------------------------------------------------------
-    嵌入的样式
------------------------------------------------------------*/
-// 嵌入的小部件的标题栏样式
-.theme-dashboard .embed-heading,
-.theme-dashboard .query__vis{
-  background: transparent;
-}
-// 嵌入小部件所处div的背景颜色
-.theme-dashboard .embed__vis{
-  background: url("/static/images/gdsImages/large_screen_bg.png") no-repeat top center !important;
-}
-
-
 // dashboard添加小部件按钮
 .theme-dashboard .dashboard_add_widget{
   border: 3px solid #99CC99;
@@ -244,19 +227,50 @@ body{
 //}
 
 /* 设置滚动条的样式 */
-::-webkit-scrollbar {
-  width:12px;
-  background-color: #174367;
-}
-/* 滚动槽 */
-::-webkit-scrollbar-track {
-  background-color: #174367;
-}
-/* 滚动条滑块 */
-::-webkit-scrollbar-thumb {
-  background-color: #2884C1;
-}
+//::-webkit-scrollbar {
+//  width:12px;
+//  background-color: #174367;
+//}
+///* 滚动槽 */
+//::-webkit-scrollbar-track {
+//  background-color: #174367;
+//}
+///* 滚动条滑块 */
+//::-webkit-scrollbar-thumb {
+//  background-color: #2884C1;
+//}
 //div::-webkit-scrollbar-button:start {
 //  background-color: #41B5A4;
 //}
 
+
+
+/* --------------------------------------------------------
+    嵌入对话框的样式
+-----------------------------------------------------------*/
+// 嵌入小部件所处div的背景颜色
+.embed-theme .embed-visualization .echarts-chart-visualization-container{
+  background: url("/static/images/gdsImages/large_screen_bg.png") no-repeat top center !important;
+}
+
+
+
+/* --------------------------------------------------------
+    嵌入小部件的样式
+-----------------------------------------------------------*/
+// 嵌入的小部件的标题栏样式
+.embed-visualization-theme .embed-heading h3{
+  color: #31b1f2;
+}
+// 嵌入小部件的背景
+.embed-visualization-theme .embed__vis{
+  background: url("/static/images/gdsImages/large_screen_bg.png") no-repeat top center !important;
+}
+// 嵌入小部件左下角的显示时间样式
+.embed-visualization-theme .small{
+  color: #31b1f2;
+}
+// 嵌入小部件底部div边框
+.embed-visualization-theme .tile .tile__bottom-control{
+  border: 0;
+}

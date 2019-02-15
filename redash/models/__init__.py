@@ -800,6 +800,7 @@ class Dashboard(ChangeTrackingMixin, TimestampMixin, BelongsToOrgMixin, db.Model
     is_draft = Column(db.Boolean, default=True, index=True)
     widgets = db.relationship('Widget', backref='dashboard', lazy='dynamic')
     tags = Column('tags', MutableList.as_mutable(postgresql.ARRAY(db.Unicode)), nullable=True)
+    theme = Column(db.String(100))
 
     __tablename__ = 'dashboards'
     __mapper_args__ = {

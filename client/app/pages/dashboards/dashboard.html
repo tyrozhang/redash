@@ -34,6 +34,26 @@
             <span class="fa fa-paper-plane"></span> {{ 'Publish' | translate }}
           </button>
 
+          <!--<div>
+            <button ng-click="$ctrl.resetTheme()" class="btn btn-sm btn-default change-theme-btn">dufault</button>
+            <div ng-repeat="theme in $ctrl.themes">
+              <button ng-click="$ctrl.changeTheme(theme)" class="btn btn-sm btn-default change-theme-btn">{{ theme }}</button>
+            </div>
+          </div>-->
+          <div class="btn-group hidden-print hidden-xs gds_btn-group-border" uib-dropdown>
+            <button class="btn btn-sm btn-default dropdown-toggle" uib-dropdown-toggle>
+              皮肤
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+              <li>
+                <button ng-click="$ctrl.resetTheme()" class="btn btn-default btn-sm">dufault</button>
+              </li>
+              <li ng-repeat="theme in $ctrl.themes">
+                <button ng-click="$ctrl.changeTheme(theme)" class="btn btn-default btn-sm">{{ theme }}</button>
+              </li>
+            </ul>
+          </div>
+
           <div class="btn-group gds_btn-group-border" uib-dropdown ng-if="!$ctrl.layoutEditing">
             <button id="split-button" type="button"
                     ng-class="{'btn-default btn-sm': $ctrl.refreshRate === null,'btn-primary btn-sm':$ctrl.refreshRate !== null}"

@@ -2,7 +2,7 @@ import { each } from 'lodash';
 import template from './embed-code-dialog.html';
 
 const EmbedCodeDialog = {
-  controller(clientConfig, $window, $rootScope) {
+  controller(clientConfig, $window, $scope) {
     'ngInject';
 
     this.query = this.resolve.query;
@@ -13,6 +13,8 @@ const EmbedCodeDialog = {
       params += '&p_' + item.name + '=' + item.value;
     });
     this.visualization = this.resolve.visualization;
+    this.queryResult = this.resolve.queryResult;
+    this.useFilter = false;
 
     // 默认为显示标题
     this.showTitle = true;
@@ -20,23 +22,23 @@ const EmbedCodeDialog = {
       this.visualization.id
     }?api_key=${this.query.api_key}` + params;
     this.embedUrl = defaultEmbedUrI;
-
-    // 从作用域中取到主题的参数并根据情况添加到嵌入的url中
-    const theme = $rootScope.dashboardTheme;
-
-    let themeParameter = '';
-    if (theme) {
-      themeParameter = '&theme=' + theme;
-    }
-    this.embedUrl = defaultEmbedUrI + themeParameter;
+    this.titleParameter = '';
+    this.themeParameter = '';
 
     this.isShowTitle = () => {
-      let titleParameter = '';
+      this.titleParameter = '';
       if (!this.showTitle) {
-        titleParameter = '&show_title=false';
+        this.titleParameter = '&show_title=false';
       }
+      this.embedUrl = defaultEmbedUrI + this.titleParameter + this.themeParameter;
+    };
 
-      this.embedUrl = defaultEmbedUrI + titleParameter + themeParameter;
+    this.setEmbedUrl = () => {
+      this.themeParameter = '';
+      if (this.theme) {
+        this.themeParameter = '&theme=' + this.theme;
+      }
+      this.embedUrl = defaultEmbedUrI + this.titleParameter + this.themeParameter;
     };
 
     if (window.snapshotUrlBuilder) {
@@ -52,6 +54,37 @@ const EmbedCodeDialog = {
       document.execCommand('copy');
       $window.confirm('复制成功');
     };
+
+    // 换肤功能
+    this.themes = ['theme-dark', 'theme-green', 'theme-red'];
+
+    this.removeTheme = () => {
+      const oldLink = document.getElementById('embed_themes');
+      if (oldLink) {
+        oldLink.parentNode.removeChild(oldLink);
+      }
+    };
+
+    this.changeTheme = (theme) => {
+      this.theme = theme;
+      this.setEmbedUrl();
+      this.removeTheme();
+      const link = document.createElement('link');
+
+      link.rel = 'stylesheet';
+      link.href = './static/' + theme + '.css';
+      link.id = 'embed_themes';
+
+      document.head.appendChild(link);
+    };
+    this.resetTheme = () => {
+      this.theme = '';
+      this.setEmbedUrl();
+    };
+
+    $scope.$on('$destroy', () => {
+      this.removeTheme();
+    });
   },
   bindings: {
     resolve: '<',

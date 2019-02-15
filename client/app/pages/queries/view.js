@@ -466,6 +466,7 @@ function QueryViewCtrl(
       resolve: {
         query,
         visualization,
+        queryResult: $scope.queryResult,
       },
     });
   };

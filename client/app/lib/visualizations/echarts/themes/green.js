@@ -143,6 +143,15 @@ const green = {
         borderColor: '#ccc',
       },
     },
+    axisLine: {
+      lineStyle: {
+        color: [
+          [0.3, '#c7f6d6'],
+          [0.7, '#42a550'],
+          [1, '#fde78f'],
+        ],
+      },
+    },
   },
   candlestick: {
     itemStyle: {

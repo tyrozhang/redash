@@ -214,7 +214,8 @@ def serialize_dashboard(obj, with_widgets=False, user=None, with_favorite_state=
         # TODO: bulk load favorites
         'updated_at': obj.updated_at,
         'created_at': obj.created_at,
-        'version': obj.version
+        'version': obj.version,
+        'theme': obj.theme
     }
 
     if with_favorite_state:

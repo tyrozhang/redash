@@ -1,29 +1,49 @@
-<div class="modal-header">
-  <button type="button" class="close" aria-label="Close" ng-click="$ctrl.close()"><span aria-hidden="true">&times;</span></button>
-  <h4 class="modal-title">{{'Embed Code' | translate}}</h4>
-</div>
-<div class="modal-body">
-  <h5 style="display: inline">{{'IFrame Embed' | translate}}</h5>
-  <span class="text-muted">{{'(height should be adjusted)' | translate}}</span>
-  <div>
-    <code id="iFrameUrl">&lt;iframe src="{{ $ctrl.embedUrl }}" width="720" height="391"&gt;&lt;/iframe&gt;</code>
-    <textarea id="iFrameInput" class="embed_code_dialog_iframe_input"></textarea>
+<div class="embed-theme">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" ng-click="$ctrl.close()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">{{'Embed Code' | translate}}</h4>
   </div>
-
-  <div ng-if="$ctrl.snapshotUrl">
-    <h5>{{'Image Embed' | translate}}</h5>
+  <div class="modal-body">
+    <h5 style="display: inline">{{'IFrame Embed' | translate}}</h5>
+    <span class="text-muted">{{'(height should be adjusted)' | translate}}</span>
     <div>
-      <code style="overflow-wrap:break-word;">{{$ctrl.snapshotUrl}}</code>
+      <code id="iFrameUrl">&lt;iframe src="{{ $ctrl.embedUrl }}" width="720" height="391"&gt;&lt;/iframe&gt;</code>
+      <textarea id="iFrameInput" class="embed_code_dialog_iframe_input"></textarea>
     </div>
-  </div>
-  <div class="embed_code_dialog_checkbox">
-    <label>
-      <input type="checkbox" ng-model="$ctrl.showTitle" ng-click="$ctrl.isShowTitle()">
-      <i class="input-helper"></i> 显示标题
-    </label>
-  </div>
-  <div class="btn-group gds_btn-group-border dropdown embed_code_dialog_btn">
-    <button type="button" class="btn btn-sm hidden-xs btn-default"
-            ng-click="$ctrl.copyKey()" title="复制此IFrame内容"><i class="zmdi zmdi-copy"></i>&nbsp;复制</button>
+
+    <div ng-if="$ctrl.snapshotUrl">
+      <h5>{{'Image Embed' | translate}}</h5>
+      <div>
+        <code style="overflow-wrap:break-word;">{{$ctrl.snapshotUrl}}</code>
+      </div>
+    </div>
+    <div class="embed_code_dialog_checkbox">
+      <label>
+        <input type="checkbox" ng-model="$ctrl.showTitle" ng-click="$ctrl.isShowTitle()">
+        <i class="input-helper"></i> 显示标题
+      </label>
+    </div>
+    <div class="btn-group gds_btn-group-border dropdown embed_code_dialog_btn">
+      <button class="btn btn-sm hidden-xs btn-default"
+              ng-click="$ctrl.copyKey()" title="复制此IFrame内容"><i class="zmdi zmdi-copy"></i>&nbsp;复制</button>
+    </div>
+    <div>
+      <div class="btn-group hidden-print hidden-xs gds_btn-group-border" uib-dropdown>
+        <button class="btn btn-sm btn-default dropdown-toggle" uib-dropdown-toggle>
+          皮肤
+        </button>
+        <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+          <li>
+            <button ng-click="$ctrl.resetTheme()" class="btn btn-default btn-sm">dufault</button>
+          </li>
+          <li ng-repeat="theme in $ctrl.themes">
+            <button ng-click="$ctrl.changeTheme(theme)" class="btn btn-default btn-sm">{{ theme }}</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="embed-visualization">
+      <visualization-renderer is-use-filter="$ctrl.useFilter" visualization="$ctrl.visualization" query-result="$ctrl.queryResult" class="t-body" theme="$ctrl.theme"></visualization-renderer>
+    </div>
   </div>
 </div>
