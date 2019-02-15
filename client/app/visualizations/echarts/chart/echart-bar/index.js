@@ -90,6 +90,11 @@ function BarRenderer($location, $q, $rootScope, currentUser, Dashboard, $http, A
         echartFactory = new EchartsFactory($location, currentUser, $scope.theme);
         container = element[0].querySelector('.echarts-chart-visualization-container');
         barChart = echartFactory.createChart(container);
+        if ($scope.visualization.options.dataDrillingDashboard) {
+        // 得到页面上选择dashboard的slug
+          const selectSlug = $scope.visualization.options.dataDrillingDashboard.slug;
+          barChart.on('click', chart => dataDrilling($location, $q, Dashboard, $http, Auth, selectSlug, chart));
+        }
         reloadData();
       }
 
