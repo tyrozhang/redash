@@ -38,6 +38,11 @@ export default function EchartsFactory(location, currentUser, theme) {
     if (url.indexOf('large_screen') !== -1) {
       option.backgroundColor = 'rgba(0, 0, 0, 0)';
     }
+
+    if (theme === 'theme-dark') {
+      option.backgroundColor = 'rgba(0, 0, 0, 0)';
+    }
+
     echartObj.setOption(option, true);
   };
 

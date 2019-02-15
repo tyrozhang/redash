@@ -39,6 +39,24 @@ function BarRenderer($location, $q, $rootScope, currentUser, Dashboard, $http, A
           barExamples.chartOption.yAxis.type = 'value';
         }
 
+        // 当更改了轴类型并且为横向柱状图时，对轴类型进行设置
+        if (editOptions.horizontalAxisType && editOptions.horizontalBar) {
+          if (editOptions.horizontalAxisType.value === 'log') {
+            barExamples.chartOption.xAxis.type = editOptions.horizontalAxisType.value;
+          } else {
+            barExamples.chartOption.yAxis.type = editOptions.horizontalAxisType.value;
+          }
+        }
+
+        // 当更改了轴类型，为纵向柱状图时，对轴类型进行设置
+        if (editOptions.horizontalAxisType && !editOptions.horizontalBar) {
+          if (editOptions.horizontalAxisType.value === 'log') {
+            barExamples.chartOption.yAxis.type = editOptions.horizontalAxisType.value;
+          } else {
+            barExamples.chartOption.xAxis.type = editOptions.horizontalAxisType.value;
+          }
+        }
+
         barExamples.chartOption.categoryColumn = editOptions.categoryColumn;
         barExamples.chartOption.valueColumns = editOptions.valueColumns;
         barExamples.chartOption.result = data;
@@ -94,6 +112,12 @@ function BarEditor(Dashboard) {
       };
 
       $scope.colors = ColorPalette;
+
+      $scope.axisTypes = {
+        类目轴: 'category',
+        时间轴: 'time',
+        对数轴: 'log',
+      };
 
       const editOptions = {
         conversion: false,

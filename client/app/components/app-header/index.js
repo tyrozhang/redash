@@ -46,38 +46,6 @@ function controller($rootScope, $location, $route, $uibModal, Auth, currentUser,
   this.logout = () => {
     Auth.logout();
   };
-
-  // 定义通过webpack打包之后的样式文件的名称
-  this.themes = ['theme-dark', 'theme-green', 'theme-red'];
-
-  // 删除引用样式的link标签
-  this.removeTheme = () => {
-    const oldLink = document.getElementById('dashboard_themes');
-    if (oldLink) {
-      oldLink.parentNode.removeChild(oldLink);
-    }
-  };
-
-  // 当点击主题按钮时，动态的引入对应的主题样式
-  this.changeTheme = (theme) => {
-    this.removeTheme();
-
-    const link = document.createElement('link');
-
-    link.rel = 'stylesheet';
-    link.href = './static/' + theme + '.css';
-    link.id = 'dashboard_themes';
-
-    document.head.appendChild(link);
-
-    $rootScope.dashboardTheme = theme;
-  };
-
-  // 初始按钮的作用，清除自定义样式引用，使用默认样式
-  this.resetTheme = () => {
-    this.removeTheme();
-    $rootScope.dashboardTheme = '';
-  };
 }
 
 export default function init(ngModule) {

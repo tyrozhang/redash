@@ -157,7 +157,7 @@ function PieOption() {
   ];
   // 圆环图空白圆的大小
   const circleDoughnutRadius = [
-    '5                                0%', '20%', '15%', '15%', '10%', '10%',
+    '50%', '20%', '15%', '15%', '10%', '10%',
   ];
 
   this.chartHelper = new ChartHelper();

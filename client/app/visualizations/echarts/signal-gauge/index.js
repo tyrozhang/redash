@@ -1,21 +1,21 @@
 import _ from 'lodash';
-import config from '@/visualizations/echarts/config';
+// import config from '@/visualizations/echarts/config';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
 import chartIcon from '@/assets/images/visualizationIcons/icon_gauge.png';
 import editorTemplate from './signal-gauge-editor.html';
 
 
-function setGaugeColor(option, color) {
-  option.series[0].axisLine = {
-    lineStyle: {
-      color: [
-        [0.3, color[0]],
-        [0.7, color[1]],
-        [1, color[2]],
-      ],
-    },
-  };
-}
+// function setGaugeColor(option, color) {
+//   option.series[0].axisLine = {
+//     lineStyle: {
+//       color: [
+//         [0.3, color[0]],
+//         [0.7, color[1]],
+//         [1, color[2]],
+//       ],
+//     },
+//   };
+// }
 
 // 单仪表盘的绘图参数
 const gaugeOption = {
@@ -75,7 +75,7 @@ function signalGaugeRenderer($location, currentUser) {
           gaugeOption.series[0].max = maxNumber;
 
           // 颜色的参数设置
-          setGaugeColor(gaugeOption, config.defaultColors);
+          // setGaugeColor(gaugeOption, config.defaultColors);
 
           echartFactory.setOption(gaugeChart, gaugeOption);
         }

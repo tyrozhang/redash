@@ -12,7 +12,7 @@ const PublicDashboardPage = {
   bindings: {
     dashboard: '<',
   },
-  controller($timeout, $location, $http, $route, $q, $routeParams, $rootScope, $scope, Dashboard) {
+  controller($timeout, $location, $http, $route, $q, $routeParams, $scope, Dashboard) {
     'ngInject';
 
     this.public = true;
