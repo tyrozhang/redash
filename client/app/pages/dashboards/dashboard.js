@@ -303,6 +303,7 @@ function DashboardCtrl(
       },
       (dashboard) => {
         this.dashboard = dashboard;
+        this.loadDashboard();
       },
       (error) => {
         if (error.status === 403) {
@@ -316,7 +317,6 @@ function DashboardCtrl(
         }
       },
     );
-    this.loadDashboard();
   };
 
   this.addWidget = (widgetType) => {
