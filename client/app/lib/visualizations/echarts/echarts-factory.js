@@ -5,12 +5,13 @@ import green from '@/lib/visualizations/echarts/themes/green';
 // import purple from '@/lib/visualizations/echarts/themes/purple';
 import red from '@/lib/visualizations/echarts/themes/red';
 // import sea from '@/lib/visualizations/echarts/themes/sea';
+import dark from '@/lib/visualizations/echarts/themes/dark';
 import 'echarts/theme/shine';
 
 function getTheme(changeTheme) {
   let theme;
   if (changeTheme === 'theme-dark') {
-    theme = 'dark';
+    theme = dark;
   }
   if (changeTheme === 'theme-green') {
     theme = green;

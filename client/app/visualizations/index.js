@@ -81,7 +81,7 @@ function VisualizationName(Visualization) {
 }
 
 function VisualizationRenderer($rootScope, Visualization) {
-  // isUseFilter is undefined if the dashboard level filter is not used.
+  // if the dashboard level filter is not used, isUseFilter is undefined.
   const noDashboardFilter = undefined;
 
   return {

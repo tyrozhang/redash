@@ -194,7 +194,7 @@ const zh = {
   Permission: '权限',
   'Embed Code': '嵌入代码',
   'IFrame Embed': 'IFrame嵌入',
-  '(height should be adjusted)': '（宽度和高度应按需求进行设置）',
+  '(height should be adjusted)': '（嵌入部件的高度需要设置height属性）',
   'Image Embed': '图像嵌入',
   'Download Dataset': '下载数据集',
   'Open in Redash': '在Redash开放',

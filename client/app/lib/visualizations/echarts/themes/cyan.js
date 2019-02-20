@@ -1,15 +1,15 @@
-const green = {
+const cyan = {
   color: [
-    '#8cce91',
-    '#1c832d',
-    '#fde78f',
-    '#bbce8c',
-    '#c7f6d6',
-    '#addeab',
-    '#42a550',
+    '#4bccd1',
+    '#227993',
+    '#fddbc1',
+    '#9bedf0',
+    '#77dbcd',
+    '#ccf3f8',
+    '#18a5ab',
   ],
-  backgroundColor: 'rgba(252,252,252,0)',
-  textStyle: {},
+  ackgoudColor: 'rgba(252,252,252,0)',
+  textSyle: {},
   title: {
     textStyle: {
       color: '#666666',
@@ -143,23 +143,14 @@ const green = {
         borderColor: '#ccc',
       },
     },
-    axisLine: {
-      lineStyle: {
-        color: [
-          [0.3, '#addeab'],
-          [0.7, '#8cce91'],
-          [1, '#42a550'],
-        ],
-      },
-    },
   },
   candlestick: {
     itemStyle: {
       normal: {
-        color: '#c7f6d6',
+        color: '#77dbcd',
         color0: 'transparent',
-        borderColor: '#42a550',
-        borderColor0: '#fde78f',
+        borderColor: '#18a5ab',
+        borderColor0: '#f0c69f',
         borderWidth: '1',
       },
     },
@@ -181,13 +172,13 @@ const green = {
     symbol: 'emptyCircle',
     smooth: false,
     color: [
-      '#8cce91',
-      '#1c832d',
-      '#fde78f',
-      '#bbce8c',
-      '#c7f6d6',
-      '#addeab',
-      '#42a550',
+      '#4bccd1',
+      '#227993',
+      '#fddbc1',
+      '#9bedf0',
+      '#77dbcd',
+      '#ccf3f8',
+      '#18a5ab',
     ],
     label: {
       normal: {
@@ -205,8 +196,8 @@ const green = {
         borderWidth: 0.5,
       },
       emphasis: {
-        areaColor: '#c7f6d6',
-        borderColor: '#1c832d',
+        areaColor: '#9bedf0',
+        borderColor: '#18a5ab',
         borderWidth: 1,
       },
     },
@@ -218,7 +209,7 @@ const green = {
       },
       emphasis: {
         textStyle: {
-          color: '#117637',
+          color: '#227993',
         },
       },
     },
@@ -231,8 +222,8 @@ const green = {
         borderWidth: 0.5,
       },
       emphasis: {
-        areaColor: '#c7f6d6',
-        borderColor: '#1c832d',
+        areaColor: '#9bedf0',
+        borderColor: '#18a5ab',
         borderWidth: 1,
       },
     },
@@ -244,7 +235,7 @@ const green = {
       },
       emphasis: {
         textStyle: {
-          color: '#117637',
+          color: '#227993',
         },
       },
     },
@@ -280,8 +271,8 @@ const green = {
       show: false,
       areaStyle: {
         color: [
-          'rgba(250,250,250,0.05)',
-          'rgba(200,200,200,0.02)',
+          'rgba(250, 250, 250, 0.05)',
+          'rgba(200, 200, 200, 0.02)',
         ],
       },
     },
@@ -317,8 +308,8 @@ const green = {
       show: false,
       areaStyle: {
         color: [
-          'rgba(250,250,250,0.05)',
-          'rgba(200,200,200,0.02)',
+          'rgba(250, 250, 250, 0.05)',
+          'rgba(200, 200, 200, 0.02)',
         ],
       },
     },
@@ -354,8 +345,8 @@ const green = {
       show: false,
       areaStyle: {
         color: [
-          'rgba(250,250,250,0.05)',
-          'rgba(200,200,200,0.02)',
+          'rgba(250, 250, 250, 0.05)',
+          'rgba(200, 200, 200, 0.02)',
         ],
       },
     },
@@ -391,8 +382,8 @@ const green = {
       show: false,
       areaStyle: {
         color: [
-          'rgba(250,250,250,0.05)',
-          'rgba(200,200,200,0.02)',
+          'rgba(250, 250, 250, 0.05)',
+          'rgba(200, 200, 200, 0.02)',
         ],
       },
     },
@@ -426,51 +417,51 @@ const green = {
   },
   timeline: {
     lineStyle: {
-      color: '#1c832d',
+      color: '#227993',
       width: 1,
     },
     itemStyle: {
       normal: {
-        color: '#1c832d',
+        color: '#227993',
         borderWidth: 1,
       },
       emphasis: {
-        color: '#1c832d',
+        color: '#227993',
       },
     },
     controlStyle: {
       normal: {
-        color: '#1c832d',
-        borderColor: '#1c832d',
+        color: '#227993',
+        borderColor: '#227993',
         borderWidth: 0.5,
       },
       emphasis: {
-        color: '#1c832d',
-        borderColor: '#1c832d',
+        color: '#227993',
+        borderColor: '#227993',
         borderWidth: 0.5,
       },
     },
     checkpointStyle: {
-      color: '#89e290',
+      color: '#77dbcd',
       borderColor: 'rgba(63,177,227,0.15)',
     },
     label: {
       normal: {
         textStyle: {
-          color: '#1c832d',
+          color: '#227993',
         },
       },
       emphasis: {
         textStyle: {
-          color: '#1c832d',
+          color: '#227993',
         },
       },
     },
   },
   visualMap: {
     color: [
-      '#42a550',
-      '#8cce91',
+      '#4ebcc0',
+      '#227993',
     ],
   },
   dataZoom: {
@@ -499,4 +490,4 @@ const green = {
   },
 };
 
-export default green;
+export default cyan;
