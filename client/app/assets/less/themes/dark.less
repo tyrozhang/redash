@@ -211,45 +211,25 @@ body{
     color: #99CC99;
   }
 }
-// 小部件放大后的样式
-//.modal-content{
-//  background: url("/static/images/gdsImages/large_screen_bg.png") no-repeat top center;
-//}
-//.modal-content .visualization-title span{
-//  color: #31b1f2;
-//}
-//.modal-content .close{
-//  color: #31b1f2;
-//}
-//.modal-content .modal-footer button{
-//  color: #31b1f2;
-//  background: transparent !important;
-//}
-
-/* 设置滚动条的样式 */
-//::-webkit-scrollbar {
-//  width:12px;
-//  background-color: #174367;
-//}
-///* 滚动槽 */
-//::-webkit-scrollbar-track {
-//  background-color: #174367;
-//}
-///* 滚动条滑块 */
-//::-webkit-scrollbar-thumb {
-//  background-color: #2884C1;
-//}
-//div::-webkit-scrollbar-button:start {
-//  background-color: #41B5A4;
-//}
 
 
 
 /* --------------------------------------------------------
     嵌入对话框的样式
 -----------------------------------------------------------*/
-// 嵌入小部件所处div的背景颜色
+// 嵌入小部件图形所处div的背景颜色
 .embed-theme .embed-visualization .echarts-chart-visualization-container{
+  background: url("/static/images/gdsImages/large_screen_bg.png") no-repeat top center !important;
+
+}
+// 嵌入小部件对话框中表格的样式
+.embed-theme .embed-visualization th,
+.embed-theme .embed-visualization td{
+  color: #31b1f2;
+  border: 1px solid #202f42 !important;
+}
+// 表格的背景颜色
+.embed-theme .embed-visualization .table{
   background: url("/static/images/gdsImages/large_screen_bg.png") no-repeat top center !important;
 }
 
@@ -259,12 +239,16 @@ body{
     嵌入小部件的样式
 -----------------------------------------------------------*/
 // 嵌入的小部件的标题栏样式
-.embed-visualization-theme .embed-heading h3{
+.embed-visualization-theme .embed-heading h3,
+.embed-visualization-theme .embed-heading h3 visualization-name{
   color: #31b1f2;
 }
 // 嵌入小部件的背景
 .embed-visualization-theme .embed__vis{
   background: url("/static/images/gdsImages/large_screen_bg.png") no-repeat top center !important;
+}
+.embed-visualization-theme .dynamic-table-container{
+  border: none !important;
 }
 // 嵌入小部件左下角的显示时间样式
 .embed-visualization-theme .small{
@@ -273,4 +257,29 @@ body{
 // 嵌入小部件底部div边框
 .embed-visualization-theme .tile .tile__bottom-control{
   border: 0;
+}
+// 嵌入小部件中表格的样式
+.embed-visualization-theme .table th,
+.embed-visualization-theme .table td{
+  color: #31b1f2;
+  border: 1px solid #202f42 !important;
+}
+.embed-visualization-theme .table{
+  background: url("/static/images/gdsImages/large_screen_bg.png") no-repeat top center !important;
+}
+// 表格顶部的白框
+.embed-visualization-theme .tile .table > thead:not([class*="bg-"]) > tr > th{
+  border-top: 1px solid #202f42 !important;
+}
+
+// 嵌入小部件右下角的下载按钮
+.embed-visualization-theme button,
+.embed-visualization-theme .btn-default:hover,
+.embed-visualization-theme .btn-default:focus,
+.embed-visualization-theme .btn-default.focus,
+.embed-visualization-theme .btn-default:active,
+.embed-visualization-theme .btn-default.active,
+.embed-visualization-theme .open > .dropdown-toggle.btn-default{
+  color: #31b1f2;
+  background: transparent !important;
 }

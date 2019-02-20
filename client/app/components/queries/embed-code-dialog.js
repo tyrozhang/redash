@@ -47,16 +47,17 @@ const EmbedCodeDialog = {
 
     // 复制iframe标签与内容
     this.copyKey = () => {
-      const target = document.getElementById('iFrameUrl').innerText;
-      const input = document.getElementById('iFrameInput');
-      input.value = target;
-      input.select();
+      const target = document.getElementById('iFrameUrl');
+      target.select();
       document.execCommand('copy');
-      $window.confirm('复制成功');
     };
 
     // 换肤功能
-    this.themes = ['theme-dark', 'theme-green', 'theme-red'];
+    this.themes = {
+      黑色: 'theme-dark',
+      绿色: 'theme-green',
+      红色: 'theme-red',
+    };
 
     this.removeTheme = () => {
       const oldLink = document.getElementById('embed_themes');
@@ -79,6 +80,7 @@ const EmbedCodeDialog = {
     };
     this.resetTheme = () => {
       this.theme = '';
+      this.removeTheme();
       this.setEmbedUrl();
     };
 

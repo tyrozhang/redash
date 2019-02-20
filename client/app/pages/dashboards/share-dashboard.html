@@ -14,7 +14,7 @@
   <div ng-if="$ctrl.dashboard.publicAccessEnabled">
 
     <div class="gds_flex_cont">
-    <input type="text" class="form-control" value="{{$ctrl.dashboard.public_url}}" id="apiKey">&nbsp;
+    <input type="text" readonly="readonly" class="form-control" value="{{$ctrl.dashboard.public_url}}" id="apiKey">&nbsp;
       <div class="btn-group gds_btn-group-border dropdown">
         <button type="button" class="btn btn-sm hidden-xs btn-default" ng-click="$ctrl.copyKey()" title="复制"><i class="zmdi zmdi-copy"></i></button>
       </div>

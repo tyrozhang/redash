@@ -106,7 +106,7 @@ page-header h3, .page-header--new h3 {
 
 .gds_btn-group-border{
   border: 1px #c7c7c7 solid;
-    border-radius: 3px;
+  border-radius: 3px;
 }
 
 .gds_sql_title{
@@ -191,28 +191,61 @@ page-header h3, .page-header--new h3 {
   height:30px !important;
 }
 
-// 此处为iframe嵌入中复制文本框的input样式
-.embed_code_dialog_iframe_input{
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  z-index: -10;
+// 嵌入对话框中input样式
+.embed_code_dialog_input{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  vertical-align:text-top;
 }
 
-// checkbox位置
+// 嵌入对话框checkbox样式
 .embed_code_dialog_checkbox{
-  position: relative;
-  left: 0;
-  top: 15px;
+  float: left;
+  padding-top: 2px;
 }
 
-// 复制按钮位置
-.embed_code_dialog_btn{
-  position: relative;
-  left: 450px;
-  bottom: 15px;
+// 嵌入对话框风格按钮的样式
+.embed_code_dialog_change_theme{
+  float: left;
+  margin-left: 10px;
 }
+
+// 嵌入对话框分隔线的样式
+.embed_code_dialog_hr{
+  border: 0;
+  border-bottom: 1px #EEEEEE solid;
+  margin: 15px -26px 10px -26px;
+}
+
+// 嵌入对话框中可视化的样式
+.embed-visualization{
+  margin-top: 50px;
+  clear: both;
+}
+
+//  嵌入对话框中复制按钮的样式
+.embed_code_dialog_btn button{
+  padding-top: 7px;
+}
+
+// dashboard页面中风格按钮的样式
+.dashboard_change_theme > li > a{
+  text-align: center;
+}
+.dashboard_change_theme{
+  width: 744px;
+}
+.dashboard_change_theme > li{
+  float: left !important;
+}
+
+
+
+
+
+
 
 .gds_checkbox_show_title{
   margin-top: 10px;

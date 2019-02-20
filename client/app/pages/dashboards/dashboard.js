@@ -304,6 +304,7 @@ function DashboardCtrl(
       },
       (dashboard) => {
         this.dashboard = dashboard;
+        this.loadDashboard();
       },
       (error) => {
         if (error.status === 403) {
@@ -317,7 +318,6 @@ function DashboardCtrl(
         }
       },
     );
-    this.loadDashboard();
   };
 
   this.addWidget = (widgetType) => {
@@ -420,7 +420,11 @@ function DashboardCtrl(
     updateDashboard({ theme });
   };
   // 定义通过webpack打包之后的样式文件的名称
-  this.themes = ['theme-dark', 'theme-green', 'theme-red'];
+  this.themes = {
+    黑色: 'theme-dark',
+    绿色: 'theme-green',
+    红色: 'theme-red',
+  };
 
   // 删除引用样式的link标签
   this.removeTheme = () => {

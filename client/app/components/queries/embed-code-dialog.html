@@ -6,9 +6,12 @@
   <div class="modal-body">
     <h5 style="display: inline">{{'IFrame Embed' | translate}}</h5>
     <span class="text-muted">{{'(height should be adjusted)' | translate}}</span>
-    <div>
-      <code id="iFrameUrl">&lt;iframe src="{{ $ctrl.embedUrl }}" width="720" height="391"&gt;&lt;/iframe&gt;</code>
-      <textarea id="iFrameInput" class="embed_code_dialog_iframe_input"></textarea>
+    <div class="embed_code_dialog_input">
+      <input type="text" readonly="readonly" class="form-control" id="iFrameUrl" value="&lt;iframe src=&quot;{{ $ctrl.embedUrl }}&quot; width=&quot;720&quot; height=&quot;391&quot;&gt;&lt;/iframe&gt;">&nbsp;
+      <div class="btn-group gds_btn-group-border embed_code_dialog_btn">
+        <button class="btn btn-sm hidden-xs btn-default"
+                ng-click="$ctrl.copyKey()" title="复制此IFrame内容"><i class="zmdi zmdi-copy"></i></button>
+      </div>
     </div>
 
     <div ng-if="$ctrl.snapshotUrl">
@@ -17,27 +20,24 @@
         <code style="overflow-wrap:break-word;">{{$ctrl.snapshotUrl}}</code>
       </div>
     </div>
+    <hr class="embed_code_dialog_hr" />
     <div class="embed_code_dialog_checkbox">
       <label>
         <input type="checkbox" ng-model="$ctrl.showTitle" ng-click="$ctrl.isShowTitle()">
         <i class="input-helper"></i> 显示标题
       </label>
     </div>
-    <div class="btn-group gds_btn-group-border dropdown embed_code_dialog_btn">
-      <button class="btn btn-sm hidden-xs btn-default"
-              ng-click="$ctrl.copyKey()" title="复制此IFrame内容"><i class="zmdi zmdi-copy"></i>&nbsp;复制</button>
-    </div>
-    <div>
-      <div class="btn-group hidden-print hidden-xs gds_btn-group-border" uib-dropdown>
-        <button class="btn btn-sm btn-default dropdown-toggle" uib-dropdown-toggle>
-          皮肤
+    <div class="embed_code_dialog_change_theme">
+      <div class="btn-group hidden-print" uib-dropdown>
+        <button class="btn btn-sm btn-default hidden-xs dropdown-toggle" uib-dropdown-toggle title="切换可视化风格">
+          <img src="/static/images/gdsImages/change-theme.png" style="vertical-align:text-top">&nbsp;&nbsp;<span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+        <ul class="dropdown-menu pull-left" uib-dropdown-menu role="menu">
           <li>
-            <button ng-click="$ctrl.resetTheme()" class="btn btn-default btn-sm">dufault</button>
+            <a ng-click="$ctrl.resetTheme()">默认</a>
           </li>
-          <li ng-repeat="theme in $ctrl.themes">
-            <button ng-click="$ctrl.changeTheme(theme)" class="btn btn-default btn-sm">{{ theme }}</button>
+          <li ng-repeat="(themeKey, themeValue) in $ctrl.themes">
+            <a ng-click="$ctrl.changeTheme(themeValue)">{{ themeKey }}</a>
           </li>
         </ul>
       </div>
