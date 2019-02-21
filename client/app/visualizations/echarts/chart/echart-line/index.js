@@ -7,7 +7,7 @@ import chartIcon from '@/assets/images/visualizationIcons/icon_line.png';
 import editorTemplate from './line-editor.html';
 
 
-function LineRenderer($location, currentUser, Dashboard, $http, Auth) {
+function LineRenderer($location, $q, currentUser, Dashboard, $http, Auth) {
   return {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
@@ -19,7 +19,7 @@ function LineRenderer($location, currentUser, Dashboard, $http, Auth) {
       if ($scope.visualization.options.dataDrillingDashboard) {
         // 得到页面上选择dashboard的slug
         const selectSlug = $scope.visualization.options.dataDrillingDashboard.slug;
-        lineChart.on('click', chart => dataDrilling($location, Dashboard, $http, Auth, selectSlug, chart));
+        lineChart.on('click', chart => dataDrilling($location, $q, Dashboard, $http, Auth, selectSlug, chart));
       }
 
       function reloadData() {

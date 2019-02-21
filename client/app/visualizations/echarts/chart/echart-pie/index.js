@@ -6,7 +6,7 @@ import PieOption from './pie-utils';
 import editorTemplate from './pie-editor.html';
 
 
-function PieRenderer($location, currentUser, Dashboard, $http, Auth) {
+function PieRenderer($location, $q, currentUser, Dashboard, $http, Auth) {
   return {
     restrict: 'E',
     template: '<div class="echarts-chart-visualization-container" resize-event="handleResize()"></div>',
@@ -18,7 +18,7 @@ function PieRenderer($location, currentUser, Dashboard, $http, Auth) {
       if ($scope.visualization.options.dataDrillingDashboard) {
         // 得到页面上选择dashboard的slug
         const selectSlug = $scope.visualization.options.dataDrillingDashboard.slug;
-        pieChart.on('click', chart => dataDrilling($location, Dashboard, $http, Auth, selectSlug, chart));
+        pieChart.on('click', chart => dataDrilling($location, $q, Dashboard, $http, Auth, selectSlug, chart));
       }
 
       function reloadData() {
