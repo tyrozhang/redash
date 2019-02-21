@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import numberFormat from 'underscore.string/numberFormat';
 import { ColorPalette } from '@/visualizations/chart/plotly/utils';
-import chartIcon from '@/assets/images/visualizationIcons/icon_digital.png';
+import chartIcon from '@/assets/images/visualizationIcons/icon_counter.png';
 import counterTemplate from './digital-panel.html';
 import counterEditorTemplate from './digital-panel-editor.html';
 
