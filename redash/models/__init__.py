@@ -1015,6 +1015,10 @@ class ApiKey(TimestampMixin, GFKBase, db.Model):
         db.session.add(k)
         return k
 
+    @classmethod
+    def get_exsistkey_by_object(cls, object):
+        return cls.query.filter(cls.object_type == object.__class__.__tablename__, cls.object_id == object.id).first()
+
 
 @python_2_unicode_compatible
 @generic_repr('id', 'name', 'type', 'user_id', 'org_id', 'created_at')
