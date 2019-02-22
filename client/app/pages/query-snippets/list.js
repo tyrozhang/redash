@@ -1,4 +1,4 @@
-// import settingsMenu from '@/lib/settings-menu';
+// import settingsMenu from '@/services/settingsMenu';
 import { Paginator } from '@/lib/pagination';
 import template from './list.html';
 
@@ -32,5 +32,4 @@ export default function init(ngModule) {
   };
 }
 
-init.init = true;
-
+init.init = false;

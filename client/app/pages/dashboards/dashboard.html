@@ -5,9 +5,13 @@
       <h3>
         <edit-in-place class="edit-in-place" is-editable="$ctrl.layoutEditing" on-done="$ctrl.saveName" ignore-blanks="true" value="$ctrl.dashboard.name" editor="'input'"></edit-in-place>
       </h3>
+
+      <img ng-src="{{$ctrl.dashboard.user.profile_image_url}}" class="profile__image_thumb--dashboard" alt="{{$ctrl.dashboard.user.name}}">
+
       <dashboard-tags-control class="hidden-xs"
         tags="$ctrl.dashboard.tags" is-draft="$ctrl.dashboard.is_draft" is-archived="$ctrl.dashboard.is_archived"
         can-edit="$ctrl.isDashboardOwner" get-available-tags="$ctrl.loadTags" on-edit="$ctrl.saveTags"></dashboard-tags-control>
+
     </div>
     <div class="col-xs-4 col-sm-5 col-lg-5 text-right dashboard__control p-r-0">
       <span ng-if="!$ctrl.dashboard.is_archived && !public" class="hidden-print">
@@ -49,19 +53,12 @@
               </li>
             </ul>
           </div>
-
-          <div class="btn-group gds_btn-group-border" uib-dropdown ng-if="!$ctrl.layoutEditing">
           <button type="button" class="btn btn-sm hidden-xs" ng-class="{'btn-default': !$ctrl.isFullscreen, 'btn-primary': $ctrl.isFullscreen}" tooltip="Enable/Disable Fullscreen display" ng-click="$ctrl.toggleFullscreen()" ng-if="!$ctrl.dashboard.is_draft && !$ctrl.layoutEditing">
             <span class="zmdi zmdi-fullscreen"></span>
           </button>
-          </div>
-
-
-          <div class="btn-group" uib-dropdown ng-if="!$ctrl.layoutEditing">
           <button type="button" class="btn btn-sm hidden-xs" ng-class="{'btn-default': !$ctrl.dashboard.publicAccessEnabled, 'btn-primary': $ctrl.dashboard.publicAccessEnabled}" tooltip="Enable/Disable Share URL" ng-click="$ctrl.openShareForm()" ng-if="($ctrl.dashboard.canEdit() || $ctrl.dashboard.publicAccessEnabled) && !$ctrl.dashboard.is_draft && !$ctrl.layoutEditing">
             <span class="zmdi zmdi-share"></span>
           </button>
-          </div>
       </span>
       <div class="btn-group hidden-print hidden-xs gds_btn-group-border" role="group" ng-show="$ctrl.dashboard.canEdit()" uib-dropdown ng-if="!$ctrl.dashboard.is_archived && !$ctrl.layoutEditing">
         <button class="btn btn-default btn-sm dropdown-toggle" uib-dropdown-toggle>
@@ -107,7 +104,7 @@
   </div>
 
   <div class="dashboard_add_widget" ng-if="$ctrl.layoutEditing">
-    <!--<a class="dashboard_add_widget_button" ng-click="$ctrl.addWidget('textbox')"><i class="zmdi zmdi-plus"></i></a>-->
-    <a title="添加小部件" class="dashboard_add_widget_button" ng-click="$ctrl.addWidget('widget')"><i class="zmdi zmdi-plus"></i></a>
+    <button class="btn btn-primary btn-sm" ng-click="$ctrl.addTextBox()"><i class="zmdi zmdi-plus"></i>文本框</button>
+    <button title="添加小部件" class="btn btn-primary btn-sm" ng-click="$ctrl.addWidget('widget')"><i class="zmdi zmdi-plus"></i>小部件</button>
   </div>
 </div>

@@ -238,32 +238,31 @@ function QueryResultService($resource, $timeout, $q, QueryResultError) {
             }
           });
 
-          this.filteredData = this.query_result.data.rows.filter(row =>
-            filters.reduce((memo, filter) => {
-              if (!isArray(filter.current)) {
-                filter.current = [filter.current];
-              }
+          this.filteredData = this.query_result.data.rows.filter(row => filters.reduce((memo, filter) => {
+            if (!isArray(filter.current)) {
+              filter.current = [filter.current];
+            }
 
-              return (
-                memo &&
-                some(filter.current, (v) => {
-                  const value = row[filter.name];
-                  if (moment.isMoment(value)) {
-                    if (filter.isDate && filter.current.length === 2) {
-                      const startDate = moment(toString(filter.current[0].format('YYYY-MM-DD')));
-                      const endDate = moment(toString(filter.current[1].format('YYYY-MM-DD')));
-                      const date = moment(toString(value.format('YYYY-MM-DD')));
+            return (
+              memo &&
+              some(filter.current, (v) => {
+                const value = row[filter.name];
+                if (moment.isMoment(value)) {
+                  if (filter.isDate && filter.current.length === 2) {
+                    const startDate = moment(toString(filter.current[0].format('YYYY-MM-DD')));
+                    const endDate = moment(toString(filter.current[1].format('YYYY-MM-DD')));
+                    const date = moment(toString(value.format('YYYY-MM-DD')));
 
-                      return date.isSameOrAfter(startDate) && date.isSameOrBefore(endDate);
-                    }
-                    return value.isSame(v);
+                    return date.isSameOrAfter(startDate) && date.isSameOrBefore(endDate);
                   }
-                  // We compare with either the value or the String representation of the value,
-                  // because Select2 casts true/false to "true"/"false".
-                  return v === value || String(value) === v;
-                })
-              );
-            }, true));
+                  return value.isSame(v);
+                }
+                // We compare with either the value or the String representation of the value,
+                // because Select2 casts true/false to "true"/"false".
+                return v === value || String(value) === v;
+              })
+            );
+          }, true));
         } else {
           this.filteredData = this.query_result.data.rows;
         }
@@ -599,6 +598,30 @@ function QueryResultService($resource, $timeout, $q, QueryResultError) {
 
     getName(queryName, fileType) {
       return `${queryName.replace(/ /g, '_') + moment(this.getUpdatedAt()).format('_YYYY_MM_DD')}.${fileType}`;
+    }
+
+    static getByQueryId(id, parameters, maxAge) {
+      const queryResult = new QueryResult();
+
+      $resource('api/queries/:id/results', { id: '@id' }, { post: { method: 'POST' } }).post(
+        {
+          id,
+          parameters,
+          max_age: maxAge,
+        },
+        (response) => {
+          queryResult.update(response);
+
+          if ('job' in response) {
+            queryResult.refreshStatus(id);
+          }
+        },
+        (error) => {
+          handleErrorResponse(queryResult, error);
+        },
+      );
+
+      return queryResult;
     }
 
     static get(dataSourceId, query, parameters, maxAge, queryId) {

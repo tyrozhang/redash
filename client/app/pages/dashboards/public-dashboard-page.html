@@ -1,6 +1,5 @@
 <div class="container p-t-10 p-b-20">
-  <page-header title="{{$ctrl.dashboard.name}}" ng-if="$ctrl.showTitle != 'false'">
-  </page-header>
+  <page-header title="$ctrl.dashboard.name" ng-if="$ctrl.showTitle != 'false'"></page-header>
 
   <div class="m-b-10 p-15 bg-white tiled" ng-if="$ctrl.dashboard.dashboard_filters_enabled">
     <filters filters="$ctrl.filters" on-change="$ctrl.filtersOnChange(filter)"></filters>

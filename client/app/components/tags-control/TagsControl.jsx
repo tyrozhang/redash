@@ -1,82 +1,100 @@
-import { map, trim } from 'lodash';
+import { map, trim, extend } from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { react2angular } from 'react2angular';
+import Tooltip from 'antd/lib/tooltip';
+import EditTagsDialog from './EditTagsDialog';
 
-export default class TagsControl extends React.Component {
+export class TagsControl extends React.Component {
   static propTypes = {
     tags: PropTypes.arrayOf(PropTypes.string),
     canEdit: PropTypes.bool,
     getAvailableTags: PropTypes.func,
     onEdit: PropTypes.func,
     className: PropTypes.string,
+    children: PropTypes.node,
   };
 
   static defaultProps = {
     tags: [],
     canEdit: false,
-    getAvailableTags: () => {},
+    getAvailableTags: () => Promise.resolve([]),
     onEdit: () => {},
     className: '',
+    children: null,
   };
 
-  editTags() {
-    const { getAvailableTags, onEdit, $uibModal } = this.props; // eslint-disable-line react/prop-types
-    const tags = map(this.props.tags, trim);
-
-    getAvailableTags().then((availableTags) => {
-      $uibModal
-        .open({
-          component: 'tagsEditorModal',
-          resolve: {
-            tags: () => tags,
-            availableTags: () => availableTags,
-          },
-        }).result.then((newTags) => {
-          onEdit(newTags);
-        });
-    });
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  renderPrependTags() {
-    return null;
-  }
-
-  renderTags() {
-    return map(this.props.tags, tag => (
-      <span className="label label-tag" key={tag} title={tag}>{tag}</span>
-    ));
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  renderAppendTags() {
-    return null;
-  }
+  editTags = (tags, getAvailableTags) => {
+    EditTagsDialog.showModal({ tags, getAvailableTags })
+      .result.then(this.props.onEdit);
+  };
 
   renderEditButton() {
-    if (this.props.canEdit) {
-      return (this.props.tags.length > 0) ? (
-        <a className="label label-tag" role="none" onClick={() => this.editTags()}>
-          <i className="zmdi zmdi-edit" />
-        </a>
-      ) : (
-        <a className="label label-tag" role="none" onClick={() => this.editTags()}>
-          <i className="zmdi zmdi-plus" />
-          添加标签
-        </a>
-      );
-    }
-    return null;
+    const tags = map(this.props.tags, trim);
+    return (
+      <a className="label label-tag" role="none" onClick={() => this.editTags(tags, this.props.getAvailableTags)}>
+        {(tags.length === 0) && <React.Fragment><i className="zmdi zmdi-plus m-r-5" />添加标签</React.Fragment>}
+        {(tags.length > 0) && <i className="zmdi zmdi-edit" />}
+      </a>
+    );
   }
 
   render() {
     return (
       <div className={'tags-control ' + this.props.className}>
-        {this.renderPrependTags()}
-        {this.renderTags()}
-        {this.renderAppendTags()}
-        {this.renderEditButton()}
+        {this.props.children}
+        {map(this.props.tags, tag => (
+          <span className="label label-tag" key={tag} title={tag}>{tag}</span>
+        ))}
+        {this.props.canEdit && this.renderEditButton()}
       </div>
     );
   }
 }
+
+function modelTagsControl({ archivedTooltip }) {
+  // See comment for `propTypes`/`defaultProps`
+  // eslint-disable-next-line react/prop-types
+  function ModelTagsControl({ isDraft, isArchived, ...props }) {
+    return (
+      <TagsControl {...props}>
+        {!isArchived && isDraft && (
+          <span className="label label-tag-unpublished">未发布</span>
+        )}
+        {isArchived && (
+          <Tooltip placement="right" title={archivedTooltip}>
+            <span className="label label-tag-archived">已归档</span>
+          </Tooltip>
+        )}
+      </TagsControl>
+    );
+  }
+
+  // ANGULAR_REMOVE_ME `extend` needed just for `react2angular`, so remove it when `react2angular` no longer needed
+  ModelTagsControl.propTypes = extend({
+    isDraft: PropTypes.bool,
+    isArchived: PropTypes.bool,
+  }, TagsControl.propTypes);
+
+  ModelTagsControl.defaultProps = extend({
+    isDraft: false,
+    isArchived: false,
+  }, TagsControl.defaultProps);
+
+  return ModelTagsControl;
+}
+
+export const QueryTagsControl = modelTagsControl({
+  archivedTooltip: '此查询已归档，不能在仪表盘中使用，也不能出现在搜索结果中。',
+});
+
+export const DashboardTagsControl = modelTagsControl({
+  archivedTooltip: '此仪表盘已删除，不会在仪表盘列表中列出，也不会出现在搜索结果中。',
+});
+
+export default function init(ngModule) {
+  ngModule.component('queryTagsControl', react2angular(QueryTagsControl));
+  ngModule.component('dashboardTagsControl', react2angular(DashboardTagsControl));
+}
+
+init.init = true;

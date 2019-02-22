@@ -75,7 +75,6 @@ class BaseElasticSearch(BaseQueryRunner):
 
     def __init__(self, configuration):
         super(BaseElasticSearch, self).__init__(configuration)
-
         self.syntax = "json"
 
         if self.DEBUG_ENABLED:

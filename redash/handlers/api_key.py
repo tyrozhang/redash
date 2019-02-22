@@ -2,6 +2,7 @@ from redash import models
 from redash.handlers import routes
 from redash.handlers.base import (json_response, org_scoped_rule)
 
+
 @routes.route(org_scoped_rule('/dashboards/<dashboard_slug>/share/token'), methods=['GET'])
 def dashboard_share_apiKey(dashboard_slug):
     """
