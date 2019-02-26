@@ -155,5 +155,16 @@
     "testPathIgnorePatterns": [
       "<rootDir>/client/app/__tests__/"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "client/app/**/*.{js,jsx}": [
+      "npm run lint:base",
+      "npm run test -- --bail --findRelatedTests"
+    ]
   }
 }
