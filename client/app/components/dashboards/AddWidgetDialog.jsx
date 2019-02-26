@@ -302,6 +302,7 @@ class AddWidgetDialog extends React.Component {
           disabled: !this.state.selectedQuery,
         }}
         okText="添加到仪表盘"
+        cancelText="取消"
         width={700}
       >
         {this.renderQueryInput()}
