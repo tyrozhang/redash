@@ -30,7 +30,7 @@ class GroupsList extends React.Component {
     Columns.custom((text, group) => (
       <div>
         <a href={'groups/' + group.id}>{group.name}</a>
-        {(group.type === 'builtin') && <span className="label label-default m-l-10">built-in</span>}
+        {(group.type === 'builtin') && <span className="label label-default m-l-10">内建分组</span>}
       </div>
     ), {
       field: 'name',
@@ -38,9 +38,9 @@ class GroupsList extends React.Component {
     }),
     Columns.custom((text, group) => (
       <Button.Group>
-        <Button href={`groups/${group.id}`} onClick={e => e.stopPropagation()}>Members</Button>
+        <Button href={`groups/${group.id}`} onClick={e => e.stopPropagation()}>成员</Button>
         {currentUser.isAdmin && (
-          <Button href={`groups/${group.id}/data_sources`} onClick={e => e.stopPropagation()}>Data Sources</Button>
+          <Button href={`groups/${group.id}/data_sources`} onClick={e => e.stopPropagation()}>数据源</Button>
         )}
       </Button.Group>
     ), {
@@ -54,10 +54,10 @@ class GroupsList extends React.Component {
           className="w-100"
           disabled={!canRemove}
           group={group}
-          title={canRemove ? null : 'Cannot delete built-in group'}
+          title={canRemove ? null : '无法删除内建分组'}
           onClick={() => this.onGroupDeleted()}
         >
-          Delete
+          删除
         </DeleteGroupButton>
       );
     }, {
@@ -89,7 +89,7 @@ class GroupsList extends React.Component {
           <div className="m-b-15">
             <Button type="primary" onClick={this.createGroup}>
               <i className="fa fa-plus m-r-5" />
-              New Group
+              增加组
             </Button>
           </div>
         )}
@@ -126,7 +126,7 @@ class GroupsList extends React.Component {
 export default function init(ngModule) {
   settingsMenu.add({
     permission: 'list_users',
-    title: 'Groups',
+    title: '分组',
     path: 'groups',
     order: 3,
   });
@@ -151,7 +151,7 @@ export default function init(ngModule) {
   return routesToAngularRoutes([
     {
       path: '/groups',
-      title: 'Groups',
+      title: '分组',
       key: 'groups',
     },
   ], {

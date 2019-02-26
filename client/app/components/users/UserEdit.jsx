@@ -106,13 +106,13 @@ export class UserEdit extends React.Component {
     const formFields = [
       {
         name: 'name',
-        title: 'Name',
+        title: '名称',
         type: 'text',
         initialValue: user.name,
       },
       {
         name: 'email',
-        title: 'Email',
+        title: '邮箱',
         type: 'email',
         initialValue: user.email,
       },
@@ -205,11 +205,11 @@ export class UserEdit extends React.Component {
 
     return user.isDisabled ? (
       <Button className="w-100 m-t-10" type="primary" onClick={this.toggleUser} loading={togglingUser}>
-        Enable User
+        启用
       </Button>
     ) : (
       <Button className="w-100 m-t-10" type="danger" onClick={this.toggleUser} loading={togglingUser}>
-        Disable User
+        禁用
       </Button>
     );
   }

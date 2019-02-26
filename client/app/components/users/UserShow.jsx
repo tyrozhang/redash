@@ -16,9 +16,9 @@ export const UserShow = ({ user: { name, email, profileImageUrl } }) => (
     <hr />
 
     <dl className="profile__dl">
-      <dt>Name:</dt>
+      <dt>名称:</dt>
       <dd>{name}</dd>
-      <dt>Email:</dt>
+      <dt>邮箱:</dt>
       <dd>{email}</dd>
     </dl>
   </div>

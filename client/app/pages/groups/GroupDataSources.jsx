@@ -42,12 +42,12 @@ class GroupDataSources extends React.Component {
     {
       key: 'users',
       href: `groups/${this.groupId}`,
-      title: 'Members',
+      title: '成员',
     },
     {
       key: 'datasources',
       href: `groups/${this.groupId}/data_sources`,
-      title: 'Data Sources',
+      title: '数据源',
       isAvailable: () => currentUser.isAdmin,
     },
   ];
@@ -66,15 +66,15 @@ class GroupDataSources extends React.Component {
           selectedKeys={[datasource.view_only ? 'viewonly' : 'full']}
           onClick={item => this.setDataSourcePermissions(item.domEvent, datasource, item.key)}
         >
-          <Menu.Item key="full">Full Access</Menu.Item>
-          <Menu.Item key="viewonly">View Only</Menu.Item>
+          <Menu.Item key="full">完全访问权限</Menu.Item>
+          <Menu.Item key="viewonly">仅查看权限</Menu.Item>
         </Menu>
       );
 
       return (
         <Dropdown trigger={['click']} overlay={menu}>
           <Button className="w-100" onClick={cancelEvent()}>
-            {datasource.view_only ? 'View Only' : 'Full Access'} <Icon type="down" />
+            {datasource.view_only ? '仅查看权限' : '完全访问权限'} <Icon type="down" />
           </Button>
         </Dropdown>
       );
@@ -84,7 +84,7 @@ class GroupDataSources extends React.Component {
       isAvailable: () => currentUser.isAdmin,
     }),
     Columns.custom((text, datasource) => (
-      <Button className="w-100" type="danger" onClick={event => this.removeGroupDataSource(event, datasource)}>Remove</Button>
+      <Button className="w-100" type="danger" onClick={event => this.removeGroupDataSource(event, datasource)}>删除</Button>
     ), {
       width: '1%',
       isAvailable: () => currentUser.isAdmin,
@@ -98,7 +98,7 @@ class GroupDataSources extends React.Component {
         this.props.controller.update();
       })
       .catch(() => {
-        toastr.error('Failed to remove data source from group.');
+        toastr.error('删除失败。');
       });
   });
 
@@ -120,7 +120,7 @@ class GroupDataSources extends React.Component {
         this.forceUpdate();
       })
       .catch(() => {
-        toastr.error('Failed change data source permissions.');
+        toastr.error('更改数据源权限失败。');
       });
   });
 
@@ -128,9 +128,9 @@ class GroupDataSources extends React.Component {
     const allDataSources = DataSource.query().$promise;
     const alreadyAddedDataSources = map(this.props.controller.allItems, ds => ds.id);
     SelectItemsDialog.showModal({
-      dialogTitle: 'Add Data Sources',
-      inputPlaceholder: 'Search data sources...',
-      selectedItemsTitle: 'New Data Sources',
+      dialogTitle: '添加数据源',
+      inputPlaceholder: '搜索数据源。。。',
+      selectedItemsTitle: '新数据源',
       searchItems: (searchTerm) => {
         searchTerm = searchTerm.toLowerCase();
         return allDataSources.then(items => filter(items, ds => ds.name.toLowerCase().includes(searchTerm)));
@@ -183,11 +183,11 @@ class GroupDataSources extends React.Component {
             {!controller.isLoaded && <LoadingState className="" />}
             {controller.isLoaded && controller.isEmpty && (
               <div className="text-center">
-                There are no data sources in this group yet.
+                这个组中还没有数据源。
                 {currentUser.isAdmin && (
                   <div className="m-t-5">
-                    <a href="javascript:void(0)" onClick={this.addDataSources}>Click here</a>
-                    {' '} to add data sources.
+                    <a href="javascript:void(0)" onClick={this.addDataSources}>点击这里</a>
+                    {' '} 来添加数据源。
                   </div>
                 )}
               </div>
@@ -242,7 +242,7 @@ export default function init(ngModule) {
   return routesToAngularRoutes([
     {
       path: '/groups/:groupId/data_sources',
-      title: 'Group Data Sources',
+      title: '数据源',
       key: 'datasources',
     },
   ], {

@@ -12,14 +12,14 @@ function deleteGroup(event, group, onGroupDeleted) {
   event.stopPropagation();
 
   Modal.confirm({
-    title: 'Delete Group',
-    content: 'Are you sure you want to delete this group?',
-    okText: 'Yes',
+    title: '删除组',
+    content: '您确定要删除这个组吗？',
+    okText: '确认',
     okType: 'danger',
-    cancelText: 'No',
+    cancelText: '取消',
     onOk: () => {
       group.$delete(() => {
-        toastr.success('Group deleted successfully.');
+        toastr.success('删除成功。');
         onGroupDeleted();
       });
     },

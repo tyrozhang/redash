@@ -39,12 +39,12 @@ class GroupMembers extends React.Component {
     {
       key: 'users',
       href: `groups/${this.groupId}`,
-      title: 'Members',
+      title: '成员',
     },
     {
       key: 'datasources',
       href: `groups/${this.groupId}/data_sources`,
-      title: 'Data Sources',
+      title: '数据源',
       isAvailable: () => currentUser.isAdmin,
     },
   ];
@@ -53,7 +53,7 @@ class GroupMembers extends React.Component {
     Columns.custom((text, user) => (
       <UserPreviewCard user={user} withLink />
     ), {
-      title: 'Name',
+      title: '名称',
       field: 'name',
       width: null,
     }),
@@ -66,7 +66,7 @@ class GroupMembers extends React.Component {
       if ((this.group.type === 'builtin') && (currentUser.id === user.id)) {
         return null;
       }
-      return <Button className="w-100" type="danger" onClick={event => this.removeGroupMember(event, user)}>Remove</Button>;
+      return <Button className="w-100" type="danger" onClick={event => this.removeGroupMember(event, user)}>删除</Button>;
     }, {
       width: '1%',
       isAvailable: () => currentUser.isAdmin,
@@ -80,7 +80,7 @@ class GroupMembers extends React.Component {
         this.props.controller.update();
       })
       .catch(() => {
-        toastr.error('Failed to remove member from group.');
+        toastr.error('删除失败。');
       });
   });
 
@@ -96,9 +96,9 @@ class GroupMembers extends React.Component {
   addMembers = () => {
     const alreadyAddedUsers = map(this.props.controller.allItems, u => u.id);
     SelectItemsDialog.showModal({
-      dialogTitle: 'Add Members',
-      inputPlaceholder: 'Search users...',
-      selectedItemsTitle: 'New Members',
+      dialogTitle: '添加成员',
+      inputPlaceholder: '搜索用户。。。',
+      selectedItemsTitle: '新成员',
       searchItems: searchTerm => User.query({ q: searchTerm }).$promise.then(({ results }) => results),
       renderItem: (item, { isSelected }) => {
         const alreadyInGroup = includes(alreadyAddedUsers, item.id);
@@ -148,11 +148,11 @@ class GroupMembers extends React.Component {
             {!controller.isLoaded && <LoadingState className="" />}
             {controller.isLoaded && controller.isEmpty && (
               <div className="text-center">
-                There are no members in this group yet.
+                这个组还没有成员。
                 {currentUser.isAdmin && (
                   <div className="m-t-5">
-                    <a href="javascript:void(0)" onClick={this.addMembers}>Click here</a>
-                    {' '} to add members.
+                    <a href="javascript:void(0)" onClick={this.addMembers}>点击这里</a>
+                    {' '} 来添加成员。
                   </div>
                 )}
               </div>
@@ -207,7 +207,7 @@ export default function init(ngModule) {
   return routesToAngularRoutes([
     {
       path: '/groups/:groupId',
-      title: 'Group Members',
+      title: '组成员',
       key: 'users',
     },
   ], {

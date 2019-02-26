@@ -39,7 +39,7 @@ export const DynamicForm = Form.create()(class DynamicForm extends React.Compone
     actions: [],
     feedbackIcons: false,
     hideSubmitButton: false,
-    saveText: 'Save',
+    saveText: '保存',
     onSubmit: () => {},
   };
 
@@ -123,7 +123,7 @@ export const DynamicForm = Form.create()(class DynamicForm extends React.Compone
 
     const upload = (
       <Upload {...props} beforeUpload={() => false}>
-        <Button disabled={disabled}><Icon type="upload" /> Click to upload</Button>
+        <Button disabled={disabled}><Icon type="upload" /> 点击上传</Button>
       </Upload>
     );
 
@@ -228,13 +228,13 @@ export default function init(ngModule) {
       helper.updateTargetWithValues(props.target, values);
       props.target.$save(
         () => {
-          onSuccess('Saved.');
+          onSuccess('已保存。');
         },
         (error) => {
           if (error.status === 400 && 'message' in error.data) {
             onError(error.data.message);
           } else {
-            onError('Failed saving.');
+            onError('保存失败。');
           }
         },
       );

@@ -32,13 +32,13 @@ function UsersListActions({ user, enableUser, disableUser, deleteUser }) {
   }
   if (user.is_invitation_pending) {
     return (
-      <Button type="danger" className="w-100" onClick={event => deleteUser(event, user)}>Delete</Button>
+      <Button type="danger" className="w-100" onClick={event => deleteUser(event, user)}>删除</Button>
     );
   }
   return user.is_disabled ? (
-    <Button type="primary" className="w-100" onClick={event => enableUser(event, user)}>Enable</Button>
+    <Button type="primary" className="w-100" onClick={event => enableUser(event, user)}>有效</Button>
   ) : (
-    <Button className="w-100" onClick={event => disableUser(event, user)}>Disable</Button>
+    <Button className="w-100" onClick={event => disableUser(event, user)}>禁用</Button>
   );
 }
 
