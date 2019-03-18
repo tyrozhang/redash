@@ -1,18 +1,12 @@
 const config = {
   defaultColors: [
-    '#356AFF',
-    '#E92828',
-    '#3BD973',
-    '#604FE9',
-    '#50F5ED',
-    '#FB8D3D',
-    '#799CFF',
-    '#B554FF',
-    '#8CFFB4',
-    '#A55F2A',
-    '#000000',
-    '#494949',
-    '#FF7DE3',
-    '#002FB4'],
+    '#0871A1',
+    '#369CCB',
+    '#C3C2C0',
+    '#FA7E7C',
+    '#8DF0F1',
+    '#58E6E8',
+    '#2ADFDF',
+    '#0AC6C6'],
 };
 export default config;
