@@ -97,7 +97,8 @@ page-header h3, .page-header--new h3 {
 /*********************重定义间距******************/
 .gds_container-top-new{
 /*  background: url("/static/images/gdsImages/kshzx_bg.png");*/
-    background-color: #003e7b;
+    background-color: #2c323b;
+    height:60px;
 }
 .gds_container-top-new .navbar-header  img{
   margin-top:10px;
@@ -131,7 +132,7 @@ page-header h3, .page-header--new h3 {
 .top_logo_box{
   font-size:18px;
   font-weight: 600;
-  padding-top:10px;
+  padding-top:0px;
   color:#42b0e8;
   margin-right:10px;
   clear: both;
@@ -139,9 +140,9 @@ page-header h3, .page-header--new h3 {
 .top_logo{
   margin:0px;
   padding:0px;
-  width:36px;
-  height:30px;
-  background: url("/static/images/gdsImages/kshzx_logo.png") no-repeat left;
+  width:300px;
+  height:60px;
+  background: url("/static/images/gdsImages/logo.png") no-repeat left;
   display: block;
   float:left;
   padding-top:10px;
@@ -218,4 +219,69 @@ page-header h3, .page-header--new h3 {
   margin-top: 10px;
 }
 
+/****************修改按钮颜色新加样式*****************/
+.btn-primary {
+    background: #05dde2;
+}
 
+.open > .dropdown-toggle.btn-primary:hover {
+    color: #fff;
+    background-color: #05dde2;
+    border-color: #05dde2;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #05dde2;
+    border-color: #05dde2;
+}
+
+.open > .dropdown-toggle.btn-primary:focus{
+  color: #fff;
+    background-color: #05dde2;
+    border-color: #05dde2;
+}
+
+
+.btn-primary:active:hover, .btn-primary:active:focus, .btn-primary.active:focus{
+    color: #fff;
+    background-color: #05dde2 !important;
+    border-color: #05dde2 !important;
+}
+
+
+
+/*****************头部高度修改 **************/
+.navbar{
+  height:60px !important;
+}
+
+/**************头部标题字体位置***********/
+.navbar-collapse .navbar-nav > li > a {
+    line-height: 30px !important;
+}
+
+.navbar-collapse .navbar-btn {
+    margin-top: 15px !important;
+}
+.navbar-collapse .nav__main .btn-group .caret--nav:after {
+    top: 25px !important;
+}
+
+
+/****************头部右侧文字位置************/
+.navbar-collapse .navbar-right a.dropdown--profile {
+  padding-top: 14px !important;
+}
+.navbar-collapse .navbar-right .dropdown .caret--nav:after {
+    top: 23px !important;
+}
+
+.navbar-collapse .menu-search {
+    margin-top: 6px;
+}
+
+/***************导航标题字体颜色*************/
+/*.navbar-default .navbar-nav > li > a {
+    color: #a0a5b1 !important;
+}*/
