@@ -113,7 +113,7 @@ function DoughnutOption() {
             label: {
               normal: {
                 textStyle: {
-                  padding: [0, 0, 3, 0],
+                  padding: [0, 0, 18, 0],
                   fontSize: pieFontSize,
                 },
               },
@@ -127,6 +127,7 @@ function DoughnutOption() {
               normal: {
                 formatter: round((Value / valueTotal) * 100, 2) + '%',
                 textStyle: {
+                  padding: [18, 0, 0, 0],
                   fontSize: 13,
                   color: '#72ACD1',
                 },
