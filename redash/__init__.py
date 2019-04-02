@@ -19,6 +19,11 @@ from redash.query_runner import import_query_runners
 from redash.destinations import import_destinations
 
 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+
 __version__ = '6.0.0'
 
 
@@ -142,9 +147,9 @@ def create_app(load_admin=True):
     users.init_app(app)
 
     # support cas auth
-    if settings.CAS_AUTH:
-        from redash.authentication.cas import init_app
-        init_app(app)
+    # if settings.CAS_AUTH:
+    #     from redash.authentication.cas import init_app
+    #     init_app(app)
 
     return app
 
