@@ -22,9 +22,9 @@
 {%- endmacro %}
 
 {% block content %}
-<div class="fixed-width-page">
+<div class="fixed-width-page_out">
   <div class="bg-white tiled">
-    <h4 class="m-t-0">欢迎来到数据可视化系统！</h4>
+    <h4 class="m-t-0">欢迎来到战斗体技能数据可视化系统！</h4>
     <div>在使用实例之前，需要进行快速设置。</div>
 
     {% with messages = get_flashed_messages() %}
@@ -36,7 +36,10 @@
     {% endwith %}
 
     <form role="form" method="post" name="create_account">
-      <h4 class="m-t-25">管理员</h4>
+      <div class="line_box">
+        <h4 class="m-t-25">管理员</h4>
+      <span class="line_icon"></span>
+      </div>
       {{ render_field(form.name) }}
       {{ render_field(form.email) }}
       {{ render_field(form.password) }}
@@ -56,10 +59,11 @@
         </label>
       </div>
       -->
-
+      <div class="line_box">
       <h4 class="m-t-25">常规</h4>
-
-      {{ render_field(form.org_name, help_block="Used in email notifications and the UI.") }}
+        <span class="line_icon"></span>
+      </div>
+      {{ render_field(form.org_name, help_block="输入您的组织名称（可新建）。") }}
 
       <button type="submit" class="btn btn-primary btn-block m-t-25">设置</button>
     </form>
