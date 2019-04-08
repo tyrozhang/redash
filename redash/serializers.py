@@ -25,16 +25,20 @@ def public_widget(widget):
     if widget.visualization and widget.visualization.id:
         query_data = models.QueryResult.query.get(widget.visualization.query_rel.latest_query_data_id).to_dict()
         res['visualization'] = {
-            'id': widget.visualization.id,
             'type': widget.visualization.type,
             'name': widget.visualization.name,
             'description': widget.visualization.description,
             'options': json_loads(widget.visualization.options),
             'updated_at': widget.visualization.updated_at,
             'created_at': widget.visualization.created_at,
-            'query': serialize_query(widget.visualization.query_rel,with_user=False)
+            'query': {
+                'query': ' ',  # workaround, as otherwise the query data won't be loaded.
+                'name': widget.visualization.query_rel.name,
+                'description': widget.visualization.query_rel.description,
+                'options': {},
+                'latest_query_data': query_data
+            }
         }
-        res['visualization']['query']['latest_query_data'] = query_data
 
     return res
 
