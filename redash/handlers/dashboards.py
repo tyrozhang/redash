@@ -249,7 +249,7 @@ class PublicDashboardResource(BaseResource):
             dashboard = self.current_user.object
 
         # return serializers.public_dashboard(dashboard)
-        return serializers.serialize_dashboard(dashboard, with_widgets=True, user=self.current_user)
+        return serializers.serialize_dashboard(dashboard, with_widgets=True, user=self.current_user, with_favorite_state=False)
 
 
 class DashboardShareResource(BaseResource):
