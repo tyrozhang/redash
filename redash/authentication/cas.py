@@ -16,6 +16,7 @@ def init_app(app):
         app.config['CAS_AFTER_LOGIN'] = settings.CAS_AFTER_LOGIN
         app.config['SECRET_KEY'] = settings.SECRET_KEY
         app.config['CAS_VALIDATE_ROUTE'] = settings.CAS_VALIDATE_ROUTE
+        app.config['CAS_AFTER_LOGOUT'] = settings.CAS_AFTER_LOGOUT
 
 def cas_auth(org,remember):
     try:
