@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import EchartsFactory from '@/lib/visualizations/echarts/echarts-factory';
-import chartIcon from '@/assets/images/visualizationIcons/icon_doughnut.png';
+import chartIcon from '@/assets/images/visualizationIcons/icon_boxplot.png';
 import BoxPlotOption from './boxplot-utils';
 import editorTemplate from './boxplot-editor.html';
 
