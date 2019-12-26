@@ -12,18 +12,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon-16x16.png">
   {% block head %}{% endblock %}
 </head>
-<body class="d-flex flex-column signed-out">
+<body class="d-flex justify-content-center align-items-center login_box">
 
-  <div class="sigend_box">
-    <div class="header_out">
-      <div class="header_out_logo"></div>
-      {#<div class="text-center m-b-15">
-        <a href="/"><img src="/static/images/redash_icon_small.png"></a>
-      </div>#}
-      {% if not hide_page_header %}
-        <h3 class="text-center m-t-0 m-b-25">{{ self.title() }}</h3>
-      {% endif %}
-    </div>
+  <div class="sigend_box_login">
+
     {% block content %}{% endblock %}
   </div>
 

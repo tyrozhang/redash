@@ -1,5 +1,5 @@
 <settings-screen>
-  <email-settings-warning function="'invite emails'"></email-settings-warning>
+  <!--<email-settings-warning function="'invite emails'"></email-settings-warning>-->
 
   <div ng-show="selectedTab == 'profile'">
     <div class="row">
@@ -78,12 +78,12 @@
 
           <div ng-if="currentUser.isAdmin">
             <br>
-            <div class="form-group">
+            <!--<div class="form-group">
               <button class="btn btn-default" ng-if="!user.is_invitation_pending" ng-click="sendPasswordReset()" ng-disabled="disablePasswordResetButton">Send
                 {{'SendPassword Reset Email' | translate}}
               </button>
               <button class="btn btn-default" ng-if="user.is_invitation_pending" ng-click="resendInvitation()" ng-disabled="disablePasswordResetButton">Resend Invitation</button>
-            </div>
+            </div>-->
 
             <div ng-if="passwordResetLink" class="alert alert-success">
               <p ng-if="!clientConfig.mailSettingMissing">

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import g, redirect, render_template, request, url_for
 
 from flask_login import login_user
@@ -11,10 +12,10 @@ from wtforms.fields.html5 import EmailField
 
 
 class SetupForm(Form):
-    name = StringField('Name', validators=[validators.InputRequired()])
-    email = EmailField('Email Address', validators=[validators.Email()])
-    password = PasswordField('Password', validators=[validators.Length(6)])
-    org_name = StringField("Organization Name", validators=[validators.InputRequired()])
+    name = StringField('名称', validators=[validators.InputRequired()])
+    email = EmailField('邮箱', validators=[validators.Email()])
+    password = PasswordField('密码', validators=[validators.Length(6)])
+    org_name = StringField("组织名称", validators=[validators.InputRequired()])
     security_notifications = BooleanField()
     newsletter = BooleanField()
 

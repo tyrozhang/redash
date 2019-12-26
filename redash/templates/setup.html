@@ -1,6 +1,6 @@
 {% extends "layouts/signed_out.html" %}
 
-{% block title %}Redash Initial Setup{% endblock %}
+{% block title %}数据可视化系统初始设置{% endblock %}
 
 {% macro render_field_errors(field) -%}
   {% if field.errors %}
@@ -22,10 +22,10 @@
 {%- endmacro %}
 
 {% block content %}
-<div class="fixed-width-page">
+<div class="fixed-width-page_out">
   <div class="bg-white tiled">
-    <h4 class="m-t-0">Welcome to Redash!</h4>
-    <div>Before you can use your instance, you need to do a quick setup.</div>
+    <h4 class="m-t-0">欢迎来到战斗体技能数据可视化系统！</h4>
+    <div>在使用实例之前，需要进行快速设置。</div>
 
     {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -36,11 +36,15 @@
     {% endwith %}
 
     <form role="form" method="post" name="create_account">
-      <h4 class="m-t-25">Admin User</h4>
+      <div class="line_box">
+        <h4 class="m-t-25">管理员</h4>
+      <span class="line_icon"></span>
+      </div>
       {{ render_field(form.name) }}
-      {{ render_field(form.email) }}
+      {{ render_field(form.email, help_block="使用此邮箱登录系统") }}
       {{ render_field(form.password) }}
 
+      <!--
       <div class="checkbox">
         <label>
           {{ form.security_notifications() }}
@@ -54,12 +58,14 @@
           Subscribe to newsletter (version updates, no more than once a month)
         </label>
       </div>
+      -->
+      <div class="line_box">
+      <h4 class="m-t-25">常规</h4>
+        <span class="line_icon"></span>
+      </div>
+      {{ render_field(form.org_name, help_block="输入您的组织名称（可新建）。") }}
 
-      <h4 class="m-t-25">General</h4>
-
-      {{ render_field(form.org_name, help_block="Used in email notifications and the UI.") }}
-
-      <button type="submit" class="btn btn-primary btn-block m-t-25">Setup</button>
+      <button type="submit" class="btn btn-primary btn-block m-t-25">设置</button>
     </form>
   </div>
 </div>

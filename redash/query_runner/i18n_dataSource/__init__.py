@@ -115,4 +115,6 @@ zh = {
     'URL base path': 'URL基础路径',
     'HTTP Basic Auth Username': 'HTTP基本认证用户名',
     'HTTP Basic Auth Password': 'HTTP基本认证密码',
+    # login
+    "Wrong email or password.": "邮箱或密码错误",
 }
