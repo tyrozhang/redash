@@ -4,7 +4,6 @@ import chartIcon from '@/assets/images/visualizationIcons/icon_doughnut.png';
 import BoxPlotOption from './boxplot-utils';
 import editorTemplate from './boxplot-editor.html';
 
-
 function echartsBoxPlotRenderer($location, currentUser) {
   return {
     restrict: 'E',
@@ -13,34 +12,31 @@ function echartsBoxPlotRenderer($location, currentUser) {
       const container = element[0].querySelector('.echarts-chart-visualization-container');
       const echartFactory = new EchartsFactory($location, currentUser);
       const boxplotChart = echartFactory.createChart(container);
+      const initEditOptions = $scope.visualization.options.editOptions;
+
+      _.each(document.getElementsByClassName('box-plot-input'), (inputs, bindex) => {
+        inputs.value = initEditOptions.inputValues[bindex];
+      });
 
       function reloadData() {
         const data = $scope.queryResult.getData();
         const editOptions = $scope.visualization.options.editOptions;
         const boxPlotExamples = new BoxPlotOption();
-
-
-        if (editOptions.valueColumns) {
-          const boxlabel = [];
-          if (editOptions.xLabel) {
-            _.each(editOptions.valueColumns, (value, index) => {
-              boxlabel.push(editOptions.xLabel + index);
-            });
-          } else {
-            _.each(editOptions.valueColumns, (value2, index) => {
-              if (index > 0) {
-                boxlabel.push('盒须图' + index);
-              } else {
-                boxlabel.push('盒须图');
-              }
-            });
-          }
+        if (!editOptions.inputValues) {
+          editOptions.inputValues = {};
+        }
+        if (editOptions.valueColumns.length > 0) {
+          _.each(document.getElementsByClassName('box-plot-input'), (inputs, bindex) => {
+            editOptions.inputValues[bindex] = inputs.value;
+          });
           boxPlotExamples.chartOption.result = data;
           boxPlotExamples.chartHelper.init(data, editOptions.valueColumns);
           boxPlotExamples.setBoxPlotData();
-          boxPlotExamples.setXAxisLabel(boxlabel);
+          boxPlotExamples.setXAxisLabel(editOptions.inputValues);
+        } else {
+          editOptions.inputValues = {};
+          boxPlotExamples.clearXAxisLabel();
         }
-
         echartFactory.setOption(boxplotChart, boxPlotExamples.chartOption);
       }
 

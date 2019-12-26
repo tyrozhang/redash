@@ -103,9 +103,14 @@ function BoxPlotOption() {
   };
 
   this.setXAxisLabel = (value) => {
-    if (value) {
-      this.chartOption.xAxis.data = value;
-    }
+    each(value, (_, index) => {
+      if (value[index]) {
+        this.chartOption.xAxis.data[index] = value[index];
+      }
+    });
+  };
+  this.clearXAxisLabel = () => {
+    this.chartOption.xAxis.data = [];
   };
 }
 

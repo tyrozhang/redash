@@ -17,8 +17,16 @@
       </div>
     </div>
     <div class="form-group" ng-if="visualization.options.editOptions.valueColumns.length > 0">
-        <label class="control-label">设置图形名称：{{ column }}</label>
-        <input ng-model="visualization.options.editOptions.xLabel" type="text" class="form-control" placeholder="图形">
+      <div ng-repeat="column in visualization.options.editOptions.valueColumns">
+        <label class="control-label">字段：{{ column }}，请输入自定义名称</label>
+        <input type="text" class="form-control box-plot-input">
+      </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="visualization.options.editOptions.setLabel">
+        <i class="input-helper"></i> 点击进行名称设置
+      </label>
+    </div>
     </div>
   </div>
 
