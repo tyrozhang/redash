@@ -14,8 +14,8 @@ from redash.handlers.base import json_response, org_scoped_rule
 from redash.version_check import get_latest_version
 from sqlalchemy.orm.exc import NoResultFound
 from redash.query_runner.i18n_dataSource import zh
-# from flask_cas import login_required as cas_login_required
-# from redash.authentication.cas import cas_auth
+from flask_cas import login_required as cas_login_required
+from redash.authentication.cas import cas_auth
 
 logger = logging.getLogger(__name__)
 
@@ -136,7 +136,7 @@ def verification_email(org_slug=None):
 
 @routes.route(org_scoped_rule('/login'), methods=['GET', 'POST'])
 @limiter.limit(settings.THROTTLE_LOGIN_PATTERN)
-# @cas_login_required
+@cas_login_required
 def login(org_slug=None):
     # We intentionally use == as otherwise it won't actually use the proxy. So weird :O
     # noinspection PyComparisonWithNone
@@ -152,11 +152,11 @@ def login(org_slug=None):
         return redirect(next_path)
 
     # support cas auth
-    # if settings.CAS_AUTH:
-    #     org = current_org._get_current_object()
-    #     remember = ('remember' in request.form)
-    #     cas_auth(org, remember)
-    #     return redirect(next_path)
+    if settings.CAS_AUTH:
+        org = current_org._get_current_object()
+        remember = ('remember' in request.form)
+        cas_auth(org, remember)
+        return redirect(next_path)
 
     if request.method == 'POST':
         try:
@@ -188,11 +188,11 @@ def login(org_slug=None):
 @routes.route(org_scoped_rule('/logout'))
 def logout(org_slug=None):
     logout_user()
-    return redirect(get_login_url(next=None))
-    # if settings.CAS_AUTH:
-    #     return redirect(url_for("cas.logout"))
-    # else:
-    #     return redirect(get_login_url(next=None))
+    # return redirect(get_login_url(next=None))
+    if settings.CAS_AUTH:
+        return redirect(url_for("cas.logout"))
+    else:
+        return redirect(get_login_url(next=None))
 
 
 def base_href():
